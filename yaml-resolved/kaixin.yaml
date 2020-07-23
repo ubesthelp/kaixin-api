@@ -92,7 +92,7 @@ paths:
       tags:
       - session
       summary: 注销
-      description: 注销已有登录，通过访问令牌区分会话。
+      description: 注销已有登录，注销后访问令牌和更新令牌失效。
       operationId: SignOut
       parameters:
       - name: k
@@ -130,8 +130,17 @@ paths:
         schema:
           type: string
       responses:
-        "204":
-          description: No Content
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              examples:
+                成功:
+                  value:
+                    code: 0
+                    msg: ""
         "401":
           description: Unauthorized
           content:
@@ -139,8 +148,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/CommonResponse'
               examples:
-                无效令牌:
-                  $ref: '#/components/examples/invalid-token'
+                无效访问令牌:
+                  value:
+                    code: 1
+                    msg: Invalid access token.
+                签名错误:
+                  value:
+                    code: 14
+                    msg: Invalid signature.
     patch:
       tags:
       - session
@@ -188,10 +203,6 @@ paths:
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/RefreshTokenRequest'
-            examples:
-              示例:
-                value:
-                  refresh_token: xxxxxxxxxxxxxxxxx
       responses:
         "200":
           description: OK
@@ -209,10 +220,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/CommonResponse'
               examples:
-                无效令牌:
-                  $ref: '#/components/examples/invalid-token'
-                无效更新令牌:
-                  $ref: '#/components/examples/invalid-refresh-token'
+                无效访问令牌:
+                  value:
+                    code: 1
+                    msg: Invalid access token.
+                签名错误:
+                  value:
+                    code: 14
+                    msg: Invalid signature.
   /user:
     post:
       tags:
@@ -272,14 +287,16 @@ paths:
                   agent_signature: xxxxxxxxxxxxxx
       responses:
         "201":
-          description: Created
+          description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/CommonResponse'
               examples:
                 成功:
-                  $ref: '#/components/examples/success'
+                  value:
+                    code: 0
+                    msg: ""
         "400":
           description: Bad Request
           content:
@@ -294,7 +311,7 @@ paths:
                 无效代理:
                   value:
                     code: 2
-                    msg: Invalid agent code or signature.
+                    msg: Invalid agent code.
         "401":
           description: Unauthorized
           content:
@@ -302,8 +319,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/CommonResponse'
               examples:
-                无效签名:
-                  $ref: '#/components/examples/invalid-signature'
+                无效访问令牌:
+                  value:
+                    code: 1
+                    msg: Invalid access token.
+                签名错误:
+                  value:
+                    code: 14
+                    msg: Invalid signature.
         "409":
           description: Conflict
           content:
@@ -385,9 +408,6 @@ components:
   schemas:
     CommonResponse:
       title: 公共响应
-      required:
-      - code
-      - msg
       type: object
       properties:
         code:
@@ -400,16 +420,14 @@ components:
     Session:
       title: 会话
       description: 会话对象。
+      example:
+        $ref: '#/components/examples/session'
       allOf:
       - $ref: '#/components/schemas/CommonResponse'
-      - required:
-        - data
-        type: object
+      - type: object
         properties:
           data:
             $ref: '#/components/schemas/Session_data'
-      x-tags:
-      - session
     SignInRequest:
       title: 登录请求
       required:
@@ -439,6 +457,8 @@ components:
           description: 更新令牌
           format: byte
       description: 更新令牌时的请求。
+      example:
+        refresh_token: xxxxxxxxxxxxxxxxxxx
     SignUpRequest:
       title: 注册请求
       required:
@@ -495,32 +515,50 @@ components:
           format: password
       description: 提供新/旧密码。
     Session_data:
-      required:
-      - access_token
-      - expires_in
-      - id_token
-      - refresh_token
-      - refresh_token_expires_in
       type: object
       properties:
         access_token:
           type: string
           description: 访问令牌
-          format: byte
         expires_in:
           type: integer
           description: 访问令牌有效期长度，秒
         refresh_token:
           type: string
-          description: 刷新令牌
-          format: byte
+          description: 更新令牌
         refresh_token_expires_in:
           type: integer
           description: 更新令牌有效期长度，秒
         id_token:
           type: string
           description: ID Token，JWT 格式
-          format: byte
+  responses:
+    success:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonResponse'
+          examples:
+            成功:
+              value:
+                code: 0
+                msg: ""
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonResponse'
+          examples:
+            无效访问令牌:
+              value:
+                code: 1
+                msg: Invalid access token.
+            签名错误:
+              value:
+                code: 14
+                msg: Invalid signature.
   parameters:
     app-key:
       name: k
@@ -561,32 +599,20 @@ components:
       schema:
         type: string
   examples:
-    success:
-      value:
-        code: 0
-        msg: ""
-    invalid-token:
-      value:
-        code: 1
-        msg: Invalid token.
     invalid-refresh-token:
       value:
         code: 2
         msg: Invalid refresh token.
-    invalid-signature:
-      value:
-        code: 14
-        msg: Invalid signature.
     session:
       value:
         code: 0
         msg: ""
         data:
-          access_token: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+          access_token: xxxxxxxxxxxxxxxxxxx
           expires_in: 3600
-          refresh_token: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+          refresh_token: xxxxxxxxxxxxxxxxxxx
           refresh_token_expires_in: 2592000
-          id_token: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+          id_token: xxxxxxxxxxxxxxxxxxx
   securitySchemes:
     Authorization:
       type: http

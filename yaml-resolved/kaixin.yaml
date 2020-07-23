@@ -1,0 +1,457 @@
+openapi: 3.0.0
+info:
+  title: Kaixin
+  description: 开心 Open API。
+  contact:
+    name: Roy QIU
+    email: karoyqiu@gmail.com
+  version: "0.1"
+servers:
+- url: https://api-v3-test.hlwcr.cn
+  description: 测试环境
+security:
+- Authorization: []
+tags:
+- name: session
+  description: 会话
+- name: user
+  description: 用户
+paths:
+  /session:
+    post:
+      tags:
+      - session
+      summary: 登录
+      description: 使用用户名和密码登录。
+      operationId: SignIn
+      parameters: []
+      requestBody:
+        description: 登录请求
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SignInRequest'
+            examples:
+              示例:
+                value:
+                  username: karoyqiu
+                  password: blablabla
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+              examples:
+                成功:
+                  $ref: '#/components/examples/session'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              examples:
+                用户名/密码错误:
+                  value:
+                    code: 1
+                    msg: Invalid username and/or password.
+      security: []
+    delete:
+      tags:
+      - session
+      summary: 注销
+      description: 注销已有登录，通过访问令牌区分会话。
+      operationId: SignOut
+      responses:
+        "204":
+          description: No Content
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              examples:
+                无效令牌:
+                  $ref: '#/components/examples/invalid-token'
+    patch:
+      tags:
+      - session
+      summary: 更新令牌
+      description: 使用更新令牌更新令牌。
+      operationId: RefreshToken
+      requestBody:
+        description: 更新令牌请求
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RefreshTokenRequest'
+            examples:
+              示例:
+                value:
+                  refresh_token: xxxxxxxxxxxxxxxxx
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+              examples:
+                成功:
+                  $ref: '#/components/examples/session'
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              examples:
+                无效令牌:
+                  $ref: '#/components/examples/invalid-token'
+                无效更新令牌:
+                  $ref: '#/components/examples/invalid-refresh-token'
+  /user:
+    post:
+      tags:
+      - user
+      summary: 注册新用户
+      description: 注册新用户。
+      operationId: SignUp
+      parameters:
+      - name: k
+        in: query
+        description: 应用的 APP KEY
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: t
+        in: query
+        description: 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int64
+      - name: z
+        in: query
+        description: 随机字符串，推荐 UUID，15 分钟内不得重复
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          format: uuid
+      - name: s
+        in: query
+        description: 请求签名
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      requestBody:
+        description: 注册信息。
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SignUpRequest'
+            examples:
+              示例:
+                value:
+                  username: karoyqiu
+                  password: blablabla
+                  email: karoyqiu@gmail.com
+                  wechat: abcdefg
+                  agent_code: "123456"
+                  agent_signature: xxxxxxxxxxxxxx
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              examples:
+                成功:
+                  $ref: '#/components/examples/success'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              examples:
+                电子邮箱未验证:
+                  value:
+                    code: 1
+                    msg: Email unverified.
+                无效代理:
+                  value:
+                    code: 2
+                    msg: Invalid agent code or signature.
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              examples:
+                无效签名:
+                  $ref: '#/components/examples/invalid-signature'
+        "409":
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              examples:
+                用户名已注册:
+                  value:
+                    code: 1
+                    msg: Username conflict.
+                电子邮箱已注册:
+                  value:
+                    code: 2
+                    msg: Email conflict.
+      security: []
+    patch:
+      tags:
+      - user
+      summary: 修改当前用户密码
+      description: 修改已登录用户密码。
+      operationId: ChangePassword
+      requestBody:
+        description: 新/旧密码。
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ChangePasswordRequest'
+      responses:
+        "204":
+          description: No Content
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              examples:
+                原密码错误:
+                  value:
+                    code: 1
+                    msg: Invalid original password.
+components:
+  schemas:
+    CommonResponse:
+      title: 公共响应
+      required:
+      - code
+      - msg
+      type: object
+      properties:
+        code:
+          type: integer
+          description: 错误代码，如果成功则为零
+        msg:
+          type: string
+          description: 错误消息，如果成功则为空
+      description: 公共响应结构，包含错误代码和消息。
+    Session:
+      title: 会话
+      description: 会话对象。
+      allOf:
+      - $ref: '#/components/schemas/CommonResponse'
+      - required:
+        - data
+        type: object
+        properties:
+          data:
+            $ref: '#/components/schemas/Session_data'
+      x-tags:
+      - session
+    SignInRequest:
+      title: 登录请求
+      required:
+      - password
+      - username
+      type: object
+      properties:
+        username:
+          type: string
+          description: 用户名
+        password:
+          type: string
+          description: 密码明文
+          format: password
+      description: 使用用户名和密码登录时的请求。
+    RefreshTokenRequest:
+      title: 更新令牌请求
+      required:
+      - refresh_token
+      type: object
+      properties:
+        refresh_token:
+          type: string
+          description: 更新令牌
+          format: byte
+      description: 更新令牌时的请求。
+    SignUpRequest:
+      title: 注册请求
+      required:
+      - email
+      - password
+      - username
+      type: object
+      properties:
+        username:
+          minLength: 6
+          pattern: '[a-z0-9]{6,}'
+          type: string
+          description: 用户名
+        password:
+          minLength: 6
+          type: string
+          description: 密码明文
+          format: password
+        email:
+          type: string
+          description: 电子邮箱
+          format: email
+        phone:
+          type: string
+          description: 手机号码
+        wechat:
+          type: string
+          description: 微信号
+        line:
+          type: string
+          description: Line
+        whatsapp:
+          type: string
+          description: WhatsApp
+        agent_code:
+          type: string
+          description: 代理编码
+      description: 注册用户所需要的信息。
+    ChangePasswordRequest:
+      title: 修改密码请求
+      required:
+      - new
+      - original
+      type: object
+      properties:
+        original:
+          type: string
+          description: 原密码明文
+          format: password
+        new:
+          minLength: 6
+          type: string
+          description: 新密码明文
+          format: password
+      description: 提供新/旧密码。
+    Session_data:
+      required:
+      - access_token
+      - expires_in
+      - id_token
+      - refresh_token
+      - refresh_token_expires_in
+      type: object
+      properties:
+        access_token:
+          type: string
+          description: 访问令牌
+          format: byte
+        expires_in:
+          type: integer
+          description: 访问令牌有效期长度，秒
+        refresh_token:
+          type: string
+          description: 刷新令牌
+          format: byte
+        refresh_token_expires_in:
+          type: integer
+          description: 更新令牌有效期长度，秒
+        id_token:
+          type: string
+          description: ID Token，JWT 格式
+          format: byte
+  parameters:
+    app-key:
+      name: k
+      in: query
+      description: 应用的 APP KEY
+      required: true
+      style: form
+      explode: true
+      schema:
+        type: string
+    timestamp:
+      name: t
+      in: query
+      description: 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+      required: true
+      style: form
+      explode: true
+      schema:
+        type: integer
+        format: int64
+    nonce:
+      name: z
+      in: query
+      description: 随机字符串，推荐 UUID，15 分钟内不得重复
+      required: true
+      style: form
+      explode: true
+      schema:
+        type: string
+        format: uuid
+    signature:
+      name: s
+      in: query
+      description: 请求签名
+      required: true
+      style: form
+      explode: true
+      schema:
+        type: string
+  examples:
+    success:
+      value:
+        code: 0
+        msg: ""
+    invalid-token:
+      value:
+        code: 1
+        msg: Invalid token.
+    invalid-refresh-token:
+      value:
+        code: 2
+        msg: Invalid refresh token.
+    invalid-signature:
+      value:
+        code: 14
+        msg: Invalid signature.
+    session:
+      value:
+        code: 0
+        msg: ""
+        data:
+          access_token: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+          expires_in: 3600
+          refresh_token: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+          refresh_token_expires_in: 2592000
+          id_token: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  securitySchemes:
+    Authorization:
+      type: http
+      description: 登录成功后的 ID Token
+      scheme: bearer

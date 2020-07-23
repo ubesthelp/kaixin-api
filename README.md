@@ -4,7 +4,7 @@
 
 开心 Open API，使用 [OpenAPI 3.0 规范](https://swagger.io/specification/)定义。通过 [Swagger Codegen](https://swagger.io/tools/swagger-codegen/)，可以根据 API 定义文件生成服务端测试桩、各语言版本的客户端 SDK 和 API 说明文档。当前版本 0.1，在线文档可以在[这里](https://app.swaggerhub.com/apis-docs/ubesthelp/kaixin/0.1)查看。
 
-所有 API 都需要签名才能使用，签名算法文档见[这里](docs/SIGNATURE.md)。绝大部分 API 需要在认证及授权之后（即登录之后 ）才能使用，详细文档见[这里](docs/AUTH.md)。
+所有 API 都需要签名才能使用，签名算法文档见[这里](docs/SIGNATURE.md)。绝大部分 API 需要在认证及授权（即登录）之后才能使用，详细文档见[这里](docs/AUTH.md)。
 
 ## 目录结构
 

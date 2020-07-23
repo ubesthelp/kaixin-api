@@ -1,0 +1,561 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Kaixin</title>
+    <style type="text/css">
+      body {
+      	font-family: Trebuchet MS, sans-serif;
+      	font-size: 15px;
+      	color: #444;
+      	margin-right: 24px;
+      }
+      
+      h1	{
+      	font-size: 25px;
+      }
+      h2	{
+      	font-size: 20px;
+      }
+      h3	{
+      	font-size: 16px;
+      	font-weight: bold;
+      }
+      hr	{
+      	height: 1px;
+      	border: 0;
+      	color: #ddd;
+      	background-color: #ddd;
+      }
+      
+      .app-desc {
+        clear: both;
+        margin-left: 20px;
+      }
+      .param-name {
+        width: 100%;
+      }
+      .license-info {
+        margin-left: 20px;
+      }
+      
+      .license-url {
+        margin-left: 20px;
+      }
+      
+      .model {
+        margin: 0 0 0px 20px;
+      }
+      
+      .method {
+        margin-left: 20px;
+      }
+      
+      .method-notes	{
+      	margin: 10px 0 20px 0;
+      	font-size: 90%;
+      	color: #555;
+      }
+      
+      pre {
+        padding: 10px;
+        margin-bottom: 2px;
+      }
+      
+      .http-method {
+       text-transform: uppercase;
+      }
+      
+      pre.get {
+        background-color: #0f6ab4;
+      }
+      
+      pre.post {
+        background-color: #10a54a;
+      }
+      
+      pre.put {
+        background-color: #c5862b;
+      }
+      
+      pre.delete {
+        background-color: #a41e22;
+      }
+      
+      .huge	{
+      	color: #fff;
+      }
+      
+      pre.example {
+        background-color: #f3f3f3;
+        padding: 10px;
+        border: 1px solid #ddd;
+      }
+      
+      code {
+        white-space: pre;
+      }
+      
+      .nickname {
+        font-weight: bold;
+      }
+      
+      .method-path {
+        font-size: 1.5em;
+        background-color: #0f6ab4;
+      }
+      
+      .up {
+        float:right;
+      }
+      
+      .parameter {
+        width: 500px;
+      }
+      
+      .param {
+        width: 500px;
+        padding: 10px 0 0 20px;
+        font-weight: bold;
+      }
+      
+      .param-desc {
+        width: 700px;
+        padding: 0 0 0 20px;
+        color: #777;
+      }
+      
+      .param-type {
+        font-style: italic;
+      }
+      
+      .param-enum-header {
+      width: 700px;
+      padding: 0 0 0 60px;
+      color: #777;
+      font-weight: bold;
+      }
+      
+      .param-enum {
+      width: 700px;
+      padding: 0 0 0 80px;
+      color: #777;
+      font-style: italic;
+      }
+      
+      .field-label {
+        padding: 0;
+        margin: 0;
+        clear: both;
+      }
+      
+      .field-items	{
+      	padding: 0 0 15px 0;
+      	margin-bottom: 15px;
+      }
+      
+      .return-type {
+        clear: both;
+        padding-bottom: 10px;
+      }
+      
+      .param-header {
+        font-weight: bold;
+      }
+      
+      .method-tags {
+        text-align: right;
+      }
+      
+      .method-tag {
+        background: none repeat scroll 0% 0% #24A600;
+        border-radius: 3px;
+        padding: 2px 10px;
+        margin: 2px;
+        color: #FFF;
+        display: inline-block;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+  <h1>Kaixin</h1>
+    <div class="app-desc">开心 Open API。</div>
+    <div class="app-desc">More information: <a href="https://helloreverb.com">https://helloreverb.com</a></div>
+    <div class="app-desc">Contact Info: <a href="karoyqiu@gmail.com">karoyqiu@gmail.com</a></div>
+    <div class="app-desc">Version: 0.1</div>
+    
+    <div class="license-info">All rights reserved</div>
+    <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
+  <h2>Access</h2>
+    <ol>
+      <li></li>
+    </ol>
+
+  <h2><a name="__Methods">Methods</a></h2>
+  [ Jump to <a href="#__Models">Models</a> ]
+
+  <h3>Table of Contents </h3>
+  <div class="method-summary"></div>
+  <h4><a href="#Session">Session</a></h4>
+  <ul>
+  <li><a href="#refreshToken"><code><span class="http-method">patch</span> /session</code></a></li>
+  <li><a href="#signIn"><code><span class="http-method">post</span> /session</code></a></li>
+  <li><a href="#signOut"><code><span class="http-method">delete</span> /session</code></a></li>
+  </ul>
+  <h4><a href="#User">User</a></h4>
+  <ul>
+  <li><a href="#changePassword"><code><span class="http-method">patch</span> /user</code></a></li>
+  <li><a href="#signUp"><code><span class="http-method">post</span> /user</code></a></li>
+  </ul>
+
+  <h1><a name="Session">Session</a></h1>
+  <div class="method"><a name="refreshToken"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="patch"><code class="huge"><span class="http-method">patch</span> /session</code></pre></div>
+    <div class="method-summary">更新令牌 (<span class="nickname">refreshToken</span>)</div>
+    <div class="method-notes">使用更新令牌更新令牌。</div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/x-www-form-urlencoded</code></li>
+    </ul>
+
+
+
+
+    <h3 class="field-label">Form parameters</h3>
+    <div class="field-items">
+      <div class="param">refresh_token (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  format: byte</div>    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#Session">Session</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>""</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#Session">Session</a>
+    <h4 class="field-label">401</h4>
+    Unauthorized
+        <a href="#CommonResponse">CommonResponse</a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="signIn"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /session</code></pre></div>
+    <div class="method-summary">登录 (<span class="nickname">signIn</span>)</div>
+    <div class="method-notes">使用用户名和密码登录。</div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/x-www-form-urlencoded</code></li>
+    </ul>
+
+
+
+
+    <h3 class="field-label">Form parameters</h3>
+    <div class="field-items">
+      <div class="param">username (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">password (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  format: password</div>    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#Session">Session</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>""</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">201</h4>
+    Created
+        <a href="#Session">Session</a>
+    <h4 class="field-label">401</h4>
+    Unauthorized
+        <a href="#CommonResponse">CommonResponse</a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="signOut"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /session</code></pre></div>
+    <div class="method-summary">注销 (<span class="nickname">signOut</span>)</div>
+    <div class="method-notes">注销已有登录，通过访问令牌区分会话。</div>
+
+
+
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">204</h4>
+    No Content
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Unauthorized
+        <a href="#CommonResponse">CommonResponse</a>
+  </div> <!-- method -->
+  <hr/>
+  <h1><a name="User">User</a></h1>
+  <div class="method"><a name="changePassword"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="patch"><code class="huge"><span class="http-method">patch</span> /user</code></pre></div>
+    <div class="method-summary">修改当前用户密码 (<span class="nickname">changePassword</span>)</div>
+    <div class="method-notes">修改已登录用户密码。</div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/x-www-form-urlencoded</code></li>
+    </ul>
+
+
+
+
+    <h3 class="field-label">Form parameters</h3>
+    <div class="field-items">
+      <div class="param">original (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  format: password</div>      <div class="param">new (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  format: password</div>    </div>  <!-- field-items -->
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">204</h4>
+    No Content
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Unauthorized
+        <a href="#CommonResponse">CommonResponse</a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="signUp"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /user</code></pre></div>
+    <div class="method-summary">注册新用户 (<span class="nickname">signUp</span>)</div>
+    <div class="method-notes">注册新用户。</div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/x-www-form-urlencoded</code></li>
+    </ul>
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">k (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; 应用的 APP KEY </div>      <div class="param">t (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟 format: int64</div>      <div class="param">z (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; 随机字符串，推荐 UUID，15 分钟内不得重复 format: uuid</div>      <div class="param">s (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; 请求签名 </div>    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Form parameters</h3>
+    <div class="field-items">
+      <div class="param">username (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">password (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  format: password</div>      <div class="param">email (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  format: email</div>      <div class="param">phone (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">wechat (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">line (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">whatsapp (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">agent_code (optional)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#CommonResponse">CommonResponse</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "msg" : "msg",
+  "code" : 0
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">201</h4>
+    Created
+        <a href="#CommonResponse">CommonResponse</a>
+    <h4 class="field-label">400</h4>
+    Bad Request
+        <a href="#CommonResponse">CommonResponse</a>
+    <h4 class="field-label">401</h4>
+    Unauthorized
+        <a href="#CommonResponse">CommonResponse</a>
+    <h4 class="field-label">409</h4>
+    Conflict
+        <a href="#CommonResponse">CommonResponse</a>
+  </div> <!-- method -->
+  <hr/>
+
+  <h2><a name="__Models">Models</a></h2>
+  [ Jump to <a href="#__Methods">Methods</a> ]
+
+  <h3>Table of Contents</h3>
+  <ol>
+    <li><a href="#ChangePasswordRequest"><code>ChangePasswordRequest</code> - 修改密码请求</a></li>
+    <li><a href="#CommonResponse"><code>CommonResponse</code> - 公共响应</a></li>
+    <li><a href="#RefreshTokenRequest"><code>RefreshTokenRequest</code> - 更新令牌请求</a></li>
+    <li><a href="#Session"><code>Session</code> - 会话</a></li>
+    <li><a href="#Session_data"><code>Session_data</code></a></li>
+    <li><a href="#SignInRequest"><code>SignInRequest</code> - 登录请求</a></li>
+    <li><a href="#SignUpRequest"><code>SignUpRequest</code> - 注册请求</a></li>
+  </ol>
+
+  <div class="model">
+    <h3><a name="ChangePasswordRequest"><code>ChangePasswordRequest</code> - 修改密码请求</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>提供新/旧密码。</div>
+    <div class="field-items">
+      <div class="param">original </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> 原密码明文 format: password</div>
+<div class="param">new </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> 新密码明文 format: password</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="CommonResponse"><code>CommonResponse</code> - 公共响应</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>公共响应结构，包含错误代码和消息。</div>
+    <div class="field-items">
+      <div class="param">code </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> 错误代码，如果成功则为零 </div>
+<div class="param">msg </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> 错误消息，如果成功则为空 </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="RefreshTokenRequest"><code>RefreshTokenRequest</code> - 更新令牌请求</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>更新令牌时的请求。</div>
+    <div class="field-items">
+      <div class="param">refresh_token </div><div class="param-desc"><span class="param-type"><a href="#ByteArray">byte[]</a></span> 更新令牌 format: byte</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="Session"><code>Session</code> - 会话</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>会话对象。</div>
+    <div class="field-items">
+      <div class="param">code </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> 错误代码，如果成功则为零 </div>
+<div class="param">msg </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> 错误消息，如果成功则为空 </div>
+<div class="param">data </div><div class="param-desc"><span class="param-type"><a href="#Session_data">Session_data</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="Session_data"><code>Session_data</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">access_token </div><div class="param-desc"><span class="param-type"><a href="#ByteArray">byte[]</a></span> 访问令牌 format: byte</div>
+<div class="param">expires_in </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> 访问令牌有效期长度，秒 </div>
+<div class="param">refresh_token </div><div class="param-desc"><span class="param-type"><a href="#ByteArray">byte[]</a></span> 刷新令牌 format: byte</div>
+<div class="param">refresh_token_expires_in </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> 更新令牌有效期长度，秒 </div>
+<div class="param">id_token </div><div class="param-desc"><span class="param-type"><a href="#ByteArray">byte[]</a></span> ID Token，JWT 格式 format: byte</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="SignInRequest"><code>SignInRequest</code> - 登录请求</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>使用用户名和密码登录时的请求。</div>
+    <div class="field-items">
+      <div class="param">username </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> 用户名 </div>
+<div class="param">password </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> 密码明文 format: password</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="SignUpRequest"><code>SignUpRequest</code> - 注册请求</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>注册用户所需要的信息。</div>
+    <div class="field-items">
+      <div class="param">username </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> 用户名 </div>
+<div class="param">password </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> 密码明文 format: password</div>
+<div class="param">email </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> 电子邮箱 format: email</div>
+<div class="param">phone (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> 手机号码 </div>
+<div class="param">wechat (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> 微信号 </div>
+<div class="param">line (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Line </div>
+<div class="param">whatsapp (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> WhatsApp </div>
+<div class="param">agent_code (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> 代理编码 </div>
+    </div>  <!-- field-items -->
+  </div>
+  </body>
+</html>

@@ -797,7 +797,11 @@
       "format" : "password"
     }
   },
-  "description" : "使用用户名和密码登录时的请求。"
+  "description" : "使用用户名和密码登录时的请求。",
+  "example" : {
+    "username" : "karoyqiu",
+    "password" : "blablabla"
+  }
 };
             defs.SignUpRequest = {
   "title" : "注册请求",
@@ -930,7 +934,7 @@
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Session-refreshToken-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X PATCH "https://api-v3-test.hlwcr.cn/session"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X PATCH "https://api-v3-test.hlwcr.cn/session?k=&t=&z=&s="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Session-refreshToken-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -948,9 +952,13 @@ public class SessionApiExample {
 
 
         SessionApi apiInstance = new SessionApi();
+        String k = k_example; // String | 应用的 APP KEY
+        Long t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+        UUID z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
+        String s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
         byte[] refreshToken = B; // byte[] | 
         try {
-            Session result = apiInstance.refreshToken(refreshToken);
+            Session result = apiInstance.refreshToken(k, t, z, s, refreshToken);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling SessionApi#refreshToken");
@@ -967,9 +975,13 @@ public class SessionApiExample {
 
     public static void main(String[] args) {
         SessionApi apiInstance = new SessionApi();
+        String k = k_example; // String | 应用的 APP KEY
+        Long t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+        UUID z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
+        String s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
         byte[] refreshToken = B; // byte[] | 
         try {
-            Session result = apiInstance.refreshToken(refreshToken);
+            Session result = apiInstance.refreshToken(k, t, z, s, refreshToken);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling SessionApi#refreshToken");
@@ -984,12 +996,20 @@ public class SessionApiExample {
   </div> -->
                             <div class="tab-pane" id="examples-Session-refreshToken-0-objc">
                               <pre class="prettyprint"><code class="language-cpp">Configuration *apiConfig = [Configuration sharedConfig];
+String *k = k_example; // 应用的 APP KEY
+Long *t = 789; // 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+UUID *z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // 随机字符串，推荐 UUID，15 分钟内不得重复
+String *s = s_example; // 请求签名，算法详见 docs/SIGNATURE.md
 byte[] *refreshToken = B; //  (optional)
 
 SessionApi *apiInstance = [[SessionApi alloc] init];
 
 // 更新令牌
-[apiInstance refreshTokenWith:refreshToken
+[apiInstance refreshTokenWith:k
+    t:t
+    z:z
+    s:s
+    refreshToken:refreshToken
               completionHandler: ^(Session output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
@@ -1007,6 +1027,10 @@ var defaultClient = Kaixin.ApiClient.instance;
 
 
 var api = new Kaixin.SessionApi()
+var k = k_example; // {{String}} 应用的 APP KEY
+var t = 789; // {{Long}} 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+var z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // {{UUID}} 随机字符串，推荐 UUID，15 分钟内不得重复
+var s = s_example; // {{String}} 请求签名，算法详见 docs/SIGNATURE.md
 var opts = { 
   'refreshToken': B // {{byte[]}} 
 };
@@ -1017,7 +1041,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-api.refreshToken(opts, callback);
+api.refreshToken(ktzs, opts, callback);
 </code></pre>
                             </div>
 
@@ -1040,12 +1064,16 @@ namespace Example
 
 
             var apiInstance = new SessionApi();
+            var k = k_example;  // String | 应用的 APP KEY
+            var t = 789;  // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+            var z = new UUID(); // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
+            var s = s_example;  // String | 请求签名，算法详见 docs/SIGNATURE.md
             var refreshToken = B;  // byte[] |  (optional) 
 
             try
             {
                 // 更新令牌
-                Session result = apiInstance.refreshToken(refreshToken);
+                Session result = apiInstance.refreshToken(k, t, z, s, refreshToken);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -1064,10 +1092,14 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 $api_instance = new Swagger\Client\ApiSessionApi();
+$k = k_example; // String | 应用的 APP KEY
+$t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+$z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
+$s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
 $refreshToken = B; // byte[] | 
 
 try {
-    $result = $api_instance->refreshToken($refreshToken);
+    $result = $api_instance->refreshToken($k, $t, $z, $s, $refreshToken);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling SessionApi->refreshToken: ', $e->getMessage(), PHP_EOL;
@@ -1082,10 +1114,14 @@ use WWW::SwaggerClient::SessionApi;
 
 
 my $api_instance = WWW::SwaggerClient::SessionApi->new();
+my $k = k_example; # String | 应用的 APP KEY
+my $t = 789; # Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+my $z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; # UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
+my $s = s_example; # String | 请求签名，算法详见 docs/SIGNATURE.md
 my $refreshToken = B; # byte[] | 
 
 eval { 
-    my $result = $api_instance->refreshToken(refreshToken => $refreshToken);
+    my $result = $api_instance->refreshToken(k => $k, t => $t, z => $z, s => $s, refreshToken => $refreshToken);
     print Dumper($result);
 };
 if ($@) {
@@ -1103,11 +1139,15 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.SessionApi()
+k = k_example # String | 应用的 APP KEY
+t = 789 # Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+z = 38400000-8cf0-11bd-b23e-10b96e4ef00d # UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
+s = s_example # String | 请求签名，算法详见 docs/SIGNATURE.md
 refreshToken = B # byte[] |  (optional)
 
 try: 
     # 更新令牌
-    api_response = api_instance.refresh_token(refreshToken=refreshToken)
+    api_response = api_instance.refresh_token(k, t, z, s, refreshToken=refreshToken)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling SessionApi->refreshToken: %s\n" % e)</code></pre>
@@ -1146,6 +1186,107 @@ except ApiException as e:
                                   </tr>
                             </table>
 
+                            <div class="methodsubtabletitle">Query parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                <tr><td style="width:150px;">k*</td>
+                                <td>
+                                
+                                
+                                    <div id="d2e199_refreshToken_k">
+                                        <div class="json-schema-view">
+                                            <div class="primitive">
+                                                <span class="type">
+                                                    String
+                                                </span>
+                                
+                                                    <div class="inner description">
+                                                        应用的 APP KEY
+                                                    </div>
+                                            </div>
+                                                <div class="inner required">
+                                                    Required
+                                                </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                </tr>
+                                <tr><td style="width:150px;">t*</td>
+                                <td>
+                                
+                                
+                                    <div id="d2e199_refreshToken_t">
+                                        <div class="json-schema-view">
+                                            <div class="primitive">
+                                                <span class="type">
+                                                    Long
+                                                </span>
+                                                    <span class="format">
+                                                        (int64)
+                                                    </span>
+                                
+                                                    <div class="inner description">
+                                                        发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+                                                    </div>
+                                            </div>
+                                                <div class="inner required">
+                                                    Required
+                                                </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                </tr>
+                                <tr><td style="width:150px;">z*</td>
+                                <td>
+                                
+                                
+                                    <div id="d2e199_refreshToken_z">
+                                        <div class="json-schema-view">
+                                            <div class="primitive">
+                                                <span class="type">
+                                                    UUID
+                                                </span>
+                                                    <span class="format">
+                                                        (uuid)
+                                                    </span>
+                                
+                                                    <div class="inner description">
+                                                        随机字符串，推荐 UUID，15 分钟内不得重复
+                                                    </div>
+                                            </div>
+                                                <div class="inner required">
+                                                    Required
+                                                </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                </tr>
+                                <tr><td style="width:150px;">s*</td>
+                                <td>
+                                
+                                
+                                    <div id="d2e199_refreshToken_s">
+                                        <div class="json-schema-view">
+                                            <div class="primitive">
+                                                <span class="type">
+                                                    String
+                                                </span>
+                                
+                                                    <div class="inner description">
+                                                        请求签名，算法详见 docs/SIGNATURE.md
+                                                    </div>
+                                            </div>
+                                                <div class="inner required">
+                                                    Required
+                                                </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                </tr>
+                            </table>
 
                           <h2>Responses</h2>
                             <h3> Status: 200 - OK </h3>
@@ -1292,7 +1433,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Session-signIn-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "https://api-v3-test.hlwcr.cn/session"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "https://api-v3-test.hlwcr.cn/session?k=&t=&z=&s="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Session-signIn-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -1310,8 +1451,12 @@ public class SessionApiExample {
         SessionApi apiInstance = new SessionApi();
         String username = username_example; // String | 
         String password = ; // String | 
+        String k = k_example; // String | 应用的 APP KEY
+        Long t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+        UUID z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
+        String s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
         try {
-            Session result = apiInstance.signIn(username, password);
+            Session result = apiInstance.signIn(username, password, k, t, z, s);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling SessionApi#signIn");
@@ -1330,8 +1475,12 @@ public class SessionApiExample {
         SessionApi apiInstance = new SessionApi();
         String username = username_example; // String | 
         String password = ; // String | 
+        String k = k_example; // String | 应用的 APP KEY
+        Long t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+        UUID z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
+        String s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
         try {
-            Session result = apiInstance.signIn(username, password);
+            Session result = apiInstance.signIn(username, password, k, t, z, s);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling SessionApi#signIn");
@@ -1347,12 +1496,20 @@ public class SessionApiExample {
                             <div class="tab-pane" id="examples-Session-signIn-0-objc">
                               <pre class="prettyprint"><code class="language-cpp">String *username = username_example; // 
 String *password = ; // 
+String *k = k_example; // 应用的 APP KEY
+Long *t = 789; // 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+UUID *z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // 随机字符串，推荐 UUID，15 分钟内不得重复
+String *s = s_example; // 请求签名，算法详见 docs/SIGNATURE.md
 
 SessionApi *apiInstance = [[SessionApi alloc] init];
 
 // 登录
 [apiInstance signInWith:username
     password:password
+    k:k
+    t:t
+    z:z
+    s:s
               completionHandler: ^(Session output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
@@ -1370,6 +1527,10 @@ SessionApi *apiInstance = [[SessionApi alloc] init];
 var api = new Kaixin.SessionApi()
 var username = username_example; // {{String}} 
 var password = ; // {{String}} 
+var k = k_example; // {{String}} 应用的 APP KEY
+var t = 789; // {{Long}} 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+var z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // {{UUID}} 随机字符串，推荐 UUID，15 分钟内不得重复
+var s = s_example; // {{String}} 请求签名，算法详见 docs/SIGNATURE.md
 
 var callback = function(error, data, response) {
   if (error) {
@@ -1378,7 +1539,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-api.signIn(usernamepassword, callback);
+api.signIn(usernamepasswordktzs, callback);
 </code></pre>
                             </div>
 
@@ -1402,11 +1563,15 @@ namespace Example
             var apiInstance = new SessionApi();
             var username = username_example;  // String | 
             var password = new String(); // String | 
+            var k = k_example;  // String | 应用的 APP KEY
+            var t = 789;  // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+            var z = new UUID(); // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
+            var s = s_example;  // String | 请求签名，算法详见 docs/SIGNATURE.md
 
             try
             {
                 // 登录
-                Session result = apiInstance.signIn(username, password);
+                Session result = apiInstance.signIn(username, password, k, t, z, s);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -1426,9 +1591,13 @@ require_once(__DIR__ . '/vendor/autoload.php');
 $api_instance = new Swagger\Client\ApiSessionApi();
 $username = username_example; // String | 
 $password = ; // String | 
+$k = k_example; // String | 应用的 APP KEY
+$t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+$z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
+$s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
 
 try {
-    $result = $api_instance->signIn($username, $password);
+    $result = $api_instance->signIn($username, $password, $k, $t, $z, $s);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling SessionApi->signIn: ', $e->getMessage(), PHP_EOL;
@@ -1444,9 +1613,13 @@ use WWW::SwaggerClient::SessionApi;
 my $api_instance = WWW::SwaggerClient::SessionApi->new();
 my $username = username_example; # String | 
 my $password = ; # String | 
+my $k = k_example; # String | 应用的 APP KEY
+my $t = 789; # Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+my $z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; # UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
+my $s = s_example; # String | 请求签名，算法详见 docs/SIGNATURE.md
 
 eval { 
-    my $result = $api_instance->signIn(username => $username, password => $password);
+    my $result = $api_instance->signIn(username => $username, password => $password, k => $k, t => $t, z => $z, s => $s);
     print Dumper($result);
 };
 if ($@) {
@@ -1465,10 +1638,14 @@ from pprint import pprint
 api_instance = swagger_client.SessionApi()
 username = username_example # String | 
 password =  # String | 
+k = k_example # String | 应用的 APP KEY
+t = 789 # Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+z = 38400000-8cf0-11bd-b23e-10b96e4ef00d # UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
+s = s_example # String | 请求签名，算法详见 docs/SIGNATURE.md
 
 try: 
     # 登录
-    api_response = api_instance.sign_in(username, password)
+    api_response = api_instance.sign_in(username, password, k, t, z, s)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling SessionApi->signIn: %s\n" % e)</code></pre>
@@ -1529,6 +1706,107 @@ except ApiException as e:
                                   </tr>
                             </table>
 
+                            <div class="methodsubtabletitle">Query parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                <tr><td style="width:150px;">k*</td>
+                                <td>
+                                
+                                
+                                    <div id="d2e199_signIn_k">
+                                        <div class="json-schema-view">
+                                            <div class="primitive">
+                                                <span class="type">
+                                                    String
+                                                </span>
+                                
+                                                    <div class="inner description">
+                                                        应用的 APP KEY
+                                                    </div>
+                                            </div>
+                                                <div class="inner required">
+                                                    Required
+                                                </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                </tr>
+                                <tr><td style="width:150px;">t*</td>
+                                <td>
+                                
+                                
+                                    <div id="d2e199_signIn_t">
+                                        <div class="json-schema-view">
+                                            <div class="primitive">
+                                                <span class="type">
+                                                    Long
+                                                </span>
+                                                    <span class="format">
+                                                        (int64)
+                                                    </span>
+                                
+                                                    <div class="inner description">
+                                                        发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+                                                    </div>
+                                            </div>
+                                                <div class="inner required">
+                                                    Required
+                                                </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                </tr>
+                                <tr><td style="width:150px;">z*</td>
+                                <td>
+                                
+                                
+                                    <div id="d2e199_signIn_z">
+                                        <div class="json-schema-view">
+                                            <div class="primitive">
+                                                <span class="type">
+                                                    UUID
+                                                </span>
+                                                    <span class="format">
+                                                        (uuid)
+                                                    </span>
+                                
+                                                    <div class="inner description">
+                                                        随机字符串，推荐 UUID，15 分钟内不得重复
+                                                    </div>
+                                            </div>
+                                                <div class="inner required">
+                                                    Required
+                                                </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                </tr>
+                                <tr><td style="width:150px;">s*</td>
+                                <td>
+                                
+                                
+                                    <div id="d2e199_signIn_s">
+                                        <div class="json-schema-view">
+                                            <div class="primitive">
+                                                <span class="type">
+                                                    String
+                                                </span>
+                                
+                                                    <div class="inner description">
+                                                        请求签名，算法详见 docs/SIGNATURE.md
+                                                    </div>
+                                            </div>
+                                                <div class="inner required">
+                                                    Required
+                                                </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                </tr>
+                            </table>
 
                           <h2>Responses</h2>
                             <h3> Status: 201 - Created </h3>
@@ -1675,7 +1953,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Session-signOut-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X DELETE "https://api-v3-test.hlwcr.cn/session"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X DELETE "https://api-v3-test.hlwcr.cn/session?k=&t=&z=&s="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Session-signOut-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -1693,8 +1971,12 @@ public class SessionApiExample {
 
 
         SessionApi apiInstance = new SessionApi();
+        String k = k_example; // String | 应用的 APP KEY
+        Long t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+        UUID z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
+        String s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
         try {
-            apiInstance.signOut();
+            apiInstance.signOut(k, t, z, s);
         } catch (ApiException e) {
             System.err.println("Exception when calling SessionApi#signOut");
             e.printStackTrace();
@@ -1710,8 +1992,12 @@ public class SessionApiExample {
 
     public static void main(String[] args) {
         SessionApi apiInstance = new SessionApi();
+        String k = k_example; // String | 应用的 APP KEY
+        Long t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+        UUID z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
+        String s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
         try {
-            apiInstance.signOut();
+            apiInstance.signOut(k, t, z, s);
         } catch (ApiException e) {
             System.err.println("Exception when calling SessionApi#signOut");
             e.printStackTrace();
@@ -1725,12 +2011,19 @@ public class SessionApiExample {
   </div> -->
                             <div class="tab-pane" id="examples-Session-signOut-0-objc">
                               <pre class="prettyprint"><code class="language-cpp">Configuration *apiConfig = [Configuration sharedConfig];
+String *k = k_example; // 应用的 APP KEY
+Long *t = 789; // 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+UUID *z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // 随机字符串，推荐 UUID，15 分钟内不得重复
+String *s = s_example; // 请求签名，算法详见 docs/SIGNATURE.md
 
 SessionApi *apiInstance = [[SessionApi alloc] init];
 
 // 注销
-[apiInstance signOutWithCompletionHandler: 
-              ^(NSError* error) {
+[apiInstance signOutWith:k
+    t:t
+    z:z
+    s:s
+              completionHandler: ^(NSError* error) {
                             if (error) {
                                 NSLog(@"Error: %@", error);
                             }
@@ -1744,6 +2037,11 @@ var defaultClient = Kaixin.ApiClient.instance;
 
 
 var api = new Kaixin.SessionApi()
+var k = k_example; // {{String}} 应用的 APP KEY
+var t = 789; // {{Long}} 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+var z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // {{UUID}} 随机字符串，推荐 UUID，15 分钟内不得重复
+var s = s_example; // {{String}} 请求签名，算法详见 docs/SIGNATURE.md
+
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -1751,7 +2049,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully.');
   }
 };
-api.signOut(callback);
+api.signOut(k, t, z, s, callback);
 </code></pre>
                             </div>
 
@@ -1774,11 +2072,15 @@ namespace Example
 
 
             var apiInstance = new SessionApi();
+            var k = k_example;  // String | 应用的 APP KEY
+            var t = 789;  // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+            var z = new UUID(); // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
+            var s = s_example;  // String | 请求签名，算法详见 docs/SIGNATURE.md
 
             try
             {
                 // 注销
-                apiInstance.signOut();
+                apiInstance.signOut(k, t, z, s);
             }
             catch (Exception e)
             {
@@ -1796,9 +2098,13 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 $api_instance = new Swagger\Client\ApiSessionApi();
+$k = k_example; // String | 应用的 APP KEY
+$t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+$z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
+$s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
 
 try {
-    $api_instance->signOut();
+    $api_instance->signOut($k, $t, $z, $s);
 } catch (Exception $e) {
     echo 'Exception when calling SessionApi->signOut: ', $e->getMessage(), PHP_EOL;
 }
@@ -1812,9 +2118,13 @@ use WWW::SwaggerClient::SessionApi;
 
 
 my $api_instance = WWW::SwaggerClient::SessionApi->new();
+my $k = k_example; # String | 应用的 APP KEY
+my $t = 789; # Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+my $z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; # UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
+my $s = s_example; # String | 请求签名，算法详见 docs/SIGNATURE.md
 
 eval { 
-    $api_instance->signOut();
+    $api_instance->signOut(k => $k, t => $t, z => $z, s => $s);
 };
 if ($@) {
     warn "Exception when calling SessionApi->signOut: $@\n";
@@ -1831,10 +2141,14 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.SessionApi()
+k = k_example # String | 应用的 APP KEY
+t = 789 # Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+z = 38400000-8cf0-11bd-b23e-10b96e4ef00d # UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
+s = s_example # String | 请求签名，算法详见 docs/SIGNATURE.md
 
 try: 
     # 注销
-    api_instance.sign_out()
+    api_instance.sign_out(k, t, z, s)
 except ApiException as e:
     print("Exception when calling SessionApi->signOut: %s\n" % e)</code></pre>
                             </div>
@@ -1846,6 +2160,107 @@ except ApiException as e:
 
 
 
+                            <div class="methodsubtabletitle">Query parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                <tr><td style="width:150px;">k*</td>
+                                <td>
+                                
+                                
+                                    <div id="d2e199_signOut_k">
+                                        <div class="json-schema-view">
+                                            <div class="primitive">
+                                                <span class="type">
+                                                    String
+                                                </span>
+                                
+                                                    <div class="inner description">
+                                                        应用的 APP KEY
+                                                    </div>
+                                            </div>
+                                                <div class="inner required">
+                                                    Required
+                                                </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                </tr>
+                                <tr><td style="width:150px;">t*</td>
+                                <td>
+                                
+                                
+                                    <div id="d2e199_signOut_t">
+                                        <div class="json-schema-view">
+                                            <div class="primitive">
+                                                <span class="type">
+                                                    Long
+                                                </span>
+                                                    <span class="format">
+                                                        (int64)
+                                                    </span>
+                                
+                                                    <div class="inner description">
+                                                        发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+                                                    </div>
+                                            </div>
+                                                <div class="inner required">
+                                                    Required
+                                                </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                </tr>
+                                <tr><td style="width:150px;">z*</td>
+                                <td>
+                                
+                                
+                                    <div id="d2e199_signOut_z">
+                                        <div class="json-schema-view">
+                                            <div class="primitive">
+                                                <span class="type">
+                                                    UUID
+                                                </span>
+                                                    <span class="format">
+                                                        (uuid)
+                                                    </span>
+                                
+                                                    <div class="inner description">
+                                                        随机字符串，推荐 UUID，15 分钟内不得重复
+                                                    </div>
+                                            </div>
+                                                <div class="inner required">
+                                                    Required
+                                                </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                </tr>
+                                <tr><td style="width:150px;">s*</td>
+                                <td>
+                                
+                                
+                                    <div id="d2e199_signOut_s">
+                                        <div class="json-schema-view">
+                                            <div class="primitive">
+                                                <span class="type">
+                                                    String
+                                                </span>
+                                
+                                                    <div class="inner description">
+                                                        请求签名，算法详见 docs/SIGNATURE.md
+                                                    </div>
+                                            </div>
+                                                <div class="inner required">
+                                                    Required
+                                                </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                </tr>
+                            </table>
 
                           <h2>Responses</h2>
                             <h3> Status: 204 - No Content </h3>
@@ -1947,7 +2362,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-User-changePassword-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X PATCH "https://api-v3-test.hlwcr.cn/user"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X PATCH "https://api-v3-test.hlwcr.cn/user?k=&t=&z=&s="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-User-changePassword-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -1965,10 +2380,14 @@ public class UserApiExample {
 
 
         UserApi apiInstance = new UserApi();
+        String k = k_example; // String | 应用的 APP KEY
+        Long t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+        UUID z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
+        String s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
         String original = ; // String | 
         String new = ; // String | 
         try {
-            apiInstance.changePassword(original, new);
+            apiInstance.changePassword(k, t, z, s, original, new);
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#changePassword");
             e.printStackTrace();
@@ -1984,10 +2403,14 @@ public class UserApiExample {
 
     public static void main(String[] args) {
         UserApi apiInstance = new UserApi();
+        String k = k_example; // String | 应用的 APP KEY
+        Long t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+        UUID z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
+        String s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
         String original = ; // String | 
         String new = ; // String | 
         try {
-            apiInstance.changePassword(original, new);
+            apiInstance.changePassword(k, t, z, s, original, new);
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#changePassword");
             e.printStackTrace();
@@ -2001,13 +2424,21 @@ public class UserApiExample {
   </div> -->
                             <div class="tab-pane" id="examples-User-changePassword-0-objc">
                               <pre class="prettyprint"><code class="language-cpp">Configuration *apiConfig = [Configuration sharedConfig];
+String *k = k_example; // 应用的 APP KEY
+Long *t = 789; // 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+UUID *z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // 随机字符串，推荐 UUID，15 分钟内不得重复
+String *s = s_example; // 请求签名，算法详见 docs/SIGNATURE.md
 String *original = ; //  (optional)
 String *new = ; //  (optional)
 
 UserApi *apiInstance = [[UserApi alloc] init];
 
 // 修改当前用户密码
-[apiInstance changePasswordWith:original
+[apiInstance changePasswordWith:k
+    t:t
+    z:z
+    s:s
+    original:original
     new:new
               completionHandler: ^(NSError* error) {
                             if (error) {
@@ -2023,6 +2454,10 @@ var defaultClient = Kaixin.ApiClient.instance;
 
 
 var api = new Kaixin.UserApi()
+var k = k_example; // {{String}} 应用的 APP KEY
+var t = 789; // {{Long}} 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+var z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // {{UUID}} 随机字符串，推荐 UUID，15 分钟内不得重复
+var s = s_example; // {{String}} 请求签名，算法详见 docs/SIGNATURE.md
 var opts = { 
   'original':  // {{String}} 
   'new':  // {{String}} 
@@ -2034,7 +2469,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully.');
   }
 };
-api.changePassword(opts, callback);
+api.changePassword(ktzs, opts, callback);
 </code></pre>
                             </div>
 
@@ -2057,13 +2492,17 @@ namespace Example
 
 
             var apiInstance = new UserApi();
+            var k = k_example;  // String | 应用的 APP KEY
+            var t = 789;  // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+            var z = new UUID(); // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
+            var s = s_example;  // String | 请求签名，算法详见 docs/SIGNATURE.md
             var original = new String(); // String |  (optional) 
             var new = new String(); // String |  (optional) 
 
             try
             {
                 // 修改当前用户密码
-                apiInstance.changePassword(original, new);
+                apiInstance.changePassword(k, t, z, s, original, new);
             }
             catch (Exception e)
             {
@@ -2081,11 +2520,15 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 
 $api_instance = new Swagger\Client\ApiUserApi();
+$k = k_example; // String | 应用的 APP KEY
+$t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+$z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
+$s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
 $original = ; // String | 
 $new = ; // String | 
 
 try {
-    $api_instance->changePassword($original, $new);
+    $api_instance->changePassword($k, $t, $z, $s, $original, $new);
 } catch (Exception $e) {
     echo 'Exception when calling UserApi->changePassword: ', $e->getMessage(), PHP_EOL;
 }
@@ -2099,11 +2542,15 @@ use WWW::SwaggerClient::UserApi;
 
 
 my $api_instance = WWW::SwaggerClient::UserApi->new();
+my $k = k_example; # String | 应用的 APP KEY
+my $t = 789; # Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+my $z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; # UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
+my $s = s_example; # String | 请求签名，算法详见 docs/SIGNATURE.md
 my $original = ; # String | 
 my $new = ; # String | 
 
 eval { 
-    $api_instance->changePassword(original => $original, new => $new);
+    $api_instance->changePassword(k => $k, t => $t, z => $z, s => $s, original => $original, new => $new);
 };
 if ($@) {
     warn "Exception when calling UserApi->changePassword: $@\n";
@@ -2120,12 +2567,16 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.UserApi()
+k = k_example # String | 应用的 APP KEY
+t = 789 # Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+z = 38400000-8cf0-11bd-b23e-10b96e4ef00d # UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
+s = s_example # String | 请求签名，算法详见 docs/SIGNATURE.md
 original =  # String |  (optional)
 new =  # String |  (optional)
 
 try: 
     # 修改当前用户密码
-    api_instance.change_password(original=original, new=new)
+    api_instance.change_password(k, t, z, s, original=original, new=new)
 except ApiException as e:
     print("Exception when calling UserApi->changePassword: %s\n" % e)</code></pre>
                             </div>
@@ -2182,6 +2633,107 @@ except ApiException as e:
                                   </tr>
                             </table>
 
+                            <div class="methodsubtabletitle">Query parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                <tr><td style="width:150px;">k*</td>
+                                <td>
+                                
+                                
+                                    <div id="d2e199_changePassword_k">
+                                        <div class="json-schema-view">
+                                            <div class="primitive">
+                                                <span class="type">
+                                                    String
+                                                </span>
+                                
+                                                    <div class="inner description">
+                                                        应用的 APP KEY
+                                                    </div>
+                                            </div>
+                                                <div class="inner required">
+                                                    Required
+                                                </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                </tr>
+                                <tr><td style="width:150px;">t*</td>
+                                <td>
+                                
+                                
+                                    <div id="d2e199_changePassword_t">
+                                        <div class="json-schema-view">
+                                            <div class="primitive">
+                                                <span class="type">
+                                                    Long
+                                                </span>
+                                                    <span class="format">
+                                                        (int64)
+                                                    </span>
+                                
+                                                    <div class="inner description">
+                                                        发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+                                                    </div>
+                                            </div>
+                                                <div class="inner required">
+                                                    Required
+                                                </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                </tr>
+                                <tr><td style="width:150px;">z*</td>
+                                <td>
+                                
+                                
+                                    <div id="d2e199_changePassword_z">
+                                        <div class="json-schema-view">
+                                            <div class="primitive">
+                                                <span class="type">
+                                                    UUID
+                                                </span>
+                                                    <span class="format">
+                                                        (uuid)
+                                                    </span>
+                                
+                                                    <div class="inner description">
+                                                        随机字符串，推荐 UUID，15 分钟内不得重复
+                                                    </div>
+                                            </div>
+                                                <div class="inner required">
+                                                    Required
+                                                </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                </tr>
+                                <tr><td style="width:150px;">s*</td>
+                                <td>
+                                
+                                
+                                    <div id="d2e199_changePassword_s">
+                                        <div class="json-schema-view">
+                                            <div class="primitive">
+                                                <span class="type">
+                                                    String
+                                                </span>
+                                
+                                                    <div class="inner description">
+                                                        请求签名，算法详见 docs/SIGNATURE.md
+                                                    </div>
+                                            </div>
+                                                <div class="inner required">
+                                                    Required
+                                                </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                </tr>
+                            </table>
 
                           <h2>Responses</h2>
                             <h3> Status: 204 - No Content </h3>
@@ -2302,7 +2854,7 @@ public class UserApiExample {
         String k = k_example; // String | 应用的 APP KEY
         Long t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
         UUID z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
-        String s = s_example; // String | 请求签名
+        String s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
         String username = username_example; // String | 
         String password = ; // String | 
         String email = email_example; // String | 
@@ -2332,7 +2884,7 @@ public class UserApiExample {
         String k = k_example; // String | 应用的 APP KEY
         Long t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
         UUID z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
-        String s = s_example; // String | 请求签名
+        String s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
         String username = username_example; // String | 
         String password = ; // String | 
         String email = email_example; // String | 
@@ -2359,7 +2911,7 @@ public class UserApiExample {
                               <pre class="prettyprint"><code class="language-cpp">String *k = k_example; // 应用的 APP KEY
 Long *t = 789; // 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
 UUID *z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // 随机字符串，推荐 UUID，15 分钟内不得重复
-String *s = s_example; // 请求签名
+String *s = s_example; // 请求签名，算法详见 docs/SIGNATURE.md
 String *username = username_example; //  (optional)
 String *password = ; //  (optional)
 String *email = email_example; //  (optional)
@@ -2402,7 +2954,7 @@ var api = new Kaixin.UserApi()
 var k = k_example; // {{String}} 应用的 APP KEY
 var t = 789; // {{Long}} 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
 var z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // {{UUID}} 随机字符串，推荐 UUID，15 分钟内不得重复
-var s = s_example; // {{String}} 请求签名
+var s = s_example; // {{String}} 请求签名，算法详见 docs/SIGNATURE.md
 var opts = { 
   'username': username_example // {{String}} 
   'password':  // {{String}} 
@@ -2445,7 +2997,7 @@ namespace Example
             var k = k_example;  // String | 应用的 APP KEY
             var t = 789;  // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
             var z = new UUID(); // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
-            var s = s_example;  // String | 请求签名
+            var s = s_example;  // String | 请求签名，算法详见 docs/SIGNATURE.md
             var username = username_example;  // String |  (optional) 
             var password = new String(); // String |  (optional) 
             var email = email_example;  // String |  (optional) 
@@ -2479,7 +3031,7 @@ $api_instance = new Swagger\Client\ApiUserApi();
 $k = k_example; // String | 应用的 APP KEY
 $t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
 $z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
-$s = s_example; // String | 请求签名
+$s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
 $username = username_example; // String | 
 $password = ; // String | 
 $email = email_example; // String | 
@@ -2507,7 +3059,7 @@ my $api_instance = WWW::SwaggerClient::UserApi->new();
 my $k = k_example; # String | 应用的 APP KEY
 my $t = 789; # Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
 my $z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; # UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
-my $s = s_example; # String | 请求签名
+my $s = s_example; # String | 请求签名，算法详见 docs/SIGNATURE.md
 my $username = username_example; # String | 
 my $password = ; # String | 
 my $email = email_example; # String | 
@@ -2538,7 +3090,7 @@ api_instance = swagger_client.UserApi()
 k = k_example # String | 应用的 APP KEY
 t = 789 # Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
 z = 38400000-8cf0-11bd-b23e-10b96e4ef00d # UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
-s = s_example # String | 请求签名
+s = s_example # String | 请求签名，算法详见 docs/SIGNATURE.md
 username = username_example # String |  (optional)
 password =  # String |  (optional)
 email = email_example # String |  (optional)
@@ -2794,7 +3346,7 @@ except ApiException as e:
                                                 </span>
                                 
                                                     <div class="inner description">
-                                                        请求签名
+                                                        请求签名，算法详见 docs/SIGNATURE.md
                                                     </div>
                                             </div>
                                                 <div class="inner required">

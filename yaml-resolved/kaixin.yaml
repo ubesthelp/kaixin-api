@@ -24,18 +24,47 @@ paths:
       summary: 登录
       description: 使用用户名和密码登录。
       operationId: SignIn
-      parameters: []
+      parameters:
+      - name: k
+        in: query
+        description: 应用的 APP KEY
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: t
+        in: query
+        description: 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int64
+      - name: z
+        in: query
+        description: 随机字符串，推荐 UUID，15 分钟内不得重复
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          format: uuid
+      - name: s
+        in: query
+        description: 请求签名，算法详见 docs/SIGNATURE.md
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
       requestBody:
         description: 登录请求
         content:
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/SignInRequest'
-            examples:
-              示例:
-                value:
-                  username: karoyqiu
-                  password: blablabla
         required: true
       responses:
         "201":
@@ -65,6 +94,41 @@ paths:
       summary: 注销
       description: 注销已有登录，通过访问令牌区分会话。
       operationId: SignOut
+      parameters:
+      - name: k
+        in: query
+        description: 应用的 APP KEY
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: t
+        in: query
+        description: 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int64
+      - name: z
+        in: query
+        description: 随机字符串，推荐 UUID，15 分钟内不得重复
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          format: uuid
+      - name: s
+        in: query
+        description: 请求签名，算法详见 docs/SIGNATURE.md
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
       responses:
         "204":
           description: No Content
@@ -83,6 +147,41 @@ paths:
       summary: 更新令牌
       description: 使用更新令牌更新令牌。
       operationId: RefreshToken
+      parameters:
+      - name: k
+        in: query
+        description: 应用的 APP KEY
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: t
+        in: query
+        description: 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int64
+      - name: z
+        in: query
+        description: 随机字符串，推荐 UUID，15 分钟内不得重复
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          format: uuid
+      - name: s
+        in: query
+        description: 请求签名，算法详见 docs/SIGNATURE.md
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
       requestBody:
         description: 更新令牌请求
         content:
@@ -150,7 +249,7 @@ paths:
           format: uuid
       - name: s
         in: query
-        description: 请求签名
+        description: 请求签名，算法详见 docs/SIGNATURE.md
         required: true
         style: form
         explode: true
@@ -227,6 +326,41 @@ paths:
       summary: 修改当前用户密码
       description: 修改已登录用户密码。
       operationId: ChangePassword
+      parameters:
+      - name: k
+        in: query
+        description: 应用的 APP KEY
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: t
+        in: query
+        description: 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int64
+      - name: z
+        in: query
+        description: 随机字符串，推荐 UUID，15 分钟内不得重复
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          format: uuid
+      - name: s
+        in: query
+        description: 请求签名，算法详见 docs/SIGNATURE.md
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
       requestBody:
         description: 新/旧密码。
         content:
@@ -291,6 +425,9 @@ components:
           description: 密码明文
           format: password
       description: 使用用户名和密码登录时的请求。
+      example:
+        username: karoyqiu
+        password: blablabla
     RefreshTokenRequest:
       title: 更新令牌请求
       required:
@@ -417,7 +554,7 @@ components:
     signature:
       name: s
       in: query
-      description: 请求签名
+      description: 请求签名，算法详见 docs/SIGNATURE.md
       required: true
       style: form
       explode: true
@@ -455,3 +592,4 @@ components:
       type: http
       description: 登录成功后的 ID Token
       scheme: bearer
+      bearerFormat: JWT

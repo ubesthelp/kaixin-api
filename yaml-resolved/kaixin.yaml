@@ -12,15 +12,19 @@ servers:
 security:
 - Authorization: []
 tags:
-- name: session
+- name: Ecomm
+  description: 电子商务
+- name: Email
+  description: 电子邮件
+- name: Session
   description: 会话
-- name: user
+- name: User
   description: 用户
 paths:
   /session:
     post:
       tags:
-      - session
+      - Session
       summary: 登录
       description: 使用用户名和密码登录。
       operationId: SignIn
@@ -90,7 +94,7 @@ paths:
       security: []
     delete:
       tags:
-      - session
+      - Session
       summary: 注销
       description: 注销已有登录，注销后访问令牌和更新令牌失效。
       operationId: SignOut
@@ -158,7 +162,7 @@ paths:
                     msg: Invalid signature.
     patch:
       tags:
-      - session
+      - Session
       summary: 更新令牌
       description: 使用更新令牌更新令牌。
       operationId: RefreshToken
@@ -203,6 +207,7 @@ paths:
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/RefreshTokenRequest'
+        required: true
       responses:
         "200":
           description: OK
@@ -231,7 +236,7 @@ paths:
   /user:
     post:
       tags:
-      - user
+      - User
       summary: 注册新用户
       description: 注册新用户。
       operationId: SignUp
@@ -285,6 +290,7 @@ paths:
                   wechat: abcdefg
                   agent_code: "123456"
                   agent_signature: xxxxxxxxxxxxxx
+        required: true
       responses:
         "201":
           description: OK
@@ -304,10 +310,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/CommonResponse'
               examples:
-                电子邮箱未验证:
+                电子邮箱未验证或验证码错误:
                   value:
                     code: 1
-                    msg: Email unverified.
+                    msg: Email unverified or invalid vcode.
                 无效代理:
                   value:
                     code: 2
@@ -345,7 +351,7 @@ paths:
       security: []
     patch:
       tags:
-      - user
+      - User
       summary: 修改当前用户密码
       description: 修改已登录用户密码。
       operationId: ChangePassword
@@ -390,11 +396,21 @@ paths:
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/ChangePasswordRequest'
+        required: true
       responses:
-        "204":
-          description: No Content
-        "401":
-          description: Unauthorized
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              examples:
+                成功:
+                  value:
+                    code: 0
+                    msg: ""
+        "400":
+          description: Bad Request
           content:
             application/json:
               schema:
@@ -404,6 +420,475 @@ paths:
                   value:
                     code: 1
                     msg: Invalid original password.
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              examples:
+                无效访问令牌:
+                  value:
+                    code: 1
+                    msg: Invalid access token.
+                签名错误:
+                  value:
+                    code: 14
+                    msg: Invalid signature.
+  /user/{username}:
+    patch:
+      tags:
+      - User
+      summary: 内部 API，不对外开放
+      description: 不验证原密码，直接设置新密码。
+      operationId: SetPassword
+      parameters:
+      - name: k
+        in: query
+        description: 应用的 APP KEY
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: t
+        in: query
+        description: 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int64
+      - name: z
+        in: query
+        description: 随机字符串，推荐 UUID，15 分钟内不得重复
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          format: uuid
+      - name: s
+        in: query
+        description: 请求签名，算法详见 docs/SIGNATURE.md
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: username
+        in: path
+        description: 要设置密码的用户名
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/body'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              examples:
+                成功:
+                  value:
+                    code: 0
+                    msg: ""
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              examples:
+                无效访问令牌:
+                  value:
+                    code: 1
+                    msg: Invalid access token.
+                签名错误:
+                  value:
+                    code: 14
+                    msg: Invalid signature.
+      security: []
+  /user/availability:
+    get:
+      tags:
+      - Email
+      - User
+      summary: 获取用户名/email 是否可用
+      description: 获取用户名/email 是否可用于注册新用户。
+      operationId: IsUserAvailable
+      parameters:
+      - name: k
+        in: query
+        description: 应用的 APP KEY
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: t
+        in: query
+        description: 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int64
+      - name: z
+        in: query
+        description: 随机字符串，推荐 UUID，15 分钟内不得重复
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          format: uuid
+      - name: s
+        in: query
+        description: 请求签名，算法详见 docs/SIGNATURE.md
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: filter
+        in: query
+        description: 希望用于注册的用户名/email，username 和 email 至少设置一个
+        required: true
+        style: form
+        explode: true
+        schema:
+          $ref: '#/components/schemas/filter'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              examples:
+                用户名/email 可用:
+                  value:
+                    code: 0
+                    msg: ""
+                用户名/email 不可用:
+                  value:
+                    code: 1
+                    msg: The username/email is unavailable.
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              examples:
+                无效访问令牌:
+                  value:
+                    code: 1
+                    msg: Invalid access token.
+                签名错误:
+                  value:
+                    code: 14
+                    msg: Invalid signature.
+      security: []
+  /email/vcode:
+    post:
+      tags:
+      - Email
+      - User
+      summary: 发送验证邮件
+      description: 向指定邮箱发送包含验证码的邮件。
+      operationId: SendVerificationEmail
+      parameters:
+      - name: k
+        in: query
+        description: 应用的 APP KEY
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: t
+        in: query
+        description: 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int64
+      - name: z
+        in: query
+        description: 随机字符串，推荐 UUID，15 分钟内不得重复
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          format: uuid
+      - name: s
+        in: query
+        description: 请求签名，算法详见 docs/SIGNATURE.md
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SendVerificationEmailRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              examples:
+                成功:
+                  value:
+                    code: 0
+                    msg: ""
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              examples:
+                无效访问令牌:
+                  value:
+                    code: 1
+                    msg: Invalid access token.
+                签名错误:
+                  value:
+                    code: 14
+                    msg: Invalid signature.
+        "429":
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              examples:
+                发送请求过多:
+                  value:
+                    code: 1
+                    msg: You have sent too many verification emails.
+      security: []
+  /email/reset-password:
+    post:
+      tags:
+      - Email
+      - User
+      summary: 发送重置密码邮件
+      description: 向指定邮箱发送包含重置密码链接的邮件。
+      operationId: SendResetPasswordEmail
+      parameters:
+      - name: k
+        in: query
+        description: 应用的 APP KEY
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: t
+        in: query
+        description: 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int64
+      - name: z
+        in: query
+        description: 随机字符串，推荐 UUID，15 分钟内不得重复
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          format: uuid
+      - name: s
+        in: query
+        description: 请求签名，算法详见 docs/SIGNATURE.md
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SendResetPasswordEmailRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              examples:
+                成功:
+                  value:
+                    code: 0
+                    msg: ""
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              examples:
+                无效访问令牌:
+                  value:
+                    code: 1
+                    msg: Invalid access token.
+                签名错误:
+                  value:
+                    code: 14
+                    msg: Invalid signature.
+        "429":
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              examples:
+                发送请求过多:
+                  value:
+                    code: 1
+                    msg: You have sent too many reset password emails.
+      security: []
+  /ecomm/activation:
+    post:
+      tags:
+      - Ecomm
+      summary: 激活
+      description: 使用序列号激活应用。
+      operationId: Activate
+      parameters:
+      - name: k
+        in: query
+        description: 应用的 APP KEY
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: t
+        in: query
+        description: 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int64
+      - name: z
+        in: query
+        description: 随机字符串，推荐 UUID，15 分钟内不得重复
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          format: uuid
+      - name: s
+        in: query
+        description: 请求签名，算法详见 docs/SIGNATURE.md
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ActivateRequest'
+            encoding:
+              sn:
+                style: form
+                explode: false
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              examples:
+                成功:
+                  value:
+                    code: 0
+                    msg: ""
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActivateResponse'
+              examples:
+                序列号无效:
+                  value:
+                    code: 1
+                    msg: Some of the serial numbers are invalid.
+                    data:
+                    - code: 1
+                      msg: No such serial number.
+                      sn: sn-1
+                    - code: 2
+                      msg: The serial number is not for this application.
+                      sn: sn-2
+                    - code: 3
+                      msg: The serial number is unavailable.
+                      sn: sn-3
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              examples:
+                无效访问令牌:
+                  value:
+                    code: 1
+                    msg: Invalid access token.
+                签名错误:
+                  value:
+                    code: 14
+                    msg: Invalid signature.
+        "429":
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              examples:
+                发送请求过多:
+                  value:
+                    code: 1
+                    msg: You have sent too many reset password emails.
 components:
   schemas:
     CommonResponse:
@@ -514,6 +999,81 @@ components:
           description: 新密码明文
           format: password
       description: 提供新/旧密码。
+    SendVerificationEmailRequest:
+      title: 发送验证邮件请求
+      required:
+      - to
+      type: object
+      properties:
+        to:
+          type: string
+          description: 要发送验证邮件的邮箱
+          format: email
+      description: 请求向指定邮箱发送验证邮件。
+    SendResetPasswordEmailRequest:
+      title: 发送重置密码邮件请求
+      description: 请求向指定邮箱发送验证邮件。
+      allOf:
+      - $ref: '#/components/schemas/SendVerificationEmailRequest'
+      - required:
+        - link
+        type: object
+        properties:
+          link:
+            type: string
+            description: 一次性重置密码链接
+            format: uri
+    ActivateRequest:
+      title: 激活请求
+      required:
+      - sn
+      type: object
+      properties:
+        sn:
+          type: array
+          description: 要使用的序列号列表
+          items:
+            type: string
+      description: 使用指定序列号激活应用。
+    ActivateResponse:
+      title: 激活响应
+      description: 如果在激活过程中有序列号不能使用，则在此响应中返回。
+      allOf:
+      - $ref: '#/components/schemas/CommonResponse'
+      - type: object
+        properties:
+          data:
+            type: array
+            description: 序列号问题列表
+            items:
+              allOf:
+              - $ref: '#/components/schemas/CommonResponse'
+              - type: object
+                properties:
+                  sn:
+                    type: string
+                    description: 有问题的序列号
+    body:
+      required:
+      - password
+      type: object
+      properties:
+        password:
+          type: string
+          description: 新密码
+          format: password
+    filter:
+      minProperties: 1
+      type: object
+      properties:
+        username:
+          type: string
+          description: 用户名
+        email:
+          type: string
+          description: Email
+          format: email
+      additionalProperties: false
     Session_data:
       type: object
       properties:

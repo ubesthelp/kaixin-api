@@ -12,14 +12,20 @@ servers:
 security:
 - Authorization: []
 tags:
+- name: User
+  description: 用户
+- name: Session
+  description: 会话
 - name: Ecomm
   description: 电子商务
 - name: Email
   description: 电子邮件
-- name: Session
-  description: 会话
-- name: User
-  description: 用户
+- name: WebSocket
+  description: WebSocket 协议接口
+- name: Misc
+  description: 其它
+- name: Internal
+  description: 内部 API
 paths:
   /session:
     post:
@@ -135,7 +141,7 @@ paths:
           type: string
       responses:
         "200":
-          description: OK
+          description: 成功
           content:
             application/json:
               schema:
@@ -146,7 +152,7 @@ paths:
                     code: 0
                     msg: ""
         "401":
-          description: Unauthorized
+          description: 未授权
           content:
             application/json:
               schema:
@@ -219,7 +225,7 @@ paths:
                 成功:
                   $ref: '#/components/examples/session'
         "401":
-          description: Unauthorized
+          description: 未授权
           content:
             application/json:
               schema:
@@ -281,19 +287,17 @@ paths:
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/SignUpRequest'
-            examples:
-              示例:
-                value:
-                  username: karoyqiu
-                  password: blablabla
-                  email: karoyqiu@gmail.com
-                  wechat: abcdefg
-                  agent_code: "123456"
-                  agent_signature: xxxxxxxxxxxxxx
+            example:
+              username: karoyqiu
+              password: blablabla
+              email: karoyqiu@gmail.com
+              wechat: abcdefg
+              agent_code: "123456"
+              agent_signature: xxxxxxxxxxxxxx
         required: true
       responses:
         "201":
-          description: OK
+          description: 成功
           content:
             application/json:
               schema:
@@ -319,7 +323,7 @@ paths:
                     code: 2
                     msg: Invalid agent code.
         "401":
-          description: Unauthorized
+          description: 未授权
           content:
             application/json:
               schema:
@@ -399,7 +403,7 @@ paths:
         required: true
       responses:
         "200":
-          description: OK
+          description: 成功
           content:
             application/json:
               schema:
@@ -421,7 +425,7 @@ paths:
                     code: 1
                     msg: Invalid original password.
         "401":
-          description: Unauthorized
+          description: 未授权
           content:
             application/json:
               schema:
@@ -439,6 +443,7 @@ paths:
     patch:
       tags:
       - User
+      - Internal
       summary: 内部 API，不对外开放
       description: 不验证原密码，直接设置新密码。
       operationId: SetPassword
@@ -493,7 +498,7 @@ paths:
         required: true
       responses:
         "200":
-          description: OK
+          description: 成功
           content:
             application/json:
               schema:
@@ -504,7 +509,7 @@ paths:
                     code: 0
                     msg: ""
         "401":
-          description: Unauthorized
+          description: 未授权
           content:
             application/json:
               schema:
@@ -587,7 +592,7 @@ paths:
                     code: 1
                     msg: The username/email is unavailable.
         "401":
-          description: Unauthorized
+          description: 未授权
           content:
             application/json:
               schema:
@@ -653,7 +658,7 @@ paths:
         required: true
       responses:
         "200":
-          description: OK
+          description: 成功
           content:
             application/json:
               schema:
@@ -664,7 +669,7 @@ paths:
                     code: 0
                     msg: ""
         "401":
-          description: Unauthorized
+          description: 未授权
           content:
             application/json:
               schema:
@@ -684,11 +689,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CommonResponse'
-              examples:
-                发送请求过多:
-                  value:
-                    code: 1
-                    msg: You have sent too many verification emails.
+              example:
+                code: 1
+                msg: You have sent too many verification emails.
       security: []
   /email/reset-password:
     post:
@@ -741,7 +744,7 @@ paths:
         required: true
       responses:
         "200":
-          description: OK
+          description: 成功
           content:
             application/json:
               schema:
@@ -752,7 +755,7 @@ paths:
                     code: 0
                     msg: ""
         "401":
-          description: Unauthorized
+          description: 未授权
           content:
             application/json:
               schema:
@@ -772,17 +775,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CommonResponse'
-              examples:
-                发送请求过多:
-                  value:
-                    code: 1
-                    msg: You have sent too many reset password emails.
+              example:
+                code: 1
+                msg: You have sent too many reset password emails.
       security: []
   /ecomm/activation:
     post:
       tags:
       - Ecomm
-      summary: 激活
+      - Internal
+      summary: 内部 API，不对外开放
       description: 使用序列号激活应用。
       operationId: Activate
       parameters:
@@ -832,7 +834,7 @@ paths:
         required: true
       responses:
         "200":
-          description: OK
+          description: 成功
           content:
             application/json:
               schema:
@@ -864,7 +866,7 @@ paths:
                       msg: The serial number is unavailable.
                       sn: sn-3
         "401":
-          description: Unauthorized
+          description: 未授权
           content:
             application/json:
               schema:
@@ -878,17 +880,695 @@ paths:
                   value:
                     code: 14
                     msg: Invalid signature.
-        "429":
-          description: Too Many Requests
+  /ecomm/payment-url:
+    post:
+      tags:
+      - Ecomm
+      - Internal
+      summary: 内部 API，不对外开放
+      description: 获取支付 URL，需要将此 URL 编码为二维码后呈现给客户。
+      operationId: GetPaymentUrl
+      parameters:
+      - name: k
+        in: query
+        description: 应用的 APP KEY
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: t
+        in: query
+        description: 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int64
+      - name: z
+        in: query
+        description: 随机字符串，推荐 UUID，15 分钟内不得重复
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          format: uuid
+      - name: s
+        in: query
+        description: 请求签名，算法详见 docs/SIGNATURE.md
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PaymentUrlRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentUrlResponse'
+              example:
+                code: 0
+                msg: ""
+                data: https://this.is/a/payment/url/
+        "400":
+          description: Bad Request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/CommonResponse'
               examples:
-                发送请求过多:
+                无此订单:
                   value:
                     code: 1
-                    msg: You have sent too many reset password emails.
+                    msg: No such order.
+        "401":
+          description: 未授权
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              examples:
+                无效访问令牌:
+                  value:
+                    code: 1
+                    msg: Invalid access token.
+                签名错误:
+                  value:
+                    code: 14
+                    msg: Invalid signature.
+  /ecomm/notification:
+    post:
+      tags:
+      - Ecomm
+      - WebSocket
+      summary: 注册授权变更通知
+      description: 注册后，如果服务端有授权变化即通知客户端。
+      operationId: RegisterAuthNotification
+      parameters:
+      - name: k
+        in: query
+        description: 应用的 APP KEY
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: t
+        in: query
+        description: 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int64
+      - name: z
+        in: query
+        description: 随机字符串，推荐 UUID，15 分钟内不得重复
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          format: uuid
+      - name: s
+        in: query
+        description: 请求签名，算法详见 docs/SIGNATURE.md
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RegisterAuthNotificationRequest'
+      responses:
+        "200":
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              examples:
+                成功:
+                  value:
+                    code: 0
+                    msg: ""
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              examples:
+                无此订单:
+                  value:
+                    code: 1
+                    msg: No such order.
+        "401":
+          description: 未授权
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              examples:
+                无效访问令牌:
+                  value:
+                    code: 1
+                    msg: Invalid access token.
+                签名错误:
+                  value:
+                    code: 14
+                    msg: Invalid signature.
+    delete:
+      tags:
+      - Ecomm
+      - WebSocket
+      summary: 注销授权变更通知
+      description: 注销后，授权变化不再通知客户端。
+      operationId: DeregisterAuthNotification
+      parameters:
+      - name: k
+        in: query
+        description: 应用的 APP KEY
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: t
+        in: query
+        description: 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int64
+      - name: z
+        in: query
+        description: 随机字符串，推荐 UUID，15 分钟内不得重复
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          format: uuid
+      - name: s
+        in: query
+        description: 请求签名，算法详见 docs/SIGNATURE.md
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: order_number
+        in: query
+        description: 如果在注册时指定了订单编号，则注销时也必须指定。
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              examples:
+                成功:
+                  value:
+                    code: 0
+                    msg: ""
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              examples:
+                无此订单:
+                  value:
+                    code: 1
+                    msg: No such order.
+        "401":
+          description: 未授权
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              examples:
+                无效访问令牌:
+                  value:
+                    code: 1
+                    msg: Invalid access token.
+                签名错误:
+                  value:
+                    code: 14
+                    msg: Invalid signature.
+  /device-id:
+    post:
+      tags:
+      - Misc
+      summary: 获取设备 ID
+      description: 根据设备指纹获取设备 ID。
+      operationId: GetDeviceId
+      parameters:
+      - name: k
+        in: query
+        description: 应用的 APP KEY
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: t
+        in: query
+        description: 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int64
+      - name: z
+        in: query
+        description: 随机字符串，推荐 UUID，15 分钟内不得重复
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          format: uuid
+      - name: s
+        in: query
+        description: 请求签名，算法详见 docs/SIGNATURE.md
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/DeviceFingerprint'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+              example:
+                code: 0
+                msg: ""
+                data:
+                - module: ""
+        "401":
+          description: 未授权
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              examples:
+                无效访问令牌:
+                  value:
+                    code: 1
+                    msg: Invalid access token.
+                签名错误:
+                  value:
+                    code: 14
+                    msg: Invalid signature.
+  /auth:
+    get:
+      tags:
+      - Misc
+      summary: 获取授权
+      description: 获取应用授权。如果应用为设备授权，则调用此 API 前必须先调用 GetDeviceId。
+      operationId: GetAuth
+      parameters:
+      - name: k
+        in: query
+        description: 应用的 APP KEY
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: t
+        in: query
+        description: 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int64
+      - name: z
+        in: query
+        description: 随机字符串，推荐 UUID，15 分钟内不得重复
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          format: uuid
+      - name: s
+        in: query
+        description: 请求签名，算法详见 docs/SIGNATURE.md
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceIdResponse'
+              example:
+                code: 0
+                msg: ""
+                data:
+                - module: mod-1
+                  edition: 0
+                  count: 10
+                  time: 1595834173
+                - module: mod-2
+                  edition: 1
+                  count: 15
+                  time: 1595834173
+        "401":
+          description: 未授权
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              examples:
+                无效访问令牌:
+                  value:
+                    code: 1
+                    msg: Invalid access token.
+                签名错误:
+                  value:
+                    code: 14
+                    msg: Invalid signature.
+        "403":
+          description: 当前设备与其他用户绑定
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              example:
+                code: 1
+                msg: This device is bound with another user.
+        "404":
+          description: 无授权
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              example:
+                code: 1
+                msg: No auth.
+        "412":
+          description: 设备授权应用未先调用 GetDeviceId。
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              example:
+                code: 1
+                msg: Call GetDeviceId first.
+  /materials:
+    get:
+      tags:
+      - Misc
+      summary: 按类型获取素材
+      operationId: GetMaterials
+      parameters:
+      - name: k
+        in: query
+        description: 应用的 APP KEY
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: t
+        in: query
+        description: 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int64
+      - name: z
+        in: query
+        description: 随机字符串，推荐 UUID，15 分钟内不得重复
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          format: uuid
+      - name: s
+        in: query
+        description: 请求签名，算法详见 docs/SIGNATURE.md
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: types
+        in: query
+        description: 要获取的素材类型列表，如果为空，则获取全部类型
+        required: false
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MaterialsResponse'
+              example:
+                code: 0
+                msg: ""
+                data:
+                - name: material-1
+                  text: blablabla
+                - name: material-2
+                  text: blablabla 2
+        "401":
+          description: 未授权
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              examples:
+                无效访问令牌:
+                  value:
+                    code: 1
+                    msg: Invalid access token.
+                签名错误:
+                  value:
+                    code: 14
+                    msg: Invalid signature.
+        "404":
+          description: 无此素材
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              example:
+                code: 1
+                msg: No such material.
+  /lowest-version:
+    get:
+      tags:
+      - Misc
+      summary: 获取应用最低版本号
+      description: 如果应用当前版本号低于最低版本号，则启动强制更新，并退出程序。
+      operationId: GetLowestVersion
+      parameters:
+      - name: k
+        in: query
+        description: 应用的 APP KEY
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: t
+        in: query
+        description: 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int64
+      - name: z
+        in: query
+        description: 随机字符串，推荐 UUID，15 分钟内不得重复
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          format: uuid
+      - name: s
+        in: query
+        description: 请求签名，算法详见 docs/SIGNATURE.md
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LowestVersionResponse'
+              example:
+                code: 0
+                msg: ""
+                data:
+                  major: 1
+                  minor: 2
+                  patch: 3
+        "401":
+          description: 未授权
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              examples:
+                无效访问令牌:
+                  value:
+                    code: 1
+                    msg: Invalid access token.
+                签名错误:
+                  value:
+                    code: 14
+                    msg: Invalid signature.
+  /web-url:
+    get:
+      tags:
+      - Misc
+      summary: 获取 Web 网页地址
+      operationId: GetWebUrl
+      parameters:
+      - name: k
+        in: query
+        description: 应用的 APP KEY
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: t
+        in: query
+        description: 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int64
+      - name: z
+        in: query
+        description: 随机字符串，推荐 UUID，15 分钟内不得重复
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          format: uuid
+      - name: s
+        in: query
+        description: 请求签名，算法详见 docs/SIGNATURE.md
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: Web 网页地址类型
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          enum:
+          - sign-up
+          - reset-password
+          - change-password
+          - buy
+          - activate
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebUrlResponse'
+              example:
+                code: 0
+                msg: ""
+                data: https://this.is/a/page/url
+        "401":
+          description: 未授权
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              examples:
+                无效访问令牌:
+                  value:
+                    code: 1
+                    msg: Invalid access token.
+                签名错误:
+                  value:
+                    code: 14
+                    msg: Invalid signature.
+        "404":
+          description: 无此页面
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              example:
+                code: 1
+                msg: No such page.
 components:
   schemas:
     CommonResponse:
@@ -1053,6 +1733,93 @@ components:
                   sn:
                     type: string
                     description: 有问题的序列号
+    PaymentUrlRequest:
+      title: 支付 URL 请求
+      required:
+      - order_number
+      type: object
+      properties:
+        order_number:
+          type: string
+          description: 订单编号，而不是订单 ID
+      description: 根据订单编号生成支付 URL。
+    PaymentUrlResponse:
+      title: 支付 URL 响应
+      description: 支付 URL 响应。
+      allOf:
+      - $ref: '#/components/schemas/CommonResponse'
+      - type: object
+        properties:
+          data:
+            type: string
+            description: 支付 URL，编码为二维码后呈现给客户
+            format: uri
+    RegisterAuthNotificationRequest:
+      title: 注册授权变更通知请求
+      type: object
+      properties:
+        order_number:
+          type: string
+          description: 订单编号，如果指定此参数，则只通知由该订单产生的授权变更。
+    DeviceFingerprint:
+      title: 设备指纹
+      required:
+      - fp
+      type: object
+      properties:
+        fp:
+          type: string
+          description: Base64Url 编码设备指纹
+          format: byte
+    DeviceIdResponse:
+      title: 设备 ID 响应
+      allOf:
+      - $ref: '#/components/schemas/CommonResponse'
+      - type: object
+        properties:
+          data:
+            type: string
+            description: 设备 ID
+    AuthResponse:
+      title: 授权响应
+      allOf:
+      - $ref: '#/components/schemas/CommonResponse'
+      - type: object
+        properties:
+          data:
+            type: array
+            description: 模块授权列表
+            items:
+              $ref: '#/components/schemas/AuthResponse_data'
+    MaterialsResponse:
+      title: 素材响应
+      allOf:
+      - $ref: '#/components/schemas/CommonResponse'
+      - type: object
+        properties:
+          data:
+            type: array
+            description: 素材列表
+            items:
+              $ref: '#/components/schemas/MaterialsResponse_data'
+    LowestVersionResponse:
+      title: 最低版本响应
+      allOf:
+      - $ref: '#/components/schemas/CommonResponse'
+      - type: object
+        properties:
+          data:
+            $ref: '#/components/schemas/LowestVersionResponse_data'
+    WebUrlResponse:
+      title: Web 网页地址响应
+      allOf:
+      - $ref: '#/components/schemas/CommonResponse'
+      - type: object
+        properties:
+          data:
+            type: string
+            description: Web 网页地址
+            format: uri
     body:
       required:
       - password
@@ -1092,9 +1859,47 @@ components:
         id_token:
           type: string
           description: ID Token，JWT 格式
+    AuthResponse_data:
+      type: object
+      properties:
+        module:
+          type: string
+          description: 模块名称
+        edition:
+          type: integer
+          description: 版本
+        count:
+          type: integer
+          description: 数量
+        time:
+          type: integer
+          description: 授权过期时间，UNIX 时间，秒
+          format: int64
+    MaterialsResponse_data:
+      type: object
+      properties:
+        name:
+          type: string
+          description: 素材名称
+        text:
+          type: string
+          description: 素材文本
+    LowestVersionResponse_data:
+      type: object
+      properties:
+        major:
+          type: integer
+          description: 主版本号
+        minor:
+          type: integer
+          description: 次版本号
+        patch:
+          type: integer
+          description: 修订版本号
+      description: 最低版本号
   responses:
     success:
-      description: OK
+      description: 成功
       content:
         application/json:
           schema:
@@ -1105,7 +1910,7 @@ components:
                 code: 0
                 msg: ""
     unauthorized:
-      description: Unauthorized
+      description: 未授权
       content:
         application/json:
           schema:
@@ -1119,6 +1924,17 @@ components:
               value:
                 code: 14
                 msg: Invalid signature.
+    no-such-order:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonResponse'
+          examples:
+            无此订单:
+              value:
+                code: 1
+                msg: No such order.
   parameters:
     app-key:
       name: k

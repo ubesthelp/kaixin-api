@@ -24,4 +24,4 @@
 
 - 注册新用户（`SignUp - POST /user`）
 - 登录（`SignIn - POST /session`）
-
+- 修改密码（`ChangePassword - PATCH /user`）

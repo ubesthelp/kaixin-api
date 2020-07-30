@@ -12,20 +12,14 @@ servers:
 security:
 - Authorization: []
 tags:
-- name: User
-  description: 用户
 - name: Session
   description: 会话
 - name: Ecomm
   description: 电子商务
-- name: Email
-  description: 电子邮件
-- name: WebSocket
-  description: WebSocket 协议接口
 - name: Misc
   description: 其它
 - name: Internal
-  description: 内部 API
+  description: 仅供内部调用，不对外开放
 paths:
   /session:
     post:
@@ -242,7 +236,7 @@ paths:
   /user:
     post:
       tags:
-      - User
+      - Internal
       summary: 注册新用户
       description: 注册新用户。
       operationId: SignUp
@@ -355,7 +349,7 @@ paths:
       security: []
     patch:
       tags:
-      - User
+      - Internal
       summary: 修改当前用户密码
       description: 修改已登录用户密码。
       operationId: ChangePassword
@@ -442,9 +436,8 @@ paths:
   /user/{username}:
     patch:
       tags:
-      - User
       - Internal
-      summary: 内部 API，不对外开放
+      summary: 设置密码
       description: 不验证原密码，直接设置新密码。
       operationId: SetPassword
       parameters:
@@ -527,8 +520,7 @@ paths:
   /user/availability:
     get:
       tags:
-      - Email
-      - User
+      - Internal
       summary: 获取用户名/email 是否可用
       description: 获取用户名/email 是否可用于注册新用户。
       operationId: IsUserAvailable
@@ -610,8 +602,7 @@ paths:
   /email/vcode:
     post:
       tags:
-      - Email
-      - User
+      - Internal
       summary: 发送验证邮件
       description: 向指定邮箱发送包含验证码的邮件。
       operationId: SendVerificationEmail
@@ -696,8 +687,7 @@ paths:
   /email/reset-password:
     post:
       tags:
-      - Email
-      - User
+      - Internal
       summary: 发送重置密码邮件
       description: 向指定邮箱发送包含重置密码链接的邮件。
       operationId: SendResetPasswordEmail
@@ -741,6 +731,13 @@ paths:
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/SendResetPasswordEmailRequest'
+            encoding:
+              usernames:
+                style: form
+                explode: false
+              links:
+                style: form
+                explode: false
         required: true
       responses:
         "200":
@@ -784,7 +781,7 @@ paths:
       tags:
       - Ecomm
       - Internal
-      summary: 内部 API，不对外开放
+      summary: 激活
       description: 使用序列号激活应用。
       operationId: Activate
       parameters:
@@ -885,7 +882,7 @@ paths:
       tags:
       - Ecomm
       - Internal
-      summary: 内部 API，不对外开放
+      summary: 获取支付 URL
       description: 获取支付 URL，需要将此 URL 编码为二维码后呈现给客户。
       operationId: GetPaymentUrl
       parameters:
@@ -970,7 +967,6 @@ paths:
     post:
       tags:
       - Ecomm
-      - WebSocket
       summary: 注册授权变更通知
       description: 注册后，如果服务端有授权变化即通知客户端。
       operationId: RegisterAuthNotification
@@ -1055,7 +1051,6 @@ paths:
     delete:
       tags:
       - Ecomm
-      - WebSocket
       summary: 注销授权变更通知
       description: 注销后，授权变化不再通知客户端。
       operationId: DeregisterAuthNotification
@@ -1696,13 +1691,23 @@ components:
       allOf:
       - $ref: '#/components/schemas/SendVerificationEmailRequest'
       - required:
-        - link
+        - links
+        - usernames
         type: object
         properties:
-          link:
-            type: string
-            description: 一次性重置密码链接
-            format: uri
+          usernames:
+            minItems: 1
+            type: array
+            description: 用户名列表，顺序与 links 一一对应
+            items:
+              type: string
+          links:
+            minItems: 1
+            type: array
+            description: 一次性重置密码链接，顺序与 usernames 一一对应
+            items:
+              type: string
+              format: uri
     ActivateRequest:
       title: 激活请求
       required:

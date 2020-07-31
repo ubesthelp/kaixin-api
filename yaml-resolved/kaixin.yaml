@@ -10,7 +10,8 @@ servers:
 - url: https://api-v3-test.hlwcr.cn
   description: 测试环境
 security:
-- Authorization: []
+- AppKey: []
+  Authorization: []
 tags:
 - name: Session
   description: 会话
@@ -29,14 +30,6 @@ paths:
       description: 使用用户名和密码登录。
       operationId: SignIn
       parameters:
-      - name: k
-        in: query
-        description: 应用的 APP KEY
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
       - name: t
         in: query
         description: 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
@@ -91,7 +84,8 @@ paths:
                   value:
                     code: 1
                     msg: Invalid username and/or password.
-      security: []
+      security:
+      - AppKey: []
     delete:
       tags:
       - Session
@@ -99,14 +93,6 @@ paths:
       description: 注销已有登录，注销后访问令牌和更新令牌失效。
       operationId: SignOut
       parameters:
-      - name: k
-        in: query
-        description: 应用的 APP KEY
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
       - name: t
         in: query
         description: 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
@@ -167,14 +153,6 @@ paths:
       description: 使用更新令牌更新令牌。
       operationId: RefreshToken
       parameters:
-      - name: k
-        in: query
-        description: 应用的 APP KEY
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
       - name: t
         in: query
         description: 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
@@ -233,6 +211,8 @@ paths:
                   value:
                     code: 14
                     msg: Invalid signature.
+      security:
+      - AppKey: []
   /user:
     post:
       tags:
@@ -241,14 +221,6 @@ paths:
       description: 注册新用户。
       operationId: SignUp
       parameters:
-      - name: k
-        in: query
-        description: 应用的 APP KEY
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
       - name: t
         in: query
         description: 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
@@ -346,7 +318,8 @@ paths:
                   value:
                     code: 2
                     msg: Email conflict.
-      security: []
+      security:
+      - AppKey: []
     patch:
       tags:
       - Internal
@@ -354,14 +327,6 @@ paths:
       description: 修改已登录用户密码。
       operationId: ChangePassword
       parameters:
-      - name: k
-        in: query
-        description: 应用的 APP KEY
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
       - name: t
         in: query
         description: 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
@@ -383,6 +348,14 @@ paths:
       - name: s
         in: query
         description: 请求签名，算法详见 docs/SIGNATURE.md
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: a
+        in: query
+        description: 访问令牌
         required: true
         style: form
         explode: true
@@ -441,14 +414,6 @@ paths:
       description: 不验证原密码，直接设置新密码。
       operationId: SetPassword
       parameters:
-      - name: k
-        in: query
-        description: 应用的 APP KEY
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
       - name: t
         in: query
         description: 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
@@ -516,7 +481,8 @@ paths:
                   value:
                     code: 14
                     msg: Invalid signature.
-      security: []
+      security:
+      - AppKey: []
   /user/availability:
     get:
       tags:
@@ -525,14 +491,6 @@ paths:
       description: 获取用户名/email 是否可用于注册新用户。
       operationId: IsUserAvailable
       parameters:
-      - name: k
-        in: query
-        description: 应用的 APP KEY
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
       - name: t
         in: query
         description: 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
@@ -598,7 +556,8 @@ paths:
                   value:
                     code: 14
                     msg: Invalid signature.
-      security: []
+      security:
+      - AppKey: []
   /email/vcode:
     post:
       tags:
@@ -607,14 +566,6 @@ paths:
       description: 向指定邮箱发送包含验证码的邮件。
       operationId: SendVerificationEmail
       parameters:
-      - name: k
-        in: query
-        description: 应用的 APP KEY
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
       - name: t
         in: query
         description: 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
@@ -683,7 +634,8 @@ paths:
               example:
                 code: 1
                 msg: You have sent too many verification emails.
-      security: []
+      security:
+      - AppKey: []
   /email/reset-password:
     post:
       tags:
@@ -692,14 +644,6 @@ paths:
       description: 向指定邮箱发送包含重置密码链接的邮件。
       operationId: SendResetPasswordEmail
       parameters:
-      - name: k
-        in: query
-        description: 应用的 APP KEY
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
       - name: t
         in: query
         description: 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
@@ -751,6 +695,15 @@ paths:
                   value:
                     code: 0
                     msg: ""
+        "400":
+          description: 用户名和链接数量不一致
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+              example:
+                code: 1
+                msg: The count of usernames and links are not equal.
         "401":
           description: 未授权
           content:
@@ -767,7 +720,7 @@ paths:
                     code: 14
                     msg: Invalid signature.
         "429":
-          description: Too Many Requests
+          description: 请求过多
           content:
             application/json:
               schema:
@@ -775,24 +728,16 @@ paths:
               example:
                 code: 1
                 msg: You have sent too many reset password emails.
-      security: []
+      security:
+      - AppKey: []
   /ecomm/activation:
     post:
       tags:
-      - Ecomm
       - Internal
       summary: 激活
       description: 使用序列号激活应用。
       operationId: Activate
       parameters:
-      - name: k
-        in: query
-        description: 应用的 APP KEY
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
       - name: t
         in: query
         description: 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
@@ -880,20 +825,11 @@ paths:
   /ecomm/payment-url:
     post:
       tags:
-      - Ecomm
       - Internal
       summary: 获取支付 URL
       description: 获取支付 URL，需要将此 URL 编码为二维码后呈现给客户。
       operationId: GetPaymentUrl
       parameters:
-      - name: k
-        in: query
-        description: 应用的 APP KEY
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
       - name: t
         in: query
         description: 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
@@ -971,14 +907,6 @@ paths:
       description: 注册后，如果服务端有授权变化即通知客户端。
       operationId: RegisterAuthNotification
       parameters:
-      - name: k
-        in: query
-        description: 应用的 APP KEY
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
       - name: t
         in: query
         description: 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
@@ -1055,14 +983,6 @@ paths:
       description: 注销后，授权变化不再通知客户端。
       operationId: DeregisterAuthNotification
       parameters:
-      - name: k
-        in: query
-        description: 应用的 APP KEY
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
       - name: t
         in: query
         description: 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
@@ -1143,14 +1063,6 @@ paths:
       description: 根据设备指纹获取设备 ID。
       operationId: GetDeviceId
       parameters:
-      - name: k
-        in: query
-        description: 应用的 APP KEY
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
       - name: t
         in: query
         description: 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
@@ -1218,14 +1130,6 @@ paths:
       description: 获取应用授权。如果应用为设备授权，则调用此 API 前必须先调用 GetDeviceId。
       operationId: GetAuth
       parameters:
-      - name: k
-        in: query
-        description: 应用的 APP KEY
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
       - name: t
         in: query
         description: 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
@@ -1320,14 +1224,6 @@ paths:
       summary: 按类型获取素材
       operationId: GetMaterials
       parameters:
-      - name: k
-        in: query
-        description: 应用的 APP KEY
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
       - name: t
         in: query
         description: 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
@@ -1411,14 +1307,6 @@ paths:
       description: 如果应用当前版本号低于最低版本号，则启动强制更新，并退出程序。
       operationId: GetLowestVersion
       parameters:
-      - name: k
-        in: query
-        description: 应用的 APP KEY
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
       - name: t
         in: query
         description: 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
@@ -1481,14 +1369,6 @@ paths:
       summary: 获取 Web 网页地址
       operationId: GetWebUrl
       parameters:
-      - name: k
-        in: query
-        description: 应用的 APP KEY
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
       - name: t
         in: query
         description: 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
@@ -1684,6 +1564,10 @@ components:
           type: string
           description: 要发送验证邮件的邮箱
           format: email
+        locale:
+          type: string
+          description: 区域语言，不设置默认为英文
+          default: en_US
       description: 请求向指定邮箱发送验证邮件。
     SendResetPasswordEmailRequest:
       title: 发送重置密码邮件请求
@@ -1941,10 +1825,10 @@ components:
                 code: 1
                 msg: No such order.
   parameters:
-    app-key:
-      name: k
+    access-token:
+      name: a
       in: query
-      description: 应用的 APP KEY
+      description: 访问令牌
       required: true
       style: form
       explode: true
@@ -1995,6 +1879,11 @@ components:
           refresh_token_expires_in: 2592000
           id_token: xxxxxxxxxxxxxxxxxxx
   securitySchemes:
+    AppKey:
+      type: apiKey
+      description: APP KEY
+      name: k
+      in: query
     Authorization:
       type: http
       description: 登录成功后的 ID Token

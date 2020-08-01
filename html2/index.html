@@ -954,8 +954,7 @@
   "properties" : {
     "refresh_token" : {
       "type" : "string",
-      "description" : "更新令牌",
-      "format" : "byte"
+      "description" : "更新令牌"
     }
   },
   "description" : "更新令牌时的请求。",
@@ -9970,7 +9969,7 @@ public class SessionApiExample {
         //AppKey.setApiKeyPrefix("Token");
 
         SessionApi apiInstance = new SessionApi();
-        byte[] refreshToken = B; // byte[] | 
+        String refreshToken = refreshToken_example; // String | 
         Long t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
         UUID z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
         String s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
@@ -9992,7 +9991,7 @@ public class SessionApiExample {
 
     public static void main(String[] args) {
         SessionApi apiInstance = new SessionApi();
-        byte[] refreshToken = B; // byte[] | 
+        String refreshToken = refreshToken_example; // String | 
         Long t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
         UUID z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
         String s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
@@ -10016,7 +10015,7 @@ public class SessionApiExample {
 [apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"k"];
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"k"];
-byte[] *refreshToken = B; // 
+String *refreshToken = refreshToken_example; // 
 Long *t = 789; // 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
 UUID *z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // 随机字符串，推荐 UUID，15 分钟内不得重复
 String *s = s_example; // 请求签名，算法详见 docs/SIGNATURE.md
@@ -10050,7 +10049,7 @@ AppKey.apiKey = "YOUR API KEY"
 //AppKey.apiKeyPrefix['k'] = "Token"
 
 var api = new Kaixin.SessionApi()
-var refreshToken = B; // {{byte[]}} 
+var refreshToken = refreshToken_example; // {{String}} 
 var t = 789; // {{Long}} 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
 var z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // {{UUID}} 随机字符串，推荐 UUID，15 分钟内不得重复
 var s = s_example; // {{String}} 请求签名，算法详见 docs/SIGNATURE.md
@@ -10089,7 +10088,7 @@ namespace Example
             // Configuration.Default.ApiKeyPrefix.Add("k", "Bearer");
 
             var apiInstance = new SessionApi();
-            var refreshToken = B;  // byte[] | 
+            var refreshToken = refreshToken_example;  // String | 
             var t = 789;  // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
             var z = new UUID(); // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
             var s = s_example;  // String | 请求签名，算法详见 docs/SIGNATURE.md
@@ -10120,7 +10119,7 @@ Swagger\Client\Configuration::getDefaultConfiguration()->setApiKey('k', 'YOUR_AP
 // Swagger\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('k', 'Bearer');
 
 $api_instance = new Swagger\Client\ApiSessionApi();
-$refreshToken = B; // byte[] | 
+$refreshToken = refreshToken_example; // String | 
 $t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
 $z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
 $s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
@@ -10145,7 +10144,7 @@ $WWW::SwaggerClient::Configuration::api_key->{'k'} = 'YOUR_API_KEY';
 #$WWW::SwaggerClient::Configuration::api_key_prefix->{'k'} = "Bearer";
 
 my $api_instance = WWW::SwaggerClient::SessionApi->new();
-my $refreshToken = B; # byte[] | 
+my $refreshToken = refreshToken_example; # String | 
 my $t = 789; # Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
 my $z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; # UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
 my $s = s_example; # String | 请求签名，算法详见 docs/SIGNATURE.md
@@ -10173,7 +10172,7 @@ swagger_client.configuration.api_key['k'] = 'YOUR_API_KEY'
 
 # create an instance of the API class
 api_instance = swagger_client.SessionApi()
-refreshToken = B # byte[] | 
+refreshToken = refreshToken_example # String | 
 t = 789 # Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
 z = 38400000-8cf0-11bd-b23e-10b96e4ef00d # UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
 s = s_example # String | 请求签名，算法详见 docs/SIGNATURE.md
@@ -10206,11 +10205,8 @@ except ApiException as e:
                                           <div class="json-schema-view">
                                               <div class="primitive">
                                                   <span class="type">
-                                                      byte[]
+                                                      String
                                                   </span>
-                                                      <span class="format">
-                                                          (byte)
-                                                      </span>
                                   
                                               </div>
                                                   <div class="inner required">
@@ -10981,7 +10977,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Session-signOut-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X DELETE "https://api-v3-test.hlwcr.cn/session?t=&z=&s="</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X DELETE "https://api-v3-test.hlwcr.cn/session?t=&z=&s=&a="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Session-signOut-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -11008,8 +11004,9 @@ public class SessionApiExample {
         Long t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
         UUID z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
         String s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
+        String a = a_example; // String | 访问令牌
         try {
-            CommonResponse result = apiInstance.signOut(t, z, s);
+            CommonResponse result = apiInstance.signOut(t, z, s, a);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling SessionApi#signOut");
@@ -11029,8 +11026,9 @@ public class SessionApiExample {
         Long t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
         UUID z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
         String s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
+        String a = a_example; // String | 访问令牌
         try {
-            CommonResponse result = apiInstance.signOut(t, z, s);
+            CommonResponse result = apiInstance.signOut(t, z, s, a);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling SessionApi#signOut");
@@ -11052,6 +11050,7 @@ public class SessionApiExample {
 Long *t = 789; // 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
 UUID *z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // 随机字符串，推荐 UUID，15 分钟内不得重复
 String *s = s_example; // 请求签名，算法详见 docs/SIGNATURE.md
+String *a = a_example; // 访问令牌
 
 SessionApi *apiInstance = [[SessionApi alloc] init];
 
@@ -11059,6 +11058,7 @@ SessionApi *apiInstance = [[SessionApi alloc] init];
 [apiInstance signOutWith:t
     z:z
     s:s
+    a:a
               completionHandler: ^(CommonResponse output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
@@ -11085,6 +11085,7 @@ var api = new Kaixin.SessionApi()
 var t = 789; // {{Long}} 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
 var z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // {{UUID}} 随机字符串，推荐 UUID，15 分钟内不得重复
 var s = s_example; // {{String}} 请求签名，算法详见 docs/SIGNATURE.md
+var a = a_example; // {{String}} 访问令牌
 
 var callback = function(error, data, response) {
   if (error) {
@@ -11093,7 +11094,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-api.signOut(t, z, s, callback);
+api.signOut(t, z, s, a, callback);
 </code></pre>
                             </div>
 
@@ -11123,11 +11124,12 @@ namespace Example
             var t = 789;  // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
             var z = new UUID(); // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
             var s = s_example;  // String | 请求签名，算法详见 docs/SIGNATURE.md
+            var a = a_example;  // String | 访问令牌
 
             try
             {
                 // 注销
-                CommonResponse result = apiInstance.signOut(t, z, s);
+                CommonResponse result = apiInstance.signOut(t, z, s, a);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -11153,9 +11155,10 @@ $api_instance = new Swagger\Client\ApiSessionApi();
 $t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
 $z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
 $s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
+$a = a_example; // String | 访问令牌
 
 try {
-    $result = $api_instance->signOut($t, $z, $s);
+    $result = $api_instance->signOut($t, $z, $s, $a);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling SessionApi->signOut: ', $e->getMessage(), PHP_EOL;
@@ -11177,9 +11180,10 @@ my $api_instance = WWW::SwaggerClient::SessionApi->new();
 my $t = 789; # Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
 my $z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; # UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
 my $s = s_example; # String | 请求签名，算法详见 docs/SIGNATURE.md
+my $a = a_example; # String | 访问令牌
 
 eval { 
-    my $result = $api_instance->signOut(t => $t, z => $z, s => $s);
+    my $result = $api_instance->signOut(t => $t, z => $z, s => $s, a => $a);
     print Dumper($result);
 };
 if ($@) {
@@ -11204,10 +11208,11 @@ api_instance = swagger_client.SessionApi()
 t = 789 # Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
 z = 38400000-8cf0-11bd-b23e-10b96e4ef00d # UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
 s = s_example # String | 请求签名，算法详见 docs/SIGNATURE.md
+a = a_example # String | 访问令牌
 
 try: 
     # 注销
-    api_response = api_instance.sign_out(t, z, s)
+    api_response = api_instance.sign_out(t, z, s, a)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling SessionApi->signOut: %s\n" % e)</code></pre>
@@ -11289,6 +11294,28 @@ except ApiException as e:
                                 
                                                     <div class="inner description">
                                                         请求签名，算法详见 docs/SIGNATURE.md
+                                                    </div>
+                                            </div>
+                                                <div class="inner required">
+                                                    Required
+                                                </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                </tr>
+                                <tr><td style="width:150px;">a*</td>
+                                <td>
+                                
+                                
+                                    <div id="d2e199_signOut_a">
+                                        <div class="json-schema-view">
+                                            <div class="primitive">
+                                                <span class="type">
+                                                    String
+                                                </span>
+                                
+                                                    <div class="inner description">
+                                                        访问令牌
                                                     </div>
                                             </div>
                                                 <div class="inner required">

@@ -25,3 +25,6 @@
 - 注册新用户（`SignUp - POST /user`）
 - 登录（`SignIn - POST /session`）
 - 修改密码（`ChangePassword - PATCH /user`）
+- 设置密码（`SetPassword - PATCH /user/{username}`）
+- 发送验证邮件（`SendVCodeEmail - POST /email/vcode`）
+- 发送重置密码邮件（`SendResetPasswordEmail - POST /email/reset-password`）

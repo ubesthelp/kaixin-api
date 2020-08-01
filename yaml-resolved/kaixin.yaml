@@ -572,7 +572,7 @@ paths:
       - Internal
       summary: 发送验证邮件
       description: 向指定邮箱发送包含验证码的邮件。
-      operationId: SendVerificationEmail
+      operationId: SendVCodeEmail
       parameters:
       - name: t
         in: query

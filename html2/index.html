@@ -1181,8 +1181,8 @@
                     <li data-group="Internal" data-name="sendResetPasswordEmail" class="">
                       <a href="#api-Internal-sendResetPasswordEmail">sendResetPasswordEmail</a>
                     </li>
-                    <li data-group="Internal" data-name="sendVerificationEmail" class="">
-                      <a href="#api-Internal-sendVerificationEmail">sendVerificationEmail</a>
+                    <li data-group="Internal" data-name="sendVCodeEmail" class="">
+                      <a href="#api-Internal-sendVCodeEmail">sendVCodeEmail</a>
                     </li>
                     <li data-group="Internal" data-name="setPassword" class="">
                       <a href="#api-Internal-setPassword">setPassword</a>
@@ -5210,10 +5210,10 @@ except ApiException as e:
                         </article>
                       </div>
                       <hr>
-                    <div id="api-Internal-sendVerificationEmail">
-                      <article id="api-Internal-sendVerificationEmail-0" data-group="User" data-name="sendVerificationEmail" data-version="0">
+                    <div id="api-Internal-sendVCodeEmail">
+                      <article id="api-Internal-sendVCodeEmail-0" data-group="User" data-name="sendVCodeEmail" data-version="0">
                         <div class="pull-left">
-                          <h1>sendVerificationEmail</h1>
+                          <h1>sendVCodeEmail</h1>
                           <p>发送验证邮件</p>
                         </div>
                         <div class="pull-right"></div>
@@ -5227,24 +5227,24 @@ except ApiException as e:
                           <h3>Usage and SDK Samples</h3>
                         </p>
                         <ul class="nav nav-tabs nav-tabs-examples">
-                          <li class="active"><a href="#examples-Internal-sendVerificationEmail-0-curl">Curl</a></li>
-                          <li class=""><a href="#examples-Internal-sendVerificationEmail-0-java">Java</a></li>
-                          <li class=""><a href="#examples-Internal-sendVerificationEmail-0-android">Android</a></li>
-                          <!--<li class=""><a href="#examples-Internal-sendVerificationEmail-0-groovy">Groovy</a></li>-->
-                          <li class=""><a href="#examples-Internal-sendVerificationEmail-0-objc">Obj-C</a></li>
-                          <li class=""><a href="#examples-Internal-sendVerificationEmail-0-javascript">JavaScript</a></li>
-                          <!--<li class=""><a href="#examples-Internal-sendVerificationEmail-0-angular">Angular</a></li>-->
-                          <li class=""><a href="#examples-Internal-sendVerificationEmail-0-csharp">C#</a></li>
-                          <li class=""><a href="#examples-Internal-sendVerificationEmail-0-php">PHP</a></li>
-                          <li class=""><a href="#examples-Internal-sendVerificationEmail-0-perl">Perl</a></li>
-                          <li class=""><a href="#examples-Internal-sendVerificationEmail-0-python">Python</a></li>
+                          <li class="active"><a href="#examples-Internal-sendVCodeEmail-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-Internal-sendVCodeEmail-0-java">Java</a></li>
+                          <li class=""><a href="#examples-Internal-sendVCodeEmail-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-Internal-sendVCodeEmail-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-Internal-sendVCodeEmail-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-Internal-sendVCodeEmail-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-Internal-sendVCodeEmail-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-Internal-sendVCodeEmail-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-Internal-sendVCodeEmail-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Internal-sendVCodeEmail-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Internal-sendVCodeEmail-0-python">Python</a></li>
                         </ul>
 
                         <div class="tab-content">
-                          <div class="tab-pane active" id="examples-Internal-sendVerificationEmail-0-curl">
+                          <div class="tab-pane active" id="examples-Internal-sendVCodeEmail-0-curl">
                             <pre class="prettyprint"><code class="language-bsh">curl -X POST "https://api-v3-test.hlwcr.cn/email/vcode?t=&z=&s="</code></pre>
                           </div>
-                          <div class="tab-pane" id="examples-Internal-sendVerificationEmail-0-java">
+                          <div class="tab-pane" id="examples-Internal-sendVCodeEmail-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
 import io.swagger.client.auth.*;
 import io.swagger.client.model.*;
@@ -5271,17 +5271,17 @@ public class InternalApiExample {
         UUID z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
         String s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
         try {
-            CommonResponse result = apiInstance.sendVerificationEmail(to, locale, t, z, s);
+            CommonResponse result = apiInstance.sendVCodeEmail(to, locale, t, z, s);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling InternalApi#sendVerificationEmail");
+            System.err.println("Exception when calling InternalApi#sendVCodeEmail");
             e.printStackTrace();
         }
     }
 }</code></pre>
                           </div>
 
-                          <div class="tab-pane" id="examples-Internal-sendVerificationEmail-0-android">
+                          <div class="tab-pane" id="examples-Internal-sendVCodeEmail-0-android">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.InternalApi;
 
 public class InternalApiExample {
@@ -5294,20 +5294,20 @@ public class InternalApiExample {
         UUID z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
         String s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
         try {
-            CommonResponse result = apiInstance.sendVerificationEmail(to, locale, t, z, s);
+            CommonResponse result = apiInstance.sendVCodeEmail(to, locale, t, z, s);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling InternalApi#sendVerificationEmail");
+            System.err.println("Exception when calling InternalApi#sendVCodeEmail");
             e.printStackTrace();
         }
     }
 }</code></pre>
                           </div>
   <!--
-  <div class="tab-pane" id="examples-Internal-sendVerificationEmail-0-groovy">
+  <div class="tab-pane" id="examples-Internal-sendVCodeEmail-0-groovy">
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
-                            <div class="tab-pane" id="examples-Internal-sendVerificationEmail-0-objc">
+                            <div class="tab-pane" id="examples-Internal-sendVCodeEmail-0-objc">
                               <pre class="prettyprint"><code class="language-cpp">Configuration *apiConfig = [Configuration sharedConfig];
 // Configure API key authorization: (authentication scheme: AppKey)
 [apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"k"];
@@ -5322,7 +5322,7 @@ String *s = s_example; // 请求签名，算法详见 docs/SIGNATURE.md
 InternalApi *apiInstance = [[InternalApi alloc] init];
 
 // 发送验证邮件
-[apiInstance sendVerificationEmailWith:to
+[apiInstance sendVCodeEmailWith:to
     locale:locale
     t:t
     z:z
@@ -5338,7 +5338,7 @@ InternalApi *apiInstance = [[InternalApi alloc] init];
 </code></pre>
                             </div>
 
-                            <div class="tab-pane" id="examples-Internal-sendVerificationEmail-0-javascript">
+                            <div class="tab-pane" id="examples-Internal-sendVCodeEmail-0-javascript">
                               <pre class="prettyprint"><code class="language-js">var Kaixin = require('kaixin');
 var defaultClient = Kaixin.ApiClient.instance;
 
@@ -5362,14 +5362,14 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-api.sendVerificationEmail(tolocaletzs, callback);
+api.sendVCodeEmail(tolocaletzs, callback);
 </code></pre>
                             </div>
 
-                            <!--<div class="tab-pane" id="examples-Internal-sendVerificationEmail-0-angular">
+                            <!--<div class="tab-pane" id="examples-Internal-sendVCodeEmail-0-angular">
               <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
             </div>-->
-                            <div class="tab-pane" id="examples-Internal-sendVerificationEmail-0-csharp">
+                            <div class="tab-pane" id="examples-Internal-sendVCodeEmail-0-csharp">
                               <pre class="prettyprint"><code class="language-cs">using System;
 using System.Diagnostics;
 using IO.Swagger.Api;
@@ -5378,7 +5378,7 @@ using IO.Swagger.Model;
 
 namespace Example
 {
-    public class sendVerificationEmailExample
+    public class sendVCodeEmailExample
     {
         public void main()
         {
@@ -5398,12 +5398,12 @@ namespace Example
             try
             {
                 // 发送验证邮件
-                CommonResponse result = apiInstance.sendVerificationEmail(to, locale, t, z, s);
+                CommonResponse result = apiInstance.sendVCodeEmail(to, locale, t, z, s);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
             {
-                Debug.Print("Exception when calling InternalApi.sendVerificationEmail: " + e.Message );
+                Debug.Print("Exception when calling InternalApi.sendVCodeEmail: " + e.Message );
             }
         }
     }
@@ -5411,7 +5411,7 @@ namespace Example
 </code></pre>
                             </div>
 
-                            <div class="tab-pane" id="examples-Internal-sendVerificationEmail-0-php">
+                            <div class="tab-pane" id="examples-Internal-sendVCodeEmail-0-php">
                               <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
@@ -5428,15 +5428,15 @@ $z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UU
 $s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
 
 try {
-    $result = $api_instance->sendVerificationEmail($to, $locale, $t, $z, $s);
+    $result = $api_instance->sendVCodeEmail($to, $locale, $t, $z, $s);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling InternalApi->sendVerificationEmail: ', $e->getMessage(), PHP_EOL;
+    echo 'Exception when calling InternalApi->sendVCodeEmail: ', $e->getMessage(), PHP_EOL;
 }
 ?></code></pre>
                             </div>
 
-                            <div class="tab-pane" id="examples-Internal-sendVerificationEmail-0-perl">
+                            <div class="tab-pane" id="examples-Internal-sendVCodeEmail-0-perl">
                               <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
 use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::InternalApi;
@@ -5454,15 +5454,15 @@ my $z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; # UUID | 随机字符串，推荐 
 my $s = s_example; # String | 请求签名，算法详见 docs/SIGNATURE.md
 
 eval { 
-    my $result = $api_instance->sendVerificationEmail(to => $to, locale => $locale, t => $t, z => $z, s => $s);
+    my $result = $api_instance->sendVCodeEmail(to => $to, locale => $locale, t => $t, z => $z, s => $s);
     print Dumper($result);
 };
 if ($@) {
-    warn "Exception when calling InternalApi->sendVerificationEmail: $@\n";
+    warn "Exception when calling InternalApi->sendVCodeEmail: $@\n";
 }</code></pre>
                             </div>
 
-                            <div class="tab-pane" id="examples-Internal-sendVerificationEmail-0-python">
+                            <div class="tab-pane" id="examples-Internal-sendVCodeEmail-0-python">
                               <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
 import time
 import swagger_client
@@ -5484,10 +5484,10 @@ s = s_example # String | 请求签名，算法详见 docs/SIGNATURE.md
 
 try: 
     # 发送验证邮件
-    api_response = api_instance.send_verification_email(to, locale, t, z, s)
+    api_response = api_instance.send_v_code_email(to, locale, t, z, s)
     pprint(api_response)
 except ApiException as e:
-    print("Exception when calling InternalApi->sendVerificationEmail: %s\n" % e)</code></pre>
+    print("Exception when calling InternalApi->sendVCodeEmail: %s\n" % e)</code></pre>
                             </div>
                           </div>
 
@@ -5506,7 +5506,7 @@ except ApiException as e:
                                   <td>
                                   
                                   
-                                      <div id="d2e199_sendVerificationEmail_to">
+                                      <div id="d2e199_sendVCodeEmail_to">
                                           <div class="json-schema-view">
                                               <div class="primitive">
                                                   <span class="type">
@@ -5528,7 +5528,7 @@ except ApiException as e:
                                   <td>
                                   
                                   
-                                      <div id="d2e199_sendVerificationEmail_locale">
+                                      <div id="d2e199_sendVCodeEmail_locale">
                                           <div class="json-schema-view">
                                               <div class="primitive">
                                                   <span class="type">
@@ -5555,7 +5555,7 @@ except ApiException as e:
                                 <td>
                                 
                                 
-                                    <div id="d2e199_sendVerificationEmail_t">
+                                    <div id="d2e199_sendVCodeEmail_t">
                                         <div class="json-schema-view">
                                             <div class="primitive">
                                                 <span class="type">
@@ -5580,7 +5580,7 @@ except ApiException as e:
                                 <td>
                                 
                                 
-                                    <div id="d2e199_sendVerificationEmail_z">
+                                    <div id="d2e199_sendVCodeEmail_z">
                                         <div class="json-schema-view">
                                             <div class="primitive">
                                                 <span class="type">
@@ -5605,7 +5605,7 @@ except ApiException as e:
                                 <td>
                                 
                                 
-                                    <div id="d2e199_sendVerificationEmail_s">
+                                    <div id="d2e199_sendVCodeEmail_s">
                                         <div class="json-schema-view">
                                             <div class="primitive">
                                                 <span class="type">
@@ -5630,14 +5630,14 @@ except ApiException as e:
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                                 <li class="active">
-                                  <a data-toggle="tab" href="#responses-sendVerificationEmail-200-schema">Schema</a>
+                                  <a data-toggle="tab" href="#responses-sendVCodeEmail-200-schema">Schema</a>
                                 </li>
 
                             </ul>
 
                             <div class="tab-content" style='margin-bottom: 10px;'>
-                                <div class="tab-pane active" id="responses-sendVerificationEmail-200-schema">
-                                  <div id='responses-sendVerificationEmail-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                <div class="tab-pane active" id="responses-sendVCodeEmail-200-schema">
+                                  <div id='responses-sendVCodeEmail-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
                                     <script>
                                       $(document).ready(function() {
                                         var schemaWrapper = {
@@ -5671,14 +5671,14 @@ except ApiException as e:
 
                                         //console.log(JSON.stringify(schema));
                                         var view = new JSONSchemaView(schema, 3);
-                                        $('#responses-sendVerificationEmail-200-schema-data').val(stringify(schema));
-                                        var result = $('#responses-sendVerificationEmail-200-schema-200');
+                                        $('#responses-sendVCodeEmail-200-schema-data').val(stringify(schema));
+                                        var result = $('#responses-sendVCodeEmail-200-schema-200');
                                         result.empty();
                                         result.append(view.render());
                                       });
                                     </script>
                                   </div>
-                                  <input id='responses-sendVerificationEmail-200-schema-data' type='hidden' value=''></input>
+                                  <input id='responses-sendVCodeEmail-200-schema-data' type='hidden' value=''></input>
                                 </div>
                             </div>
 
@@ -5686,14 +5686,14 @@ except ApiException as e:
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                                 <li class="active">
-                                  <a data-toggle="tab" href="#responses-sendVerificationEmail-401-schema">Schema</a>
+                                  <a data-toggle="tab" href="#responses-sendVCodeEmail-401-schema">Schema</a>
                                 </li>
 
                             </ul>
 
                             <div class="tab-content" style='margin-bottom: 10px;'>
-                                <div class="tab-pane active" id="responses-sendVerificationEmail-401-schema">
-                                  <div id='responses-sendVerificationEmail-401-schema-401' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                <div class="tab-pane active" id="responses-sendVCodeEmail-401-schema">
+                                  <div id='responses-sendVCodeEmail-401-schema-401' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
                                     <script>
                                       $(document).ready(function() {
                                         var schemaWrapper = {
@@ -5733,14 +5733,14 @@ except ApiException as e:
 
                                         //console.log(JSON.stringify(schema));
                                         var view = new JSONSchemaView(schema, 3);
-                                        $('#responses-sendVerificationEmail-401-schema-data').val(stringify(schema));
-                                        var result = $('#responses-sendVerificationEmail-401-schema-401');
+                                        $('#responses-sendVCodeEmail-401-schema-data').val(stringify(schema));
+                                        var result = $('#responses-sendVCodeEmail-401-schema-401');
                                         result.empty();
                                         result.append(view.render());
                                       });
                                     </script>
                                   </div>
-                                  <input id='responses-sendVerificationEmail-401-schema-data' type='hidden' value=''></input>
+                                  <input id='responses-sendVCodeEmail-401-schema-data' type='hidden' value=''></input>
                                 </div>
                             </div>
 
@@ -5748,14 +5748,14 @@ except ApiException as e:
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                                 <li class="active">
-                                  <a data-toggle="tab" href="#responses-sendVerificationEmail-429-schema">Schema</a>
+                                  <a data-toggle="tab" href="#responses-sendVCodeEmail-429-schema">Schema</a>
                                 </li>
 
                             </ul>
 
                             <div class="tab-content" style='margin-bottom: 10px;'>
-                                <div class="tab-pane active" id="responses-sendVerificationEmail-429-schema">
-                                  <div id='responses-sendVerificationEmail-429-schema-429' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                <div class="tab-pane active" id="responses-sendVCodeEmail-429-schema">
+                                  <div id='responses-sendVCodeEmail-429-schema-429' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
                                     <script>
                                       $(document).ready(function() {
                                         var schemaWrapper = {
@@ -5785,14 +5785,14 @@ except ApiException as e:
 
                                         //console.log(JSON.stringify(schema));
                                         var view = new JSONSchemaView(schema, 3);
-                                        $('#responses-sendVerificationEmail-429-schema-data').val(stringify(schema));
-                                        var result = $('#responses-sendVerificationEmail-429-schema-429');
+                                        $('#responses-sendVCodeEmail-429-schema-data').val(stringify(schema));
+                                        var result = $('#responses-sendVCodeEmail-429-schema-429');
                                         result.empty();
                                         result.append(view.render());
                                       });
                                     </script>
                                   </div>
-                                  <input id='responses-sendVerificationEmail-429-schema-data' type='hidden' value=''></input>
+                                  <input id='responses-sendVCodeEmail-429-schema-data' type='hidden' value=''></input>
                                 </div>
                             </div>
 

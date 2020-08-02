@@ -927,6 +927,10 @@
     "order_number" : {
       "type" : "string",
       "description" : "订单编号，而不是订单 ID"
+    },
+    "channel" : {
+      "type" : "string",
+      "description" : "支付渠道，如果不设置则默认返回国内支付 URL"
     }
   },
   "description" : "根据订单编号生成支付 URL。"
@@ -2392,7 +2396,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Internal-activate-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "https://api-v3-test.hlwcr.cn/ecomm/activation?t=&z=&s="</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "https://api-v3-test.hlwcr.cn/ecomm/activation?a=&t=&z=&s="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Internal-activate-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -2417,11 +2421,12 @@ public class InternalApiExample {
 
         InternalApi apiInstance = new InternalApi();
         array[String] sn = ; // array[String] | 
+        String a = a_example; // String | 访问令牌
         Long t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
         UUID z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
         String s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
         try {
-            CommonResponse result = apiInstance.activate(sn, t, z, s);
+            CommonResponse result = apiInstance.activate(sn, a, t, z, s);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling InternalApi#activate");
@@ -2439,11 +2444,12 @@ public class InternalApiExample {
     public static void main(String[] args) {
         InternalApi apiInstance = new InternalApi();
         array[String] sn = ; // array[String] | 
+        String a = a_example; // String | 访问令牌
         Long t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
         UUID z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
         String s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
         try {
-            CommonResponse result = apiInstance.activate(sn, t, z, s);
+            CommonResponse result = apiInstance.activate(sn, a, t, z, s);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling InternalApi#activate");
@@ -2463,6 +2469,7 @@ public class InternalApiExample {
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"k"];
 array[String] *sn = ; // 
+String *a = a_example; // 访问令牌
 Long *t = 789; // 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
 UUID *z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // 随机字符串，推荐 UUID，15 分钟内不得重复
 String *s = s_example; // 请求签名，算法详见 docs/SIGNATURE.md
@@ -2471,6 +2478,7 @@ InternalApi *apiInstance = [[InternalApi alloc] init];
 
 // 激活
 [apiInstance activateWith:sn
+    a:a
     t:t
     z:z
     s:s
@@ -2498,6 +2506,7 @@ AppKey.apiKey = "YOUR API KEY"
 
 var api = new Kaixin.InternalApi()
 var sn = ; // {{array[String]}} 
+var a = a_example; // {{String}} 访问令牌
 var t = 789; // {{Long}} 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
 var z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // {{UUID}} 随机字符串，推荐 UUID，15 分钟内不得重复
 var s = s_example; // {{String}} 请求签名，算法详见 docs/SIGNATURE.md
@@ -2509,7 +2518,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-api.activate(sntzs, callback);
+api.activate(snatzs, callback);
 </code></pre>
                             </div>
 
@@ -2537,6 +2546,7 @@ namespace Example
 
             var apiInstance = new InternalApi();
             var sn = new array[String](); // array[String] | 
+            var a = a_example;  // String | 访问令牌
             var t = 789;  // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
             var z = new UUID(); // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
             var s = s_example;  // String | 请求签名，算法详见 docs/SIGNATURE.md
@@ -2544,7 +2554,7 @@ namespace Example
             try
             {
                 // 激活
-                CommonResponse result = apiInstance.activate(sn, t, z, s);
+                CommonResponse result = apiInstance.activate(sn, a, t, z, s);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -2568,12 +2578,13 @@ Swagger\Client\Configuration::getDefaultConfiguration()->setApiKey('k', 'YOUR_AP
 
 $api_instance = new Swagger\Client\ApiInternalApi();
 $sn = ; // array[String] | 
+$a = a_example; // String | 访问令牌
 $t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
 $z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
 $s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
 
 try {
-    $result = $api_instance->activate($sn, $t, $z, $s);
+    $result = $api_instance->activate($sn, $a, $t, $z, $s);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling InternalApi->activate: ', $e->getMessage(), PHP_EOL;
@@ -2593,12 +2604,13 @@ $WWW::SwaggerClient::Configuration::api_key->{'k'} = 'YOUR_API_KEY';
 
 my $api_instance = WWW::SwaggerClient::InternalApi->new();
 my $sn = []; # array[String] | 
+my $a = a_example; # String | 访问令牌
 my $t = 789; # Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
 my $z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; # UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
 my $s = s_example; # String | 请求签名，算法详见 docs/SIGNATURE.md
 
 eval { 
-    my $result = $api_instance->activate(sn => $sn, t => $t, z => $z, s => $s);
+    my $result = $api_instance->activate(sn => $sn, a => $a, t => $t, z => $z, s => $s);
     print Dumper($result);
 };
 if ($@) {
@@ -2621,13 +2633,14 @@ swagger_client.configuration.api_key['k'] = 'YOUR_API_KEY'
 # create an instance of the API class
 api_instance = swagger_client.InternalApi()
 sn =  # array[String] | 
+a = a_example # String | 访问令牌
 t = 789 # Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
 z = 38400000-8cf0-11bd-b23e-10b96e4ef00d # UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
 s = s_example # String | 请求签名，算法详见 docs/SIGNATURE.md
 
 try: 
     # 激活
-    api_response = api_instance.activate(sn, t, z, s)
+    api_response = api_instance.activate(sn, a, t, z, s)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling InternalApi->activate: %s\n" % e)</code></pre>
@@ -2672,6 +2685,28 @@ except ApiException as e:
                                 <th width="150px">Name</th>
                                 <th>Description</th>
                               </tr>
+                                <tr><td style="width:150px;">a*</td>
+                                <td>
+                                
+                                
+                                    <div id="d2e199_activate_a">
+                                        <div class="json-schema-view">
+                                            <div class="primitive">
+                                                <span class="type">
+                                                    String
+                                                </span>
+                                
+                                                    <div class="inner description">
+                                                        访问令牌
+                                                    </div>
+                                            </div>
+                                                <div class="inner required">
+                                                    Required
+                                                </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                </tr>
                                 <tr><td style="width:150px;">t*</td>
                                 <td>
                                 
@@ -3598,7 +3633,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Internal-getPaymentUrl-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "https://api-v3-test.hlwcr.cn/ecomm/payment-url?t=&z=&s="</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "https://api-v3-test.hlwcr.cn/ecomm/payment-url?a=&t=&z=&s="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Internal-getPaymentUrl-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -3623,11 +3658,13 @@ public class InternalApiExample {
 
         InternalApi apiInstance = new InternalApi();
         String orderNumber = orderNumber_example; // String | 
+        String channel = channel_example; // String | 
+        String a = a_example; // String | 访问令牌
         Long t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
         UUID z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
         String s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
         try {
-            PaymentUrlResponse result = apiInstance.getPaymentUrl(orderNumber, t, z, s);
+            PaymentUrlResponse result = apiInstance.getPaymentUrl(orderNumber, channel, a, t, z, s);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling InternalApi#getPaymentUrl");
@@ -3645,11 +3682,13 @@ public class InternalApiExample {
     public static void main(String[] args) {
         InternalApi apiInstance = new InternalApi();
         String orderNumber = orderNumber_example; // String | 
+        String channel = channel_example; // String | 
+        String a = a_example; // String | 访问令牌
         Long t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
         UUID z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
         String s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
         try {
-            PaymentUrlResponse result = apiInstance.getPaymentUrl(orderNumber, t, z, s);
+            PaymentUrlResponse result = apiInstance.getPaymentUrl(orderNumber, channel, a, t, z, s);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling InternalApi#getPaymentUrl");
@@ -3669,6 +3708,8 @@ public class InternalApiExample {
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"k"];
 String *orderNumber = orderNumber_example; // 
+String *channel = channel_example; // 
+String *a = a_example; // 访问令牌
 Long *t = 789; // 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
 UUID *z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // 随机字符串，推荐 UUID，15 分钟内不得重复
 String *s = s_example; // 请求签名，算法详见 docs/SIGNATURE.md
@@ -3677,6 +3718,8 @@ InternalApi *apiInstance = [[InternalApi alloc] init];
 
 // 获取支付 URL
 [apiInstance getPaymentUrlWith:orderNumber
+    channel:channel
+    a:a
     t:t
     z:z
     s:s
@@ -3704,6 +3747,8 @@ AppKey.apiKey = "YOUR API KEY"
 
 var api = new Kaixin.InternalApi()
 var orderNumber = orderNumber_example; // {{String}} 
+var channel = channel_example; // {{String}} 
+var a = a_example; // {{String}} 访问令牌
 var t = 789; // {{Long}} 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
 var z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // {{UUID}} 随机字符串，推荐 UUID，15 分钟内不得重复
 var s = s_example; // {{String}} 请求签名，算法详见 docs/SIGNATURE.md
@@ -3715,7 +3760,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-api.getPaymentUrl(orderNumbertzs, callback);
+api.getPaymentUrl(orderNumberchannelatzs, callback);
 </code></pre>
                             </div>
 
@@ -3743,6 +3788,8 @@ namespace Example
 
             var apiInstance = new InternalApi();
             var orderNumber = orderNumber_example;  // String | 
+            var channel = channel_example;  // String | 
+            var a = a_example;  // String | 访问令牌
             var t = 789;  // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
             var z = new UUID(); // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
             var s = s_example;  // String | 请求签名，算法详见 docs/SIGNATURE.md
@@ -3750,7 +3797,7 @@ namespace Example
             try
             {
                 // 获取支付 URL
-                PaymentUrlResponse result = apiInstance.getPaymentUrl(orderNumber, t, z, s);
+                PaymentUrlResponse result = apiInstance.getPaymentUrl(orderNumber, channel, a, t, z, s);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -3774,12 +3821,14 @@ Swagger\Client\Configuration::getDefaultConfiguration()->setApiKey('k', 'YOUR_AP
 
 $api_instance = new Swagger\Client\ApiInternalApi();
 $orderNumber = orderNumber_example; // String | 
+$channel = channel_example; // String | 
+$a = a_example; // String | 访问令牌
 $t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
 $z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
 $s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
 
 try {
-    $result = $api_instance->getPaymentUrl($orderNumber, $t, $z, $s);
+    $result = $api_instance->getPaymentUrl($orderNumber, $channel, $a, $t, $z, $s);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling InternalApi->getPaymentUrl: ', $e->getMessage(), PHP_EOL;
@@ -3799,12 +3848,14 @@ $WWW::SwaggerClient::Configuration::api_key->{'k'} = 'YOUR_API_KEY';
 
 my $api_instance = WWW::SwaggerClient::InternalApi->new();
 my $orderNumber = orderNumber_example; # String | 
+my $channel = channel_example; # String | 
+my $a = a_example; # String | 访问令牌
 my $t = 789; # Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
 my $z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; # UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
 my $s = s_example; # String | 请求签名，算法详见 docs/SIGNATURE.md
 
 eval { 
-    my $result = $api_instance->getPaymentUrl(orderNumber => $orderNumber, t => $t, z => $z, s => $s);
+    my $result = $api_instance->getPaymentUrl(orderNumber => $orderNumber, channel => $channel, a => $a, t => $t, z => $z, s => $s);
     print Dumper($result);
 };
 if ($@) {
@@ -3827,13 +3878,15 @@ swagger_client.configuration.api_key['k'] = 'YOUR_API_KEY'
 # create an instance of the API class
 api_instance = swagger_client.InternalApi()
 orderNumber = orderNumber_example # String | 
+channel = channel_example # String | 
+a = a_example # String | 访问令牌
 t = 789 # Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
 z = 38400000-8cf0-11bd-b23e-10b96e4ef00d # UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
 s = s_example # String | 请求签名，算法详见 docs/SIGNATURE.md
 
 try: 
     # 获取支付 URL
-    api_response = api_instance.get_payment_url(orderNumber, t, z, s)
+    api_response = api_instance.get_payment_url(orderNumber, channel, a, t, z, s)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling InternalApi->getPaymentUrl: %s\n" % e)</code></pre>
@@ -3870,6 +3923,25 @@ except ApiException as e:
                                       </div>
                                   </td>
                                   </tr>
+                                  <tr><td style="width:150px;">channel*</td>
+                                  <td>
+                                  
+                                  
+                                      <div id="d2e199_getPaymentUrl_channel">
+                                          <div class="json-schema-view">
+                                              <div class="primitive">
+                                                  <span class="type">
+                                                      String
+                                                  </span>
+                                  
+                                              </div>
+                                                  <div class="inner required">
+                                                      Required
+                                                  </div>
+                                          </div>
+                                      </div>
+                                  </td>
+                                  </tr>
                             </table>
 
                             <div class="methodsubtabletitle">Query parameters</div>
@@ -3878,6 +3950,28 @@ except ApiException as e:
                                 <th width="150px">Name</th>
                                 <th>Description</th>
                               </tr>
+                                <tr><td style="width:150px;">a*</td>
+                                <td>
+                                
+                                
+                                    <div id="d2e199_getPaymentUrl_a">
+                                        <div class="json-schema-view">
+                                            <div class="primitive">
+                                                <span class="type">
+                                                    String
+                                                </span>
+                                
+                                                    <div class="inner description">
+                                                        访问令牌
+                                                    </div>
+                                            </div>
+                                                <div class="inner required">
+                                                    Required
+                                                </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                </tr>
                                 <tr><td style="width:150px;">t*</td>
                                 <td>
                                 
@@ -10833,7 +10927,7 @@ except ApiException as e:
                             </table>
 
                           <h2>Responses</h2>
-                            <h3> Status: 201 - Created </h3>
+                            <h3> Status: 201 - 成功 </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                                 <li class="active">
@@ -10848,7 +10942,7 @@ except ApiException as e:
                                     <script>
                                       $(document).ready(function() {
                                         var schemaWrapper = {
-  "description" : "Created",
+  "description" : "成功",
   "content" : {
     "application/json" : {
       "schema" : {

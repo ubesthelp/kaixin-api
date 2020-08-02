@@ -65,7 +65,7 @@ paths:
         required: true
       responses:
         "201":
-          description: Created
+          description: 成功
           content:
             application/json:
               schema:
@@ -746,6 +746,14 @@ paths:
       description: 使用序列号激活应用。
       operationId: Activate
       parameters:
+      - name: a
+        in: query
+        description: 访问令牌
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
       - name: t
         in: query
         description: 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
@@ -838,6 +846,14 @@ paths:
       description: 获取支付 URL，需要将此 URL 编码为二维码后呈现给客户。
       operationId: GetPaymentUrl
       parameters:
+      - name: a
+        in: query
+        description: 访问令牌
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
       - name: t
         in: query
         description: 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
@@ -1638,6 +1654,9 @@ components:
         order_number:
           type: string
           description: 订单编号，而不是订单 ID
+        channel:
+          type: string
+          description: 支付渠道，如果不设置则默认返回国内支付 URL
       description: 根据订单编号生成支付 URL。
     PaymentUrlResponse:
       title: 支付 URL 响应

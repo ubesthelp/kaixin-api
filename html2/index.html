@@ -823,8 +823,7 @@
   "properties" : {
     "fp" : {
       "type" : "string",
-      "description" : "Base64Url 编码设备指纹",
-      "format" : "byte"
+      "description" : "Base64Url 编码设备指纹"
     }
   }
 };
@@ -931,6 +930,11 @@
     "channel" : {
       "type" : "string",
       "description" : "支付渠道，如果不设置则默认返回国内支付 URL"
+    },
+    "return_url" : {
+      "type" : "string",
+      "description" : "支付成功后返回的 URL，不是所有支付渠道都需要此参数",
+      "format" : "uri"
     }
   },
   "description" : "根据订单编号生成支付 URL。"
@@ -2426,7 +2430,7 @@ public class InternalApiExample {
         UUID z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
         String s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
         try {
-            CommonResponse result = apiInstance.activate(sn, a, t, z, s);
+            ActivateResponse result = apiInstance.activate(sn, a, t, z, s);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling InternalApi#activate");
@@ -2449,7 +2453,7 @@ public class InternalApiExample {
         UUID z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
         String s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
         try {
-            CommonResponse result = apiInstance.activate(sn, a, t, z, s);
+            ActivateResponse result = apiInstance.activate(sn, a, t, z, s);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling InternalApi#activate");
@@ -2482,7 +2486,7 @@ InternalApi *apiInstance = [[InternalApi alloc] init];
     t:t
     z:z
     s:s
-              completionHandler: ^(CommonResponse output, NSError* error) {
+              completionHandler: ^(ActivateResponse output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -2554,7 +2558,7 @@ namespace Example
             try
             {
                 // 激活
-                CommonResponse result = apiInstance.activate(sn, a, t, z, s);
+                ActivateResponse result = apiInstance.activate(sn, a, t, z, s);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -2782,7 +2786,7 @@ except ApiException as e:
                             </table>
 
                           <h2>Responses</h2>
-                            <h3> Status: 200 - 成功 </h3>
+                            <h3> Status: 200 - 全部激活成功 </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                                 <li class="active">
@@ -2797,19 +2801,24 @@ except ApiException as e:
                                     <script>
                                       $(document).ready(function() {
                                         var schemaWrapper = {
-  "description" : "成功",
+  "description" : "全部激活成功",
   "content" : {
     "application/json" : {
       "schema" : {
-        "$ref" : "#/components/schemas/CommonResponse"
+        "$ref" : "#/components/schemas/ActivateResponse"
       },
-      "examples" : {
-        "成功" : {
-          "value" : {
-            "code" : 0,
-            "msg" : ""
-          }
-        }
+      "example" : {
+        "code" : 0,
+        "msg" : "",
+        "data" : [ {
+          "code" : 0,
+          "msg" : "",
+          "sn" : "sn-1"
+        }, {
+          "code" : 0,
+          "msg" : "",
+          "sn" : "sn-2"
+        } ]
       }
     }
   }
@@ -2865,6 +2874,10 @@ except ApiException as e:
             "code" : 1,
             "msg" : "Some of the serial numbers are invalid.",
             "data" : [ {
+              "code" : 0,
+              "msg" : "Succeeded.",
+              "sn" : "sn-0"
+            }, {
               "code" : 1,
               "msg" : "No such serial number.",
               "sn" : "sn-1"
@@ -2876,6 +2889,10 @@ except ApiException as e:
               "code" : 3,
               "msg" : "The serial number is unavailable.",
               "sn" : "sn-3"
+            }, {
+              "code" : 4,
+              "msg" : "Can not activate without device ID.",
+              "sn" : "sn-4"
             } ]
           }
         }
@@ -3659,12 +3676,13 @@ public class InternalApiExample {
         InternalApi apiInstance = new InternalApi();
         String orderNumber = orderNumber_example; // String | 
         String channel = channel_example; // String | 
+        String returnUrl = returnUrl_example; // String | 
         String a = a_example; // String | 访问令牌
         Long t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
         UUID z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
         String s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
         try {
-            PaymentUrlResponse result = apiInstance.getPaymentUrl(orderNumber, channel, a, t, z, s);
+            PaymentUrlResponse result = apiInstance.getPaymentUrl(orderNumber, channel, returnUrl, a, t, z, s);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling InternalApi#getPaymentUrl");
@@ -3683,12 +3701,13 @@ public class InternalApiExample {
         InternalApi apiInstance = new InternalApi();
         String orderNumber = orderNumber_example; // String | 
         String channel = channel_example; // String | 
+        String returnUrl = returnUrl_example; // String | 
         String a = a_example; // String | 访问令牌
         Long t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
         UUID z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
         String s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
         try {
-            PaymentUrlResponse result = apiInstance.getPaymentUrl(orderNumber, channel, a, t, z, s);
+            PaymentUrlResponse result = apiInstance.getPaymentUrl(orderNumber, channel, returnUrl, a, t, z, s);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling InternalApi#getPaymentUrl");
@@ -3709,6 +3728,7 @@ public class InternalApiExample {
 //[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"k"];
 String *orderNumber = orderNumber_example; // 
 String *channel = channel_example; // 
+String *returnUrl = returnUrl_example; // 
 String *a = a_example; // 访问令牌
 Long *t = 789; // 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
 UUID *z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // 随机字符串，推荐 UUID，15 分钟内不得重复
@@ -3719,6 +3739,7 @@ InternalApi *apiInstance = [[InternalApi alloc] init];
 // 获取支付 URL
 [apiInstance getPaymentUrlWith:orderNumber
     channel:channel
+    returnUrl:returnUrl
     a:a
     t:t
     z:z
@@ -3748,6 +3769,7 @@ AppKey.apiKey = "YOUR API KEY"
 var api = new Kaixin.InternalApi()
 var orderNumber = orderNumber_example; // {{String}} 
 var channel = channel_example; // {{String}} 
+var returnUrl = returnUrl_example; // {{String}} 
 var a = a_example; // {{String}} 访问令牌
 var t = 789; // {{Long}} 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
 var z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // {{UUID}} 随机字符串，推荐 UUID，15 分钟内不得重复
@@ -3760,7 +3782,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-api.getPaymentUrl(orderNumberchannelatzs, callback);
+api.getPaymentUrl(orderNumberchannelreturnUrlatzs, callback);
 </code></pre>
                             </div>
 
@@ -3789,6 +3811,7 @@ namespace Example
             var apiInstance = new InternalApi();
             var orderNumber = orderNumber_example;  // String | 
             var channel = channel_example;  // String | 
+            var returnUrl = returnUrl_example;  // String | 
             var a = a_example;  // String | 访问令牌
             var t = 789;  // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
             var z = new UUID(); // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
@@ -3797,7 +3820,7 @@ namespace Example
             try
             {
                 // 获取支付 URL
-                PaymentUrlResponse result = apiInstance.getPaymentUrl(orderNumber, channel, a, t, z, s);
+                PaymentUrlResponse result = apiInstance.getPaymentUrl(orderNumber, channel, returnUrl, a, t, z, s);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -3822,13 +3845,14 @@ Swagger\Client\Configuration::getDefaultConfiguration()->setApiKey('k', 'YOUR_AP
 $api_instance = new Swagger\Client\ApiInternalApi();
 $orderNumber = orderNumber_example; // String | 
 $channel = channel_example; // String | 
+$returnUrl = returnUrl_example; // String | 
 $a = a_example; // String | 访问令牌
 $t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
 $z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
 $s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
 
 try {
-    $result = $api_instance->getPaymentUrl($orderNumber, $channel, $a, $t, $z, $s);
+    $result = $api_instance->getPaymentUrl($orderNumber, $channel, $returnUrl, $a, $t, $z, $s);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling InternalApi->getPaymentUrl: ', $e->getMessage(), PHP_EOL;
@@ -3849,13 +3873,14 @@ $WWW::SwaggerClient::Configuration::api_key->{'k'} = 'YOUR_API_KEY';
 my $api_instance = WWW::SwaggerClient::InternalApi->new();
 my $orderNumber = orderNumber_example; # String | 
 my $channel = channel_example; # String | 
+my $returnUrl = returnUrl_example; # String | 
 my $a = a_example; # String | 访问令牌
 my $t = 789; # Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
 my $z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; # UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
 my $s = s_example; # String | 请求签名，算法详见 docs/SIGNATURE.md
 
 eval { 
-    my $result = $api_instance->getPaymentUrl(orderNumber => $orderNumber, channel => $channel, a => $a, t => $t, z => $z, s => $s);
+    my $result = $api_instance->getPaymentUrl(orderNumber => $orderNumber, channel => $channel, returnUrl => $returnUrl, a => $a, t => $t, z => $z, s => $s);
     print Dumper($result);
 };
 if ($@) {
@@ -3879,6 +3904,7 @@ swagger_client.configuration.api_key['k'] = 'YOUR_API_KEY'
 api_instance = swagger_client.InternalApi()
 orderNumber = orderNumber_example # String | 
 channel = channel_example # String | 
+returnUrl = returnUrl_example # String | 
 a = a_example # String | 访问令牌
 t = 789 # Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
 z = 38400000-8cf0-11bd-b23e-10b96e4ef00d # UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
@@ -3886,7 +3912,7 @@ s = s_example # String | 请求签名，算法详见 docs/SIGNATURE.md
 
 try: 
     # 获取支付 URL
-    api_response = api_instance.get_payment_url(orderNumber, channel, a, t, z, s)
+    api_response = api_instance.get_payment_url(orderNumber, channel, returnUrl, a, t, z, s)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling InternalApi->getPaymentUrl: %s\n" % e)</code></pre>
@@ -3933,6 +3959,28 @@ except ApiException as e:
                                                   <span class="type">
                                                       String
                                                   </span>
+                                  
+                                              </div>
+                                                  <div class="inner required">
+                                                      Required
+                                                  </div>
+                                          </div>
+                                      </div>
+                                  </td>
+                                  </tr>
+                                  <tr><td style="width:150px;">return_url*</td>
+                                  <td>
+                                  
+                                  
+                                      <div id="d2e199_getPaymentUrl_returnUrl">
+                                          <div class="json-schema-view">
+                                              <div class="primitive">
+                                                  <span class="type">
+                                                      String
+                                                  </span>
+                                                      <span class="format">
+                                                          (uri)
+                                                      </span>
                                   
                                               </div>
                                                   <div class="inner required">
@@ -7335,7 +7383,7 @@ public class MiscApiExample {
         UUID z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
         String s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
         try {
-            DeviceIdResponse result = apiInstance.getAuth(t, z, s);
+            AuthResponse result = apiInstance.getAuth(t, z, s);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling MiscApi#getAuth");
@@ -7356,7 +7404,7 @@ public class MiscApiExample {
         UUID z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
         String s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
         try {
-            DeviceIdResponse result = apiInstance.getAuth(t, z, s);
+            AuthResponse result = apiInstance.getAuth(t, z, s);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling MiscApi#getAuth");
@@ -7385,7 +7433,7 @@ MiscApi *apiInstance = [[MiscApi alloc] init];
 [apiInstance getAuthWith:t
     z:z
     s:s
-              completionHandler: ^(DeviceIdResponse output, NSError* error) {
+              completionHandler: ^(AuthResponse output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -7453,7 +7501,7 @@ namespace Example
             try
             {
                 // 获取授权
-                DeviceIdResponse result = apiInstance.getAuth(t, z, s);
+                AuthResponse result = apiInstance.getAuth(t, z, s);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -7646,7 +7694,7 @@ except ApiException as e:
   "content" : {
     "application/json" : {
       "schema" : {
-        "$ref" : "#/components/schemas/DeviceIdResponse"
+        "$ref" : "#/components/schemas/AuthResponse"
       },
       "example" : {
         "code" : 0,
@@ -7943,7 +7991,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Misc-getDeviceId-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "https://api-v3-test.hlwcr.cn/device-id?t=&z=&s="</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "https://api-v3-test.hlwcr.cn/device-id?a=&t=&z=&s="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Misc-getDeviceId-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -7967,12 +8015,13 @@ public class MiscApiExample {
 
 
         MiscApi apiInstance = new MiscApi();
-        byte[] fp = B; // byte[] | 
+        String fp = fp_example; // String | 
+        String a = a_example; // String | 访问令牌
         Long t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
         UUID z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
         String s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
         try {
-            AuthResponse result = apiInstance.getDeviceId(fp, t, z, s);
+            DeviceIdResponse result = apiInstance.getDeviceId(fp, a, t, z, s);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling MiscApi#getDeviceId");
@@ -7989,12 +8038,13 @@ public class MiscApiExample {
 
     public static void main(String[] args) {
         MiscApi apiInstance = new MiscApi();
-        byte[] fp = B; // byte[] | 
+        String fp = fp_example; // String | 
+        String a = a_example; // String | 访问令牌
         Long t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
         UUID z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
         String s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
         try {
-            AuthResponse result = apiInstance.getDeviceId(fp, t, z, s);
+            DeviceIdResponse result = apiInstance.getDeviceId(fp, a, t, z, s);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling MiscApi#getDeviceId");
@@ -8013,7 +8063,8 @@ public class MiscApiExample {
 [apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"k"];
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"k"];
-byte[] *fp = B; // 
+String *fp = fp_example; // 
+String *a = a_example; // 访问令牌
 Long *t = 789; // 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
 UUID *z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // 随机字符串，推荐 UUID，15 分钟内不得重复
 String *s = s_example; // 请求签名，算法详见 docs/SIGNATURE.md
@@ -8022,10 +8073,11 @@ MiscApi *apiInstance = [[MiscApi alloc] init];
 
 // 获取设备 ID
 [apiInstance getDeviceIdWith:fp
+    a:a
     t:t
     z:z
     s:s
-              completionHandler: ^(AuthResponse output, NSError* error) {
+              completionHandler: ^(DeviceIdResponse output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -8048,7 +8100,8 @@ AppKey.apiKey = "YOUR API KEY"
 
 
 var api = new Kaixin.MiscApi()
-var fp = B; // {{byte[]}} 
+var fp = fp_example; // {{String}} 
+var a = a_example; // {{String}} 访问令牌
 var t = 789; // {{Long}} 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
 var z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // {{UUID}} 随机字符串，推荐 UUID，15 分钟内不得重复
 var s = s_example; // {{String}} 请求签名，算法详见 docs/SIGNATURE.md
@@ -8060,7 +8113,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-api.getDeviceId(fptzs, callback);
+api.getDeviceId(fpatzs, callback);
 </code></pre>
                             </div>
 
@@ -8087,7 +8140,8 @@ namespace Example
             // Configuration.Default.ApiKeyPrefix.Add("k", "Bearer");
 
             var apiInstance = new MiscApi();
-            var fp = B;  // byte[] | 
+            var fp = fp_example;  // String | 
+            var a = a_example;  // String | 访问令牌
             var t = 789;  // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
             var z = new UUID(); // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
             var s = s_example;  // String | 请求签名，算法详见 docs/SIGNATURE.md
@@ -8095,7 +8149,7 @@ namespace Example
             try
             {
                 // 获取设备 ID
-                AuthResponse result = apiInstance.getDeviceId(fp, t, z, s);
+                DeviceIdResponse result = apiInstance.getDeviceId(fp, a, t, z, s);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -8118,13 +8172,14 @@ Swagger\Client\Configuration::getDefaultConfiguration()->setApiKey('k', 'YOUR_AP
 // Swagger\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('k', 'Bearer');
 
 $api_instance = new Swagger\Client\ApiMiscApi();
-$fp = B; // byte[] | 
+$fp = fp_example; // String | 
+$a = a_example; // String | 访问令牌
 $t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
 $z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
 $s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
 
 try {
-    $result = $api_instance->getDeviceId($fp, $t, $z, $s);
+    $result = $api_instance->getDeviceId($fp, $a, $t, $z, $s);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling MiscApi->getDeviceId: ', $e->getMessage(), PHP_EOL;
@@ -8143,13 +8198,14 @@ $WWW::SwaggerClient::Configuration::api_key->{'k'} = 'YOUR_API_KEY';
 #$WWW::SwaggerClient::Configuration::api_key_prefix->{'k'} = "Bearer";
 
 my $api_instance = WWW::SwaggerClient::MiscApi->new();
-my $fp = B; # byte[] | 
+my $fp = fp_example; # String | 
+my $a = a_example; # String | 访问令牌
 my $t = 789; # Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
 my $z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; # UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
 my $s = s_example; # String | 请求签名，算法详见 docs/SIGNATURE.md
 
 eval { 
-    my $result = $api_instance->getDeviceId(fp => $fp, t => $t, z => $z, s => $s);
+    my $result = $api_instance->getDeviceId(fp => $fp, a => $a, t => $t, z => $z, s => $s);
     print Dumper($result);
 };
 if ($@) {
@@ -8171,14 +8227,15 @@ swagger_client.configuration.api_key['k'] = 'YOUR_API_KEY'
 
 # create an instance of the API class
 api_instance = swagger_client.MiscApi()
-fp = B # byte[] | 
+fp = fp_example # String | 
+a = a_example # String | 访问令牌
 t = 789 # Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
 z = 38400000-8cf0-11bd-b23e-10b96e4ef00d # UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
 s = s_example # String | 请求签名，算法详见 docs/SIGNATURE.md
 
 try: 
     # 获取设备 ID
-    api_response = api_instance.get_device_id(fp, t, z, s)
+    api_response = api_instance.get_device_id(fp, a, t, z, s)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling MiscApi->getDeviceId: %s\n" % e)</code></pre>
@@ -8204,11 +8261,8 @@ except ApiException as e:
                                           <div class="json-schema-view">
                                               <div class="primitive">
                                                   <span class="type">
-                                                      byte[]
+                                                      String
                                                   </span>
-                                                      <span class="format">
-                                                          (byte)
-                                                      </span>
                                   
                                               </div>
                                                   <div class="inner required">
@@ -8226,6 +8280,28 @@ except ApiException as e:
                                 <th width="150px">Name</th>
                                 <th>Description</th>
                               </tr>
+                                <tr><td style="width:150px;">a*</td>
+                                <td>
+                                
+                                
+                                    <div id="d2e199_getDeviceId_a">
+                                        <div class="json-schema-view">
+                                            <div class="primitive">
+                                                <span class="type">
+                                                    String
+                                                </span>
+                                
+                                                    <div class="inner description">
+                                                        访问令牌
+                                                    </div>
+                                            </div>
+                                                <div class="inner required">
+                                                    Required
+                                                </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                </tr>
                                 <tr><td style="width:150px;">t*</td>
                                 <td>
                                 
@@ -8320,14 +8396,12 @@ except ApiException as e:
   "content" : {
     "application/json" : {
       "schema" : {
-        "$ref" : "#/components/schemas/AuthResponse"
+        "$ref" : "#/components/schemas/DeviceIdResponse"
       },
       "example" : {
         "code" : 0,
         "msg" : "",
-        "data" : [ {
-          "module" : ""
-        } ]
+        "data" : "A1B2-C3F4"
       }
     }
   }

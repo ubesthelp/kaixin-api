@@ -792,16 +792,21 @@ paths:
         required: true
       responses:
         "200":
-          description: 成功
+          description: 全部激活成功
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CommonResponse'
-              examples:
-                成功:
-                  value:
-                    code: 0
-                    msg: ""
+                $ref: '#/components/schemas/ActivateResponse'
+              example:
+                code: 0
+                msg: ""
+                data:
+                - code: 0
+                  msg: ""
+                  sn: sn-1
+                - code: 0
+                  msg: ""
+                  sn: sn-2
         "400":
           description: Bad Request
           content:
@@ -814,6 +819,9 @@ paths:
                     code: 1
                     msg: Some of the serial numbers are invalid.
                     data:
+                    - code: 0
+                      msg: Succeeded.
+                      sn: sn-0
                     - code: 1
                       msg: No such serial number.
                       sn: sn-1
@@ -823,6 +831,9 @@ paths:
                     - code: 3
                       msg: The serial number is unavailable.
                       sn: sn-3
+                    - code: 4
+                      msg: Can not activate without device ID.
+                      sn: sn-4
         "401":
           description: 未授权
           content:
@@ -1087,6 +1098,14 @@ paths:
       description: 根据设备指纹获取设备 ID。
       operationId: GetDeviceId
       parameters:
+      - name: a
+        in: query
+        description: 访问令牌
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
       - name: t
         in: query
         description: 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
@@ -1125,12 +1144,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AuthResponse'
+                $ref: '#/components/schemas/DeviceIdResponse'
               example:
                 code: 0
                 msg: ""
-                data:
-                - module: ""
+                data: A1B2-C3F4
         "401":
           description: 未授权
           content:
@@ -1186,7 +1204,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DeviceIdResponse'
+                $ref: '#/components/schemas/AuthResponse'
               example:
                 code: 0
                 msg: ""
@@ -1657,6 +1675,10 @@ components:
         channel:
           type: string
           description: 支付渠道，如果不设置则默认返回国内支付 URL
+        return_url:
+          type: string
+          description: 支付成功后返回的 URL，不是所有支付渠道都需要此参数
+          format: uri
       description: 根据订单编号生成支付 URL。
     PaymentUrlResponse:
       title: 支付 URL 响应
@@ -1685,7 +1707,6 @@ components:
         fp:
           type: string
           description: Base64Url 编码设备指纹
-          format: byte
     DeviceIdResponse:
       title: 设备 ID 响应
       allOf:

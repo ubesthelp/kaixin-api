@@ -15,8 +15,8 @@ security:
 tags:
 - name: Session
   description: 会话
-- name: Ecomm
-  description: 电子商务
+- name: WebSocket
+  description: WebSocket 协议接口
 - name: Misc
   description: 其它
 - name: Internal
@@ -934,14 +934,22 @@ paths:
                   value:
                     code: 14
                     msg: Invalid signature.
-  /ecomm/notification:
+  /notification:
     post:
       tags:
-      - Ecomm
-      summary: 注册授权变更通知
-      description: 注册后，如果服务端有授权变化即通知客户端。
+      - WebSocket
+      summary: 注册下行通知
+      description: 注册后，如果服务端有变化即通知客户端。
       operationId: RegisterAuthNotification
       parameters:
+      - name: a
+        in: query
+        description: 访问令牌
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
       - name: t
         in: query
         description: 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
@@ -968,11 +976,6 @@ paths:
         explode: true
         schema:
           type: string
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/RegisterAuthNotificationRequest'
       responses:
         "200":
           description: 成功
@@ -1013,11 +1016,19 @@ paths:
                     msg: Invalid signature.
     delete:
       tags:
-      - Ecomm
-      summary: 注销授权变更通知
-      description: 注销后，授权变化不再通知客户端。
+      - WebSocket
+      summary: 注销下行通知
+      description: 注销后，服务端变化不再通知客户端。
       operationId: DeregisterAuthNotification
       parameters:
+      - name: a
+        in: query
+        description: 访问令牌
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
       - name: t
         in: query
         description: 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
@@ -1040,14 +1051,6 @@ paths:
         in: query
         description: 请求签名，算法详见 docs/SIGNATURE.md
         required: true
-        style: form
-        explode: true
-        schema:
-          type: string
-      - name: order_number
-        in: query
-        description: 如果在注册时指定了订单编号，则注销时也必须指定。
-        required: false
         style: form
         explode: true
         schema:
@@ -1172,6 +1175,14 @@ paths:
       description: 获取应用授权。如果应用为设备授权，则调用此 API 前必须先调用 GetDeviceId。
       operationId: GetAuth
       parameters:
+      - name: a
+        in: query
+        description: 访问令牌
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
       - name: t
         in: query
         description: 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
@@ -1209,14 +1220,16 @@ paths:
                 code: 0
                 msg: ""
                 data:
-                - module: mod-1
-                  edition: 0
-                  count: 10
-                  time: 1595834173
-                - module: mod-2
-                  edition: 1
-                  count: 15
-                  time: 1595834173
+                  secret: U3dhZ2dlciByb2Nrcw==
+                  auth:
+                  - module: mod-1
+                    edition: 0
+                    count: 10
+                    time: 1595834173
+                  - module: mod-2
+                    edition: 1
+                    count: 15
+                    time: 1595834173
         "401":
           description: 未授权
           content:
@@ -1292,6 +1305,14 @@ paths:
         explode: true
         schema:
           type: string
+      - name: locale
+        in: query
+        description: 区域语言
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
       - name: types
         in: query
         description: 要获取的素材类型列表，如果为空，则获取全部类型
@@ -1302,6 +1323,25 @@ paths:
           type: array
           items:
             type: string
+            enum:
+            - ad-bottomleft-img-l
+            - ad-bottomleft-img-s
+            - ad-bottomleft-target
+            - sign-header-img
+            - sign-header-target
+            - faq
+            - workorder
+            - contactus
+            - download
+            - import-templates
+      - name: agent_code
+        in: query
+        description: 代理编号
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
       responses:
         "200":
           description: OK
@@ -1341,6 +1381,8 @@ paths:
               example:
                 code: 1
                 msg: No such material.
+      security:
+      - AppKey: []
   /lowest-version:
     get:
       tags:
@@ -1404,6 +1446,8 @@ paths:
                   value:
                     code: 14
                     msg: Invalid signature.
+      security:
+      - AppKey: []
   /web-url:
     get:
       tags:
@@ -1486,6 +1530,8 @@ paths:
               example:
                 code: 1
                 msg: No such page.
+      security:
+      - AppKey: []
 components:
   schemas:
     CommonResponse:
@@ -1691,13 +1737,6 @@ components:
             type: string
             description: 支付 URL，编码为二维码后呈现给客户
             format: uri
-    RegisterAuthNotificationRequest:
-      title: 注册授权变更通知请求
-      type: object
-      properties:
-        order_number:
-          type: string
-          description: 订单编号，如果指定此参数，则只通知由该订单产生的授权变更。
     DeviceFingerprint:
       title: 设备指纹
       required:
@@ -1723,10 +1762,7 @@ components:
       - type: object
         properties:
           data:
-            type: array
-            description: 模块授权列表
-            items:
-              $ref: '#/components/schemas/AuthResponse_data'
+            $ref: '#/components/schemas/AuthResponse_data'
     MaterialsResponse:
       title: 素材响应
       allOf:
@@ -1795,7 +1831,7 @@ components:
         id_token:
           type: string
           description: ID Token，JWT 格式
-    AuthResponse_data:
+    AuthResponse_data_auth:
       type: object
       properties:
         module:
@@ -1811,12 +1847,24 @@ components:
           type: integer
           description: 授权过期时间，UNIX 时间，秒
           format: int64
+    AuthResponse_data:
+      type: object
+      properties:
+        secret:
+          type: string
+          description: 本地数据库对称加密密钥
+          format: byte
+        auth:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuthResponse_data_auth'
+      description: 模块授权列表
     MaterialsResponse_data:
       type: object
       properties:
-        name:
+        type:
           type: string
-          description: 素材名称
+          description: 素材类型
         text:
           type: string
           description: 素材文本

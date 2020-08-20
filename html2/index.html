@@ -689,7 +689,7 @@
   <script>
     // Script section to load models into a JS Var
     var defs = {}
-            defs.ActivateRequest = {
+            defs["ActivateRequest"] = {
   "title" : "激活请求",
   "required" : [ "sn" ],
   "type" : "object",
@@ -704,7 +704,7 @@
   },
   "description" : "使用指定序列号激活应用。"
 };
-            defs.ActivateResponse = {
+            defs["ActivateResponse"] = {
   "title" : "激活响应",
   "description" : "如果在激活过程中有序列号不能使用，则在此响应中返回。",
   "allOf" : [ {
@@ -732,7 +732,7 @@
     }
   } ]
 };
-            defs.AuthResponse = {
+            defs["AuthResponse"] = {
   "title" : "授权响应",
   "allOf" : [ {
     "$ref" : "#/components/schemas/CommonResponse"
@@ -740,16 +740,29 @@
     "type" : "object",
     "properties" : {
       "data" : {
-        "type" : "array",
-        "description" : "模块授权列表",
-        "items" : {
-          "$ref" : "#/components/schemas/AuthResponse_data"
-        }
+        "$ref" : "#/components/schemas/AuthResponse_data"
       }
     }
   } ]
 };
-            defs.AuthResponse_data = {
+            defs["AuthResponse_data"] = {
+  "type" : "object",
+  "properties" : {
+    "secret" : {
+      "type" : "string",
+      "description" : "本地数据库对称加密密钥",
+      "format" : "byte"
+    },
+    "auth" : {
+      "type" : "array",
+      "items" : {
+        "$ref" : "#/components/schemas/AuthResponse_data_auth"
+      }
+    }
+  },
+  "description" : "模块授权列表"
+};
+            defs["AuthResponse_data_auth"] = {
   "type" : "object",
   "properties" : {
     "module" : {
@@ -771,7 +784,7 @@
     }
   }
 };
-            defs.body = {
+            defs["body"] = {
   "required" : [ "password" ],
   "type" : "object",
   "properties" : {
@@ -782,7 +795,7 @@
     }
   }
 };
-            defs.ChangePasswordRequest = {
+            defs["ChangePasswordRequest"] = {
   "title" : "修改密码请求",
   "required" : [ "new", "original" ],
   "type" : "object",
@@ -801,7 +814,7 @@
   },
   "description" : "提供新/旧密码。"
 };
-            defs.CommonResponse = {
+            defs["CommonResponse"] = {
   "title" : "公共响应",
   "type" : "object",
   "properties" : {
@@ -816,7 +829,7 @@
   },
   "description" : "公共响应结构，包含错误代码和消息。"
 };
-            defs.DeviceFingerprint = {
+            defs["DeviceFingerprint"] = {
   "title" : "设备指纹",
   "required" : [ "fp" ],
   "type" : "object",
@@ -827,7 +840,7 @@
     }
   }
 };
-            defs.DeviceIdResponse = {
+            defs["DeviceIdResponse"] = {
   "title" : "设备 ID 响应",
   "allOf" : [ {
     "$ref" : "#/components/schemas/CommonResponse"
@@ -841,7 +854,7 @@
     }
   } ]
 };
-            defs.filter = {
+            defs["filter"] = {
   "minProperties" : 1,
   "type" : "object",
   "properties" : {
@@ -857,7 +870,7 @@
   },
   "additionalProperties" : false
 };
-            defs.LowestVersionResponse = {
+            defs["LowestVersionResponse"] = {
   "title" : "最低版本响应",
   "allOf" : [ {
     "$ref" : "#/components/schemas/CommonResponse"
@@ -870,7 +883,7 @@
     }
   } ]
 };
-            defs.LowestVersionResponse_data = {
+            defs["LowestVersionResponse_data"] = {
   "type" : "object",
   "properties" : {
     "major" : {
@@ -888,7 +901,7 @@
   },
   "description" : "最低版本号"
 };
-            defs.MaterialsResponse = {
+            defs["MaterialsResponse"] = {
   "title" : "素材响应",
   "allOf" : [ {
     "$ref" : "#/components/schemas/CommonResponse"
@@ -905,12 +918,12 @@
     }
   } ]
 };
-            defs.MaterialsResponse_data = {
+            defs["MaterialsResponse_data"] = {
   "type" : "object",
   "properties" : {
-    "name" : {
+    "type" : {
       "type" : "string",
-      "description" : "素材名称"
+      "description" : "素材类型"
     },
     "text" : {
       "type" : "string",
@@ -918,7 +931,7 @@
     }
   }
 };
-            defs.PaymentUrlRequest = {
+            defs["PaymentUrlRequest"] = {
   "title" : "支付 URL 请求",
   "required" : [ "order_number" ],
   "type" : "object",
@@ -939,7 +952,7 @@
   },
   "description" : "根据订单编号生成支付 URL。"
 };
-            defs.PaymentUrlResponse = {
+            defs["PaymentUrlResponse"] = {
   "title" : "支付 URL 响应",
   "description" : "支付 URL 响应。",
   "allOf" : [ {
@@ -955,7 +968,7 @@
     }
   } ]
 };
-            defs.RefreshTokenRequest = {
+            defs["RefreshTokenRequest"] = {
   "title" : "更新令牌请求",
   "required" : [ "refresh_token" ],
   "type" : "object",
@@ -970,17 +983,7 @@
     "refresh_token" : "xxxxxxxxxxxxxxxxxxx"
   }
 };
-            defs.RegisterAuthNotificationRequest = {
-  "title" : "注册授权变更通知请求",
-  "type" : "object",
-  "properties" : {
-    "order_number" : {
-      "type" : "string",
-      "description" : "订单编号，如果指定此参数，则只通知由该订单产生的授权变更。"
-    }
-  }
-};
-            defs.SendResetPasswordEmailRequest = {
+            defs["SendResetPasswordEmailRequest"] = {
   "title" : "发送重置密码邮件请求",
   "description" : "请求向指定邮箱发送验证邮件。",
   "allOf" : [ {
@@ -1009,7 +1012,7 @@
     }
   } ]
 };
-            defs.SendVerificationEmailRequest = {
+            defs["SendVerificationEmailRequest"] = {
   "title" : "发送验证邮件请求",
   "required" : [ "to" ],
   "type" : "object",
@@ -1027,7 +1030,7 @@
   },
   "description" : "请求向指定邮箱发送验证邮件。"
 };
-            defs.Session = {
+            defs["Session"] = {
   "title" : "会话",
   "description" : "会话对象。",
   "example" : {
@@ -1044,7 +1047,7 @@
     }
   } ]
 };
-            defs.Session_data = {
+            defs["Session_data"] = {
   "type" : "object",
   "properties" : {
     "access_token" : {
@@ -1069,7 +1072,7 @@
     }
   }
 };
-            defs.SignInRequest = {
+            defs["SignInRequest"] = {
   "title" : "登录请求",
   "required" : [ "password", "username" ],
   "type" : "object",
@@ -1090,7 +1093,7 @@
     "password" : "blablabla"
   }
 };
-            defs.SignUpRequest = {
+            defs["SignUpRequest"] = {
   "title" : "注册请求",
   "required" : [ "email", "password", "username" ],
   "type" : "object",
@@ -1135,7 +1138,7 @@
   },
   "description" : "注册用户所需要的信息。"
 };
-            defs.WebUrlResponse = {
+            defs["WebUrlResponse"] = {
   "title" : "Web 网页地址响应",
   "allOf" : [ {
     "$ref" : "#/components/schemas/CommonResponse"
@@ -1166,13 +1169,6 @@
             -->
             <li class="nav-fixed nav-header active" data-group="_"><a href="#api-_">API Summary</a></li>
 
-                  <li class="nav-header" data-group="Ecomm"><a href="#api-Ecomm">API Methods - Ecomm</a></li>
-                    <li data-group="Ecomm" data-name="deregisterAuthNotification" class="">
-                      <a href="#api-Ecomm-deregisterAuthNotification">deregisterAuthNotification</a>
-                    </li>
-                    <li data-group="Ecomm" data-name="registerAuthNotification" class="">
-                      <a href="#api-Ecomm-registerAuthNotification">registerAuthNotification</a>
-                    </li>
                   <li class="nav-header" data-group="Internal"><a href="#api-Internal">API Methods - Internal</a></li>
                     <li data-group="Internal" data-name="activate" class="">
                       <a href="#api-Internal-activate">activate</a>
@@ -1224,6 +1220,13 @@
                     <li data-group="Session" data-name="signOut" class="">
                       <a href="#api-Session-signOut">signOut</a>
                     </li>
+                  <li class="nav-header" data-group="WebSocket"><a href="#api-WebSocket">API Methods - WebSocket</a></li>
+                    <li data-group="WebSocket" data-name="deregisterAuthNotification" class="">
+                      <a href="#api-WebSocket-deregisterAuthNotification">deregisterAuthNotification</a>
+                    </li>
+                    <li data-group="WebSocket" data-name="registerAuthNotification" class="">
+                      <a href="#api-WebSocket-registerAuthNotification">registerAuthNotification</a>
+                    </li>
           </ul>
         </nav>
       </div>
@@ -1243,1129 +1246,6 @@
           </div>
         </div>
         <div id="sections">
-                <section id="api-Ecomm">
-                  <h1>Ecomm</h1>
-                    <div id="api-Ecomm-deregisterAuthNotification">
-                      <article id="api-Ecomm-deregisterAuthNotification-0" data-group="User" data-name="deregisterAuthNotification" data-version="0">
-                        <div class="pull-left">
-                          <h1>deregisterAuthNotification</h1>
-                          <p>注销授权变更通知</p>
-                        </div>
-                        <div class="pull-right"></div>
-                        <div class="clearfix"></div>
-                        <p></p>
-                        <p class="marked">注销后，授权变化不再通知客户端。</p>
-                        <p></p>
-                        <br />
-                        <pre class="prettyprint language-html prettyprinted" data-type="delete"><code><span class="pln">/ecomm/notification</span></code></pre>
-                        <p>
-                          <h3>Usage and SDK Samples</h3>
-                        </p>
-                        <ul class="nav nav-tabs nav-tabs-examples">
-                          <li class="active"><a href="#examples-Ecomm-deregisterAuthNotification-0-curl">Curl</a></li>
-                          <li class=""><a href="#examples-Ecomm-deregisterAuthNotification-0-java">Java</a></li>
-                          <li class=""><a href="#examples-Ecomm-deregisterAuthNotification-0-android">Android</a></li>
-                          <!--<li class=""><a href="#examples-Ecomm-deregisterAuthNotification-0-groovy">Groovy</a></li>-->
-                          <li class=""><a href="#examples-Ecomm-deregisterAuthNotification-0-objc">Obj-C</a></li>
-                          <li class=""><a href="#examples-Ecomm-deregisterAuthNotification-0-javascript">JavaScript</a></li>
-                          <!--<li class=""><a href="#examples-Ecomm-deregisterAuthNotification-0-angular">Angular</a></li>-->
-                          <li class=""><a href="#examples-Ecomm-deregisterAuthNotification-0-csharp">C#</a></li>
-                          <li class=""><a href="#examples-Ecomm-deregisterAuthNotification-0-php">PHP</a></li>
-                          <li class=""><a href="#examples-Ecomm-deregisterAuthNotification-0-perl">Perl</a></li>
-                          <li class=""><a href="#examples-Ecomm-deregisterAuthNotification-0-python">Python</a></li>
-                        </ul>
-
-                        <div class="tab-content">
-                          <div class="tab-pane active" id="examples-Ecomm-deregisterAuthNotification-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X DELETE "https://api-v3-test.hlwcr.cn/ecomm/notification?t=&z=&s=&order_number="</code></pre>
-                          </div>
-                          <div class="tab-pane" id="examples-Ecomm-deregisterAuthNotification-0-java">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
-import io.swagger.client.auth.*;
-import io.swagger.client.model.*;
-import io.swagger.client.api.EcommApi;
-
-import java.io.File;
-import java.util.*;
-
-public class EcommApiExample {
-
-    public static void main(String[] args) {
-        ApiClient defaultClient = Configuration.getDefaultApiClient();
-
-        // Configure API key authorization: AppKey
-        ApiKeyAuth AppKey = (ApiKeyAuth) defaultClient.getAuthentication("AppKey");
-        AppKey.setApiKey("YOUR API KEY");
-        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-        //AppKey.setApiKeyPrefix("Token");
-
-
-        EcommApi apiInstance = new EcommApi();
-        Long t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
-        UUID z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
-        String s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
-        String orderNumber = orderNumber_example; // String | 如果在注册时指定了订单编号，则注销时也必须指定。
-        try {
-            CommonResponse result = apiInstance.deregisterAuthNotification(t, z, s, orderNumber);
-            System.out.println(result);
-        } catch (ApiException e) {
-            System.err.println("Exception when calling EcommApi#deregisterAuthNotification");
-            e.printStackTrace();
-        }
-    }
-}</code></pre>
-                          </div>
-
-                          <div class="tab-pane" id="examples-Ecomm-deregisterAuthNotification-0-android">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.EcommApi;
-
-public class EcommApiExample {
-
-    public static void main(String[] args) {
-        EcommApi apiInstance = new EcommApi();
-        Long t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
-        UUID z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
-        String s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
-        String orderNumber = orderNumber_example; // String | 如果在注册时指定了订单编号，则注销时也必须指定。
-        try {
-            CommonResponse result = apiInstance.deregisterAuthNotification(t, z, s, orderNumber);
-            System.out.println(result);
-        } catch (ApiException e) {
-            System.err.println("Exception when calling EcommApi#deregisterAuthNotification");
-            e.printStackTrace();
-        }
-    }
-}</code></pre>
-                          </div>
-  <!--
-  <div class="tab-pane" id="examples-Ecomm-deregisterAuthNotification-0-groovy">
-  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
-  </div> -->
-                            <div class="tab-pane" id="examples-Ecomm-deregisterAuthNotification-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">Configuration *apiConfig = [Configuration sharedConfig];
-// Configure API key authorization: (authentication scheme: AppKey)
-[apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"k"];
-// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"k"];
-Long *t = 789; // 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
-UUID *z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // 随机字符串，推荐 UUID，15 分钟内不得重复
-String *s = s_example; // 请求签名，算法详见 docs/SIGNATURE.md
-String *orderNumber = orderNumber_example; // 如果在注册时指定了订单编号，则注销时也必须指定。 (optional)
-
-EcommApi *apiInstance = [[EcommApi alloc] init];
-
-// 注销授权变更通知
-[apiInstance deregisterAuthNotificationWith:t
-    z:z
-    s:s
-    orderNumber:orderNumber
-              completionHandler: ^(CommonResponse output, NSError* error) {
-                            if (output) {
-                                NSLog(@"%@", output);
-                            }
-                            if (error) {
-                                NSLog(@"Error: %@", error);
-                            }
-                        }];
-</code></pre>
-                            </div>
-
-                            <div class="tab-pane" id="examples-Ecomm-deregisterAuthNotification-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">var Kaixin = require('kaixin');
-var defaultClient = Kaixin.ApiClient.instance;
-
-// Configure API key authorization: AppKey
-var AppKey = defaultClient.authentications['AppKey'];
-AppKey.apiKey = "YOUR API KEY"
-// Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-//AppKey.apiKeyPrefix['k'] = "Token"
-
-
-var api = new Kaixin.EcommApi()
-var t = 789; // {{Long}} 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
-var z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // {{UUID}} 随机字符串，推荐 UUID，15 分钟内不得重复
-var s = s_example; // {{String}} 请求签名，算法详见 docs/SIGNATURE.md
-var opts = { 
-  'orderNumber': orderNumber_example // {{String}} 如果在注册时指定了订单编号，则注销时也必须指定。
-};
-var callback = function(error, data, response) {
-  if (error) {
-    console.error(error);
-  } else {
-    console.log('API called successfully. Returned data: ' + data);
-  }
-};
-api.deregisterAuthNotification(t, z, s, opts, callback);
-</code></pre>
-                            </div>
-
-                            <!--<div class="tab-pane" id="examples-Ecomm-deregisterAuthNotification-0-angular">
-              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
-            </div>-->
-                            <div class="tab-pane" id="examples-Ecomm-deregisterAuthNotification-0-csharp">
-                              <pre class="prettyprint"><code class="language-cs">using System;
-using System.Diagnostics;
-using IO.Swagger.Api;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
-
-namespace Example
-{
-    public class deregisterAuthNotificationExample
-    {
-        public void main()
-        {
-
-            // Configure API key authorization: AppKey
-            Configuration.Default.ApiKey.Add("k", "YOUR_API_KEY");
-            // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // Configuration.Default.ApiKeyPrefix.Add("k", "Bearer");
-
-            var apiInstance = new EcommApi();
-            var t = 789;  // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
-            var z = new UUID(); // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
-            var s = s_example;  // String | 请求签名，算法详见 docs/SIGNATURE.md
-            var orderNumber = orderNumber_example;  // String | 如果在注册时指定了订单编号，则注销时也必须指定。 (optional) 
-
-            try
-            {
-                // 注销授权变更通知
-                CommonResponse result = apiInstance.deregisterAuthNotification(t, z, s, orderNumber);
-                Debug.WriteLine(result);
-            }
-            catch (Exception e)
-            {
-                Debug.Print("Exception when calling EcommApi.deregisterAuthNotification: " + e.Message );
-            }
-        }
-    }
-}
-</code></pre>
-                            </div>
-
-                            <div class="tab-pane" id="examples-Ecomm-deregisterAuthNotification-0-php">
-                              <pre class="prettyprint"><code class="language-php"><&#63;php
-require_once(__DIR__ . '/vendor/autoload.php');
-
-// Configure API key authorization: AppKey
-Swagger\Client\Configuration::getDefaultConfiguration()->setApiKey('k', 'YOUR_API_KEY');
-// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-// Swagger\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('k', 'Bearer');
-
-$api_instance = new Swagger\Client\ApiEcommApi();
-$t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
-$z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
-$s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
-$orderNumber = orderNumber_example; // String | 如果在注册时指定了订单编号，则注销时也必须指定。
-
-try {
-    $result = $api_instance->deregisterAuthNotification($t, $z, $s, $orderNumber);
-    print_r($result);
-} catch (Exception $e) {
-    echo 'Exception when calling EcommApi->deregisterAuthNotification: ', $e->getMessage(), PHP_EOL;
-}
-?></code></pre>
-                            </div>
-
-                            <div class="tab-pane" id="examples-Ecomm-deregisterAuthNotification-0-perl">
-                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
-use WWW::SwaggerClient::Configuration;
-use WWW::SwaggerClient::EcommApi;
-
-# Configure API key authorization: AppKey
-$WWW::SwaggerClient::Configuration::api_key->{'k'} = 'YOUR_API_KEY';
-# uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-#$WWW::SwaggerClient::Configuration::api_key_prefix->{'k'} = "Bearer";
-
-my $api_instance = WWW::SwaggerClient::EcommApi->new();
-my $t = 789; # Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
-my $z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; # UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
-my $s = s_example; # String | 请求签名，算法详见 docs/SIGNATURE.md
-my $orderNumber = orderNumber_example; # String | 如果在注册时指定了订单编号，则注销时也必须指定。
-
-eval { 
-    my $result = $api_instance->deregisterAuthNotification(t => $t, z => $z, s => $s, orderNumber => $orderNumber);
-    print Dumper($result);
-};
-if ($@) {
-    warn "Exception when calling EcommApi->deregisterAuthNotification: $@\n";
-}</code></pre>
-                            </div>
-
-                            <div class="tab-pane" id="examples-Ecomm-deregisterAuthNotification-0-python">
-                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
-import time
-import swagger_client
-from swagger_client.rest import ApiException
-from pprint import pprint
-
-# Configure API key authorization: AppKey
-swagger_client.configuration.api_key['k'] = 'YOUR_API_KEY'
-# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# swagger_client.configuration.api_key_prefix['k'] = 'Bearer'
-
-# create an instance of the API class
-api_instance = swagger_client.EcommApi()
-t = 789 # Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
-z = 38400000-8cf0-11bd-b23e-10b96e4ef00d # UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
-s = s_example # String | 请求签名，算法详见 docs/SIGNATURE.md
-orderNumber = orderNumber_example # String | 如果在注册时指定了订单编号，则注销时也必须指定。 (optional)
-
-try: 
-    # 注销授权变更通知
-    api_response = api_instance.deregister_auth_notification(t, z, s, orderNumber=orderNumber)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling EcommApi->deregisterAuthNotification: %s\n" % e)</code></pre>
-                            </div>
-                          </div>
-
-                          <h2>Parameters</h2>
-
-
-
-
-
-                            <div class="methodsubtabletitle">Query parameters</div>
-                            <table id="methodsubtable">
-                              <tr>
-                                <th width="150px">Name</th>
-                                <th>Description</th>
-                              </tr>
-                                <tr><td style="width:150px;">t*</td>
-                                <td>
-                                
-                                
-                                    <div id="d2e199_deregisterAuthNotification_t">
-                                        <div class="json-schema-view">
-                                            <div class="primitive">
-                                                <span class="type">
-                                                    Long
-                                                </span>
-                                                    <span class="format">
-                                                        (int64)
-                                                    </span>
-                                
-                                                    <div class="inner description">
-                                                        发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
-                                                    </div>
-                                            </div>
-                                                <div class="inner required">
-                                                    Required
-                                                </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                </tr>
-                                <tr><td style="width:150px;">z*</td>
-                                <td>
-                                
-                                
-                                    <div id="d2e199_deregisterAuthNotification_z">
-                                        <div class="json-schema-view">
-                                            <div class="primitive">
-                                                <span class="type">
-                                                    UUID
-                                                </span>
-                                                    <span class="format">
-                                                        (uuid)
-                                                    </span>
-                                
-                                                    <div class="inner description">
-                                                        随机字符串，推荐 UUID，15 分钟内不得重复
-                                                    </div>
-                                            </div>
-                                                <div class="inner required">
-                                                    Required
-                                                </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                </tr>
-                                <tr><td style="width:150px;">s*</td>
-                                <td>
-                                
-                                
-                                    <div id="d2e199_deregisterAuthNotification_s">
-                                        <div class="json-schema-view">
-                                            <div class="primitive">
-                                                <span class="type">
-                                                    String
-                                                </span>
-                                
-                                                    <div class="inner description">
-                                                        请求签名，算法详见 docs/SIGNATURE.md
-                                                    </div>
-                                            </div>
-                                                <div class="inner required">
-                                                    Required
-                                                </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                </tr>
-                                <tr><td style="width:150px;">order_number</td>
-                                <td>
-                                
-                                
-                                    <div id="d2e199_deregisterAuthNotification_orderNumber">
-                                        <div class="json-schema-view">
-                                            <div class="primitive">
-                                                <span class="type">
-                                                    String
-                                                </span>
-                                
-                                                    <div class="inner description">
-                                                        如果在注册时指定了订单编号，则注销时也必须指定。
-                                                    </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                </tr>
-                            </table>
-
-                          <h2>Responses</h2>
-                            <h3> Status: 200 - 成功 </h3>
-
-                            <ul class="nav nav-tabs nav-tabs-examples" >
-                                <li class="active">
-                                  <a data-toggle="tab" href="#responses-deregisterAuthNotification-200-schema">Schema</a>
-                                </li>
-
-                            </ul>
-
-                            <div class="tab-content" style='margin-bottom: 10px;'>
-                                <div class="tab-pane active" id="responses-deregisterAuthNotification-200-schema">
-                                  <div id='responses-deregisterAuthNotification-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
-                                    <script>
-                                      $(document).ready(function() {
-                                        var schemaWrapper = {
-  "description" : "成功",
-  "content" : {
-    "application/json" : {
-      "schema" : {
-        "$ref" : "#/components/schemas/CommonResponse"
-      },
-      "examples" : {
-        "成功" : {
-          "value" : {
-            "code" : 0,
-            "msg" : ""
-          }
-        }
-      }
-    }
-  }
-};
-                                        var schema = schemaWrapper.content["application/json"].schema;
-                                        if (schema.$ref != null) {
-                                          schema = defsParser.$refs.get(schema.$ref);
-                                        } else {
-                                          schemaWrapper.components = {};
-                                          schemaWrapper.components.schemas = Object.assign({}, defs);
-                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
-                                            console.log(err);
-                                          });
-                                        }
-
-                                        //console.log(JSON.stringify(schema));
-                                        var view = new JSONSchemaView(schema, 3);
-                                        $('#responses-deregisterAuthNotification-200-schema-data').val(stringify(schema));
-                                        var result = $('#responses-deregisterAuthNotification-200-schema-200');
-                                        result.empty();
-                                        result.append(view.render());
-                                      });
-                                    </script>
-                                  </div>
-                                  <input id='responses-deregisterAuthNotification-200-schema-data' type='hidden' value=''></input>
-                                </div>
-                            </div>
-
-                            <h3> Status: 400 - Bad Request </h3>
-
-                            <ul class="nav nav-tabs nav-tabs-examples" >
-                                <li class="active">
-                                  <a data-toggle="tab" href="#responses-deregisterAuthNotification-400-schema">Schema</a>
-                                </li>
-
-                            </ul>
-
-                            <div class="tab-content" style='margin-bottom: 10px;'>
-                                <div class="tab-pane active" id="responses-deregisterAuthNotification-400-schema">
-                                  <div id='responses-deregisterAuthNotification-400-schema-400' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
-                                    <script>
-                                      $(document).ready(function() {
-                                        var schemaWrapper = {
-  "description" : "Bad Request",
-  "content" : {
-    "application/json" : {
-      "schema" : {
-        "$ref" : "#/components/schemas/CommonResponse"
-      },
-      "examples" : {
-        "无此订单" : {
-          "value" : {
-            "code" : 1,
-            "msg" : "No such order."
-          }
-        }
-      }
-    }
-  }
-};
-                                        var schema = schemaWrapper.content["application/json"].schema;
-                                        if (schema.$ref != null) {
-                                          schema = defsParser.$refs.get(schema.$ref);
-                                        } else {
-                                          schemaWrapper.components = {};
-                                          schemaWrapper.components.schemas = Object.assign({}, defs);
-                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
-                                            console.log(err);
-                                          });
-                                        }
-
-                                        //console.log(JSON.stringify(schema));
-                                        var view = new JSONSchemaView(schema, 3);
-                                        $('#responses-deregisterAuthNotification-400-schema-data').val(stringify(schema));
-                                        var result = $('#responses-deregisterAuthNotification-400-schema-400');
-                                        result.empty();
-                                        result.append(view.render());
-                                      });
-                                    </script>
-                                  </div>
-                                  <input id='responses-deregisterAuthNotification-400-schema-data' type='hidden' value=''></input>
-                                </div>
-                            </div>
-
-                            <h3> Status: 401 - 未授权 </h3>
-
-                            <ul class="nav nav-tabs nav-tabs-examples" >
-                                <li class="active">
-                                  <a data-toggle="tab" href="#responses-deregisterAuthNotification-401-schema">Schema</a>
-                                </li>
-
-                            </ul>
-
-                            <div class="tab-content" style='margin-bottom: 10px;'>
-                                <div class="tab-pane active" id="responses-deregisterAuthNotification-401-schema">
-                                  <div id='responses-deregisterAuthNotification-401-schema-401' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
-                                    <script>
-                                      $(document).ready(function() {
-                                        var schemaWrapper = {
-  "description" : "未授权",
-  "content" : {
-    "application/json" : {
-      "schema" : {
-        "$ref" : "#/components/schemas/CommonResponse"
-      },
-      "examples" : {
-        "无效访问令牌" : {
-          "value" : {
-            "code" : 1,
-            "msg" : "Invalid access token."
-          }
-        },
-        "签名错误" : {
-          "value" : {
-            "code" : 14,
-            "msg" : "Invalid signature."
-          }
-        }
-      }
-    }
-  }
-};
-                                        var schema = schemaWrapper.content["application/json"].schema;
-                                        if (schema.$ref != null) {
-                                          schema = defsParser.$refs.get(schema.$ref);
-                                        } else {
-                                          schemaWrapper.components = {};
-                                          schemaWrapper.components.schemas = Object.assign({}, defs);
-                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
-                                            console.log(err);
-                                          });
-                                        }
-
-                                        //console.log(JSON.stringify(schema));
-                                        var view = new JSONSchemaView(schema, 3);
-                                        $('#responses-deregisterAuthNotification-401-schema-data').val(stringify(schema));
-                                        var result = $('#responses-deregisterAuthNotification-401-schema-401');
-                                        result.empty();
-                                        result.append(view.render());
-                                      });
-                                    </script>
-                                  </div>
-                                  <input id='responses-deregisterAuthNotification-401-schema-data' type='hidden' value=''></input>
-                                </div>
-                            </div>
-
-                        </article>
-                      </div>
-                      <hr>
-                    <div id="api-Ecomm-registerAuthNotification">
-                      <article id="api-Ecomm-registerAuthNotification-0" data-group="User" data-name="registerAuthNotification" data-version="0">
-                        <div class="pull-left">
-                          <h1>registerAuthNotification</h1>
-                          <p>注册授权变更通知</p>
-                        </div>
-                        <div class="pull-right"></div>
-                        <div class="clearfix"></div>
-                        <p></p>
-                        <p class="marked">注册后，如果服务端有授权变化即通知客户端。</p>
-                        <p></p>
-                        <br />
-                        <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/ecomm/notification</span></code></pre>
-                        <p>
-                          <h3>Usage and SDK Samples</h3>
-                        </p>
-                        <ul class="nav nav-tabs nav-tabs-examples">
-                          <li class="active"><a href="#examples-Ecomm-registerAuthNotification-0-curl">Curl</a></li>
-                          <li class=""><a href="#examples-Ecomm-registerAuthNotification-0-java">Java</a></li>
-                          <li class=""><a href="#examples-Ecomm-registerAuthNotification-0-android">Android</a></li>
-                          <!--<li class=""><a href="#examples-Ecomm-registerAuthNotification-0-groovy">Groovy</a></li>-->
-                          <li class=""><a href="#examples-Ecomm-registerAuthNotification-0-objc">Obj-C</a></li>
-                          <li class=""><a href="#examples-Ecomm-registerAuthNotification-0-javascript">JavaScript</a></li>
-                          <!--<li class=""><a href="#examples-Ecomm-registerAuthNotification-0-angular">Angular</a></li>-->
-                          <li class=""><a href="#examples-Ecomm-registerAuthNotification-0-csharp">C#</a></li>
-                          <li class=""><a href="#examples-Ecomm-registerAuthNotification-0-php">PHP</a></li>
-                          <li class=""><a href="#examples-Ecomm-registerAuthNotification-0-perl">Perl</a></li>
-                          <li class=""><a href="#examples-Ecomm-registerAuthNotification-0-python">Python</a></li>
-                        </ul>
-
-                        <div class="tab-content">
-                          <div class="tab-pane active" id="examples-Ecomm-registerAuthNotification-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "https://api-v3-test.hlwcr.cn/ecomm/notification?t=&z=&s="</code></pre>
-                          </div>
-                          <div class="tab-pane" id="examples-Ecomm-registerAuthNotification-0-java">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
-import io.swagger.client.auth.*;
-import io.swagger.client.model.*;
-import io.swagger.client.api.EcommApi;
-
-import java.io.File;
-import java.util.*;
-
-public class EcommApiExample {
-
-    public static void main(String[] args) {
-        ApiClient defaultClient = Configuration.getDefaultApiClient();
-
-        // Configure API key authorization: AppKey
-        ApiKeyAuth AppKey = (ApiKeyAuth) defaultClient.getAuthentication("AppKey");
-        AppKey.setApiKey("YOUR API KEY");
-        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-        //AppKey.setApiKeyPrefix("Token");
-
-
-        EcommApi apiInstance = new EcommApi();
-        Long t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
-        UUID z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
-        String s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
-        String orderNumber = orderNumber_example; // String | 
-        try {
-            CommonResponse result = apiInstance.registerAuthNotification(t, z, s, orderNumber);
-            System.out.println(result);
-        } catch (ApiException e) {
-            System.err.println("Exception when calling EcommApi#registerAuthNotification");
-            e.printStackTrace();
-        }
-    }
-}</code></pre>
-                          </div>
-
-                          <div class="tab-pane" id="examples-Ecomm-registerAuthNotification-0-android">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.EcommApi;
-
-public class EcommApiExample {
-
-    public static void main(String[] args) {
-        EcommApi apiInstance = new EcommApi();
-        Long t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
-        UUID z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
-        String s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
-        String orderNumber = orderNumber_example; // String | 
-        try {
-            CommonResponse result = apiInstance.registerAuthNotification(t, z, s, orderNumber);
-            System.out.println(result);
-        } catch (ApiException e) {
-            System.err.println("Exception when calling EcommApi#registerAuthNotification");
-            e.printStackTrace();
-        }
-    }
-}</code></pre>
-                          </div>
-  <!--
-  <div class="tab-pane" id="examples-Ecomm-registerAuthNotification-0-groovy">
-  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
-  </div> -->
-                            <div class="tab-pane" id="examples-Ecomm-registerAuthNotification-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">Configuration *apiConfig = [Configuration sharedConfig];
-// Configure API key authorization: (authentication scheme: AppKey)
-[apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"k"];
-// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"k"];
-Long *t = 789; // 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
-UUID *z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // 随机字符串，推荐 UUID，15 分钟内不得重复
-String *s = s_example; // 请求签名，算法详见 docs/SIGNATURE.md
-String *orderNumber = orderNumber_example; //  (optional)
-
-EcommApi *apiInstance = [[EcommApi alloc] init];
-
-// 注册授权变更通知
-[apiInstance registerAuthNotificationWith:t
-    z:z
-    s:s
-    orderNumber:orderNumber
-              completionHandler: ^(CommonResponse output, NSError* error) {
-                            if (output) {
-                                NSLog(@"%@", output);
-                            }
-                            if (error) {
-                                NSLog(@"Error: %@", error);
-                            }
-                        }];
-</code></pre>
-                            </div>
-
-                            <div class="tab-pane" id="examples-Ecomm-registerAuthNotification-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">var Kaixin = require('kaixin');
-var defaultClient = Kaixin.ApiClient.instance;
-
-// Configure API key authorization: AppKey
-var AppKey = defaultClient.authentications['AppKey'];
-AppKey.apiKey = "YOUR API KEY"
-// Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-//AppKey.apiKeyPrefix['k'] = "Token"
-
-
-var api = new Kaixin.EcommApi()
-var t = 789; // {{Long}} 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
-var z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // {{UUID}} 随机字符串，推荐 UUID，15 分钟内不得重复
-var s = s_example; // {{String}} 请求签名，算法详见 docs/SIGNATURE.md
-var opts = { 
-  'orderNumber': orderNumber_example // {{String}} 
-};
-var callback = function(error, data, response) {
-  if (error) {
-    console.error(error);
-  } else {
-    console.log('API called successfully. Returned data: ' + data);
-  }
-};
-api.registerAuthNotification(tzs, opts, callback);
-</code></pre>
-                            </div>
-
-                            <!--<div class="tab-pane" id="examples-Ecomm-registerAuthNotification-0-angular">
-              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
-            </div>-->
-                            <div class="tab-pane" id="examples-Ecomm-registerAuthNotification-0-csharp">
-                              <pre class="prettyprint"><code class="language-cs">using System;
-using System.Diagnostics;
-using IO.Swagger.Api;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
-
-namespace Example
-{
-    public class registerAuthNotificationExample
-    {
-        public void main()
-        {
-
-            // Configure API key authorization: AppKey
-            Configuration.Default.ApiKey.Add("k", "YOUR_API_KEY");
-            // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // Configuration.Default.ApiKeyPrefix.Add("k", "Bearer");
-
-            var apiInstance = new EcommApi();
-            var t = 789;  // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
-            var z = new UUID(); // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
-            var s = s_example;  // String | 请求签名，算法详见 docs/SIGNATURE.md
-            var orderNumber = orderNumber_example;  // String |  (optional) 
-
-            try
-            {
-                // 注册授权变更通知
-                CommonResponse result = apiInstance.registerAuthNotification(t, z, s, orderNumber);
-                Debug.WriteLine(result);
-            }
-            catch (Exception e)
-            {
-                Debug.Print("Exception when calling EcommApi.registerAuthNotification: " + e.Message );
-            }
-        }
-    }
-}
-</code></pre>
-                            </div>
-
-                            <div class="tab-pane" id="examples-Ecomm-registerAuthNotification-0-php">
-                              <pre class="prettyprint"><code class="language-php"><&#63;php
-require_once(__DIR__ . '/vendor/autoload.php');
-
-// Configure API key authorization: AppKey
-Swagger\Client\Configuration::getDefaultConfiguration()->setApiKey('k', 'YOUR_API_KEY');
-// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-// Swagger\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('k', 'Bearer');
-
-$api_instance = new Swagger\Client\ApiEcommApi();
-$t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
-$z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
-$s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
-$orderNumber = orderNumber_example; // String | 
-
-try {
-    $result = $api_instance->registerAuthNotification($t, $z, $s, $orderNumber);
-    print_r($result);
-} catch (Exception $e) {
-    echo 'Exception when calling EcommApi->registerAuthNotification: ', $e->getMessage(), PHP_EOL;
-}
-?></code></pre>
-                            </div>
-
-                            <div class="tab-pane" id="examples-Ecomm-registerAuthNotification-0-perl">
-                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
-use WWW::SwaggerClient::Configuration;
-use WWW::SwaggerClient::EcommApi;
-
-# Configure API key authorization: AppKey
-$WWW::SwaggerClient::Configuration::api_key->{'k'} = 'YOUR_API_KEY';
-# uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-#$WWW::SwaggerClient::Configuration::api_key_prefix->{'k'} = "Bearer";
-
-my $api_instance = WWW::SwaggerClient::EcommApi->new();
-my $t = 789; # Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
-my $z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; # UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
-my $s = s_example; # String | 请求签名，算法详见 docs/SIGNATURE.md
-my $orderNumber = orderNumber_example; # String | 
-
-eval { 
-    my $result = $api_instance->registerAuthNotification(t => $t, z => $z, s => $s, orderNumber => $orderNumber);
-    print Dumper($result);
-};
-if ($@) {
-    warn "Exception when calling EcommApi->registerAuthNotification: $@\n";
-}</code></pre>
-                            </div>
-
-                            <div class="tab-pane" id="examples-Ecomm-registerAuthNotification-0-python">
-                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
-import time
-import swagger_client
-from swagger_client.rest import ApiException
-from pprint import pprint
-
-# Configure API key authorization: AppKey
-swagger_client.configuration.api_key['k'] = 'YOUR_API_KEY'
-# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# swagger_client.configuration.api_key_prefix['k'] = 'Bearer'
-
-# create an instance of the API class
-api_instance = swagger_client.EcommApi()
-t = 789 # Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
-z = 38400000-8cf0-11bd-b23e-10b96e4ef00d # UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
-s = s_example # String | 请求签名，算法详见 docs/SIGNATURE.md
-orderNumber = orderNumber_example # String |  (optional)
-
-try: 
-    # 注册授权变更通知
-    api_response = api_instance.register_auth_notification(t, z, s, orderNumber=orderNumber)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling EcommApi->registerAuthNotification: %s\n" % e)</code></pre>
-                            </div>
-                          </div>
-
-                          <h2>Parameters</h2>
-
-
-
-
-                            <div class="methodsubtabletitle">Form parameters</div>
-                            <table id="methodsubtable">
-                              <tr>
-                                <th width="150px">Name</th>
-                                <th>Description</th>
-                              </tr>
-                                  <tr><td style="width:150px;">order_number</td>
-                                  <td>
-                                  
-                                  
-                                      <div id="d2e199_registerAuthNotification_orderNumber">
-                                          <div class="json-schema-view">
-                                              <div class="primitive">
-                                                  <span class="type">
-                                                      String
-                                                  </span>
-                                  
-                                              </div>
-                                          </div>
-                                      </div>
-                                  </td>
-                                  </tr>
-                            </table>
-
-                            <div class="methodsubtabletitle">Query parameters</div>
-                            <table id="methodsubtable">
-                              <tr>
-                                <th width="150px">Name</th>
-                                <th>Description</th>
-                              </tr>
-                                <tr><td style="width:150px;">t*</td>
-                                <td>
-                                
-                                
-                                    <div id="d2e199_registerAuthNotification_t">
-                                        <div class="json-schema-view">
-                                            <div class="primitive">
-                                                <span class="type">
-                                                    Long
-                                                </span>
-                                                    <span class="format">
-                                                        (int64)
-                                                    </span>
-                                
-                                                    <div class="inner description">
-                                                        发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
-                                                    </div>
-                                            </div>
-                                                <div class="inner required">
-                                                    Required
-                                                </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                </tr>
-                                <tr><td style="width:150px;">z*</td>
-                                <td>
-                                
-                                
-                                    <div id="d2e199_registerAuthNotification_z">
-                                        <div class="json-schema-view">
-                                            <div class="primitive">
-                                                <span class="type">
-                                                    UUID
-                                                </span>
-                                                    <span class="format">
-                                                        (uuid)
-                                                    </span>
-                                
-                                                    <div class="inner description">
-                                                        随机字符串，推荐 UUID，15 分钟内不得重复
-                                                    </div>
-                                            </div>
-                                                <div class="inner required">
-                                                    Required
-                                                </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                </tr>
-                                <tr><td style="width:150px;">s*</td>
-                                <td>
-                                
-                                
-                                    <div id="d2e199_registerAuthNotification_s">
-                                        <div class="json-schema-view">
-                                            <div class="primitive">
-                                                <span class="type">
-                                                    String
-                                                </span>
-                                
-                                                    <div class="inner description">
-                                                        请求签名，算法详见 docs/SIGNATURE.md
-                                                    </div>
-                                            </div>
-                                                <div class="inner required">
-                                                    Required
-                                                </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                </tr>
-                            </table>
-
-                          <h2>Responses</h2>
-                            <h3> Status: 200 - 成功 </h3>
-
-                            <ul class="nav nav-tabs nav-tabs-examples" >
-                                <li class="active">
-                                  <a data-toggle="tab" href="#responses-registerAuthNotification-200-schema">Schema</a>
-                                </li>
-
-                            </ul>
-
-                            <div class="tab-content" style='margin-bottom: 10px;'>
-                                <div class="tab-pane active" id="responses-registerAuthNotification-200-schema">
-                                  <div id='responses-registerAuthNotification-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
-                                    <script>
-                                      $(document).ready(function() {
-                                        var schemaWrapper = {
-  "description" : "成功",
-  "content" : {
-    "application/json" : {
-      "schema" : {
-        "$ref" : "#/components/schemas/CommonResponse"
-      },
-      "examples" : {
-        "成功" : {
-          "value" : {
-            "code" : 0,
-            "msg" : ""
-          }
-        }
-      }
-    }
-  }
-};
-                                        var schema = schemaWrapper.content["application/json"].schema;
-                                        if (schema.$ref != null) {
-                                          schema = defsParser.$refs.get(schema.$ref);
-                                        } else {
-                                          schemaWrapper.components = {};
-                                          schemaWrapper.components.schemas = Object.assign({}, defs);
-                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
-                                            console.log(err);
-                                          });
-                                        }
-
-                                        //console.log(JSON.stringify(schema));
-                                        var view = new JSONSchemaView(schema, 3);
-                                        $('#responses-registerAuthNotification-200-schema-data').val(stringify(schema));
-                                        var result = $('#responses-registerAuthNotification-200-schema-200');
-                                        result.empty();
-                                        result.append(view.render());
-                                      });
-                                    </script>
-                                  </div>
-                                  <input id='responses-registerAuthNotification-200-schema-data' type='hidden' value=''></input>
-                                </div>
-                            </div>
-
-                            <h3> Status: 400 - Bad Request </h3>
-
-                            <ul class="nav nav-tabs nav-tabs-examples" >
-                                <li class="active">
-                                  <a data-toggle="tab" href="#responses-registerAuthNotification-400-schema">Schema</a>
-                                </li>
-
-                            </ul>
-
-                            <div class="tab-content" style='margin-bottom: 10px;'>
-                                <div class="tab-pane active" id="responses-registerAuthNotification-400-schema">
-                                  <div id='responses-registerAuthNotification-400-schema-400' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
-                                    <script>
-                                      $(document).ready(function() {
-                                        var schemaWrapper = {
-  "description" : "Bad Request",
-  "content" : {
-    "application/json" : {
-      "schema" : {
-        "$ref" : "#/components/schemas/CommonResponse"
-      },
-      "examples" : {
-        "无此订单" : {
-          "value" : {
-            "code" : 1,
-            "msg" : "No such order."
-          }
-        }
-      }
-    }
-  }
-};
-                                        var schema = schemaWrapper.content["application/json"].schema;
-                                        if (schema.$ref != null) {
-                                          schema = defsParser.$refs.get(schema.$ref);
-                                        } else {
-                                          schemaWrapper.components = {};
-                                          schemaWrapper.components.schemas = Object.assign({}, defs);
-                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
-                                            console.log(err);
-                                          });
-                                        }
-
-                                        //console.log(JSON.stringify(schema));
-                                        var view = new JSONSchemaView(schema, 3);
-                                        $('#responses-registerAuthNotification-400-schema-data').val(stringify(schema));
-                                        var result = $('#responses-registerAuthNotification-400-schema-400');
-                                        result.empty();
-                                        result.append(view.render());
-                                      });
-                                    </script>
-                                  </div>
-                                  <input id='responses-registerAuthNotification-400-schema-data' type='hidden' value=''></input>
-                                </div>
-                            </div>
-
-                            <h3> Status: 401 - 未授权 </h3>
-
-                            <ul class="nav nav-tabs nav-tabs-examples" >
-                                <li class="active">
-                                  <a data-toggle="tab" href="#responses-registerAuthNotification-401-schema">Schema</a>
-                                </li>
-
-                            </ul>
-
-                            <div class="tab-content" style='margin-bottom: 10px;'>
-                                <div class="tab-pane active" id="responses-registerAuthNotification-401-schema">
-                                  <div id='responses-registerAuthNotification-401-schema-401' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
-                                    <script>
-                                      $(document).ready(function() {
-                                        var schemaWrapper = {
-  "description" : "未授权",
-  "content" : {
-    "application/json" : {
-      "schema" : {
-        "$ref" : "#/components/schemas/CommonResponse"
-      },
-      "examples" : {
-        "无效访问令牌" : {
-          "value" : {
-            "code" : 1,
-            "msg" : "Invalid access token."
-          }
-        },
-        "签名错误" : {
-          "value" : {
-            "code" : 14,
-            "msg" : "Invalid signature."
-          }
-        }
-      }
-    }
-  }
-};
-                                        var schema = schemaWrapper.content["application/json"].schema;
-                                        if (schema.$ref != null) {
-                                          schema = defsParser.$refs.get(schema.$ref);
-                                        } else {
-                                          schemaWrapper.components = {};
-                                          schemaWrapper.components.schemas = Object.assign({}, defs);
-                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
-                                            console.log(err);
-                                          });
-                                        }
-
-                                        //console.log(JSON.stringify(schema));
-                                        var view = new JSONSchemaView(schema, 3);
-                                        $('#responses-registerAuthNotification-401-schema-data').val(stringify(schema));
-                                        var result = $('#responses-registerAuthNotification-401-schema-401');
-                                        result.empty();
-                                        result.append(view.render());
-                                      });
-                                    </script>
-                                  </div>
-                                  <input id='responses-registerAuthNotification-401-schema-data' type='hidden' value=''></input>
-                                </div>
-                            </div>
-
-                        </article>
-                      </div>
-                      <hr>
-                  </section>
                 <section id="api-Internal">
                   <h1>Internal</h1>
                     <div id="api-Internal-activate">
@@ -2400,7 +1280,12 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Internal-activate-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "https://api-v3-test.hlwcr.cn/ecomm/activation?a=&t=&z=&s="</code></pre>
+                           <pre class="prettyprint"><code class="language-bsh">curl -X POST\
+\
+ -H "Authorization: Bearer [[accessToken]]"\
+-H "Accept: application/json"\
+-H "Content-Type: application/x-www-form-urlencoded"\
+"https://api-v3-test.hlwcr.cn/ecomm/activation?a=&t=&z=&s="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Internal-activate-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -3021,7 +1906,12 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Internal-changePassword-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X PATCH "https://api-v3-test.hlwcr.cn/user?t=&z=&s=&a="</code></pre>
+                           <pre class="prettyprint"><code class="language-bsh">curl -X PATCH\
+\
+ -H "Authorization: Bearer [[accessToken]]"\
+-H "Accept: application/json"\
+-H "Content-Type: application/x-www-form-urlencoded"\
+"https://api-v3-test.hlwcr.cn/user?t=&z=&s=&a="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Internal-changePassword-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -3650,7 +2540,12 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Internal-getPaymentUrl-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "https://api-v3-test.hlwcr.cn/ecomm/payment-url?a=&t=&z=&s="</code></pre>
+                           <pre class="prettyprint"><code class="language-bsh">curl -X POST\
+\
+ -H "Authorization: Bearer [[accessToken]]"\
+-H "Accept: application/json"\
+-H "Content-Type: application/x-www-form-urlencoded"\
+"https://api-v3-test.hlwcr.cn/ecomm/payment-url?a=&t=&z=&s="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Internal-getPaymentUrl-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -4301,7 +3196,10 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Internal-isUserAvailable-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://api-v3-test.hlwcr.cn/user/availability?t=&z=&s=&filter="</code></pre>
+                           <pre class="prettyprint"><code class="language-bsh">curl -X GET\
+\
+-H "Accept: application/json"\
+"https://api-v3-test.hlwcr.cn/user/availability?t=&z=&s=&filter="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Internal-isUserAvailable-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -4809,7 +3707,11 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Internal-sendResetPasswordEmail-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "https://api-v3-test.hlwcr.cn/email/reset-password?t=&z=&s="</code></pre>
+                           <pre class="prettyprint"><code class="language-bsh">curl -X POST\
+\
+-H "Accept: application/json"\
+-H "Content-Type: application/x-www-form-urlencoded"\
+"https://api-v3-test.hlwcr.cn/email/reset-password?t=&z=&s="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Internal-sendResetPasswordEmail-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -5384,7 +4286,11 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Internal-sendVCodeEmail-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "https://api-v3-test.hlwcr.cn/email/vcode?t=&z=&s="</code></pre>
+                           <pre class="prettyprint"><code class="language-bsh">curl -X POST\
+\
+-H "Accept: application/json"\
+-H "Content-Type: application/x-www-form-urlencoded"\
+"https://api-v3-test.hlwcr.cn/email/vcode?t=&z=&s="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Internal-sendVCodeEmail-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -5973,7 +4879,11 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Internal-setPassword-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X PATCH "https://api-v3-test.hlwcr.cn/user/{username}?t=&z=&s="</code></pre>
+                           <pre class="prettyprint"><code class="language-bsh">curl -X PATCH\
+\
+-H "Accept: application/json"\
+-H "Content-Type: application/x-www-form-urlencoded"\
+"https://api-v3-test.hlwcr.cn/user/{username}?t=&z=&s="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Internal-setPassword-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -6520,7 +5430,11 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Internal-signUp-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "https://api-v3-test.hlwcr.cn/user?t=&z=&s="</code></pre>
+                           <pre class="prettyprint"><code class="language-bsh">curl -X POST\
+\
+-H "Accept: application/json"\
+-H "Content-Type: application/x-www-form-urlencoded"\
+"https://api-v3-test.hlwcr.cn/user?t=&z=&s="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Internal-signUp-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -7355,7 +6269,11 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Misc-getAuth-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://api-v3-test.hlwcr.cn/auth?t=&z=&s="</code></pre>
+                           <pre class="prettyprint"><code class="language-bsh">curl -X GET\
+\
+ -H "Authorization: Bearer [[accessToken]]"\
+-H "Accept: application/json"\
+"https://api-v3-test.hlwcr.cn/auth?a=&t=&z=&s="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Misc-getAuth-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -7379,11 +6297,12 @@ public class MiscApiExample {
 
 
         MiscApi apiInstance = new MiscApi();
+        String a = a_example; // String | 访问令牌
         Long t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
         UUID z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
         String s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
         try {
-            AuthResponse result = apiInstance.getAuth(t, z, s);
+            AuthResponse result = apiInstance.getAuth(a, t, z, s);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling MiscApi#getAuth");
@@ -7400,11 +6319,12 @@ public class MiscApiExample {
 
     public static void main(String[] args) {
         MiscApi apiInstance = new MiscApi();
+        String a = a_example; // String | 访问令牌
         Long t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
         UUID z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
         String s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
         try {
-            AuthResponse result = apiInstance.getAuth(t, z, s);
+            AuthResponse result = apiInstance.getAuth(a, t, z, s);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling MiscApi#getAuth");
@@ -7423,6 +6343,7 @@ public class MiscApiExample {
 [apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"k"];
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"k"];
+String *a = a_example; // 访问令牌
 Long *t = 789; // 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
 UUID *z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // 随机字符串，推荐 UUID，15 分钟内不得重复
 String *s = s_example; // 请求签名，算法详见 docs/SIGNATURE.md
@@ -7430,7 +6351,8 @@ String *s = s_example; // 请求签名，算法详见 docs/SIGNATURE.md
 MiscApi *apiInstance = [[MiscApi alloc] init];
 
 // 获取授权
-[apiInstance getAuthWith:t
+[apiInstance getAuthWith:a
+    t:t
     z:z
     s:s
               completionHandler: ^(AuthResponse output, NSError* error) {
@@ -7456,6 +6378,7 @@ AppKey.apiKey = "YOUR API KEY"
 
 
 var api = new Kaixin.MiscApi()
+var a = a_example; // {{String}} 访问令牌
 var t = 789; // {{Long}} 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
 var z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // {{UUID}} 随机字符串，推荐 UUID，15 分钟内不得重复
 var s = s_example; // {{String}} 请求签名，算法详见 docs/SIGNATURE.md
@@ -7467,7 +6390,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-api.getAuth(t, z, s, callback);
+api.getAuth(a, t, z, s, callback);
 </code></pre>
                             </div>
 
@@ -7494,6 +6417,7 @@ namespace Example
             // Configuration.Default.ApiKeyPrefix.Add("k", "Bearer");
 
             var apiInstance = new MiscApi();
+            var a = a_example;  // String | 访问令牌
             var t = 789;  // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
             var z = new UUID(); // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
             var s = s_example;  // String | 请求签名，算法详见 docs/SIGNATURE.md
@@ -7501,7 +6425,7 @@ namespace Example
             try
             {
                 // 获取授权
-                AuthResponse result = apiInstance.getAuth(t, z, s);
+                AuthResponse result = apiInstance.getAuth(a, t, z, s);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -7524,12 +6448,13 @@ Swagger\Client\Configuration::getDefaultConfiguration()->setApiKey('k', 'YOUR_AP
 // Swagger\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('k', 'Bearer');
 
 $api_instance = new Swagger\Client\ApiMiscApi();
+$a = a_example; // String | 访问令牌
 $t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
 $z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
 $s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
 
 try {
-    $result = $api_instance->getAuth($t, $z, $s);
+    $result = $api_instance->getAuth($a, $t, $z, $s);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling MiscApi->getAuth: ', $e->getMessage(), PHP_EOL;
@@ -7548,12 +6473,13 @@ $WWW::SwaggerClient::Configuration::api_key->{'k'} = 'YOUR_API_KEY';
 #$WWW::SwaggerClient::Configuration::api_key_prefix->{'k'} = "Bearer";
 
 my $api_instance = WWW::SwaggerClient::MiscApi->new();
+my $a = a_example; # String | 访问令牌
 my $t = 789; # Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
 my $z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; # UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
 my $s = s_example; # String | 请求签名，算法详见 docs/SIGNATURE.md
 
 eval { 
-    my $result = $api_instance->getAuth(t => $t, z => $z, s => $s);
+    my $result = $api_instance->getAuth(a => $a, t => $t, z => $z, s => $s);
     print Dumper($result);
 };
 if ($@) {
@@ -7575,13 +6501,14 @@ swagger_client.configuration.api_key['k'] = 'YOUR_API_KEY'
 
 # create an instance of the API class
 api_instance = swagger_client.MiscApi()
+a = a_example # String | 访问令牌
 t = 789 # Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
 z = 38400000-8cf0-11bd-b23e-10b96e4ef00d # UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
 s = s_example # String | 请求签名，算法详见 docs/SIGNATURE.md
 
 try: 
     # 获取授权
-    api_response = api_instance.get_auth(t, z, s)
+    api_response = api_instance.get_auth(a, t, z, s)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling MiscApi->getAuth: %s\n" % e)</code></pre>
@@ -7600,6 +6527,28 @@ except ApiException as e:
                                 <th width="150px">Name</th>
                                 <th>Description</th>
                               </tr>
+                                <tr><td style="width:150px;">a*</td>
+                                <td>
+                                
+                                
+                                    <div id="d2e199_getAuth_a">
+                                        <div class="json-schema-view">
+                                            <div class="primitive">
+                                                <span class="type">
+                                                    String
+                                                </span>
+                                
+                                                    <div class="inner description">
+                                                        访问令牌
+                                                    </div>
+                                            </div>
+                                                <div class="inner required">
+                                                    Required
+                                                </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                </tr>
                                 <tr><td style="width:150px;">t*</td>
                                 <td>
                                 
@@ -7699,17 +6648,20 @@ except ApiException as e:
       "example" : {
         "code" : 0,
         "msg" : "",
-        "data" : [ {
-          "module" : "mod-1",
-          "edition" : 0,
-          "count" : 10,
-          "time" : 1595834173
-        }, {
-          "module" : "mod-2",
-          "edition" : 1,
-          "count" : 15,
-          "time" : 1595834173
-        } ]
+        "data" : {
+          "secret" : "U3dhZ2dlciByb2Nrcw==",
+          "auth" : [ {
+            "module" : "mod-1",
+            "edition" : 0,
+            "count" : 10,
+            "time" : 1595834173
+          }, {
+            "module" : "mod-2",
+            "edition" : 1,
+            "count" : 15,
+            "time" : 1595834173
+          } ]
+        }
       }
     }
   }
@@ -7991,7 +6943,12 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Misc-getDeviceId-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "https://api-v3-test.hlwcr.cn/device-id?a=&t=&z=&s="</code></pre>
+                           <pre class="prettyprint"><code class="language-bsh">curl -X POST\
+\
+ -H "Authorization: Bearer [[accessToken]]"\
+-H "Accept: application/json"\
+-H "Content-Type: application/x-www-form-urlencoded"\
+"https://api-v3-test.hlwcr.cn/device-id?a=&t=&z=&s="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Misc-getDeviceId-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -8527,7 +7484,10 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Misc-getLowestVersion-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://api-v3-test.hlwcr.cn/lowest-version?t=&z=&s="</code></pre>
+                           <pre class="prettyprint"><code class="language-bsh">curl -X GET\
+\
+-H "Accept: application/json"\
+"https://api-v3-test.hlwcr.cn/lowest-version?t=&z=&s="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Misc-getLowestVersion-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -8548,7 +7508,6 @@ public class MiscApiExample {
         AppKey.setApiKey("YOUR API KEY");
         // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
         //AppKey.setApiKeyPrefix("Token");
-
 
         MiscApi apiInstance = new MiscApi();
         Long t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
@@ -8625,7 +7584,6 @@ var AppKey = defaultClient.authentications['AppKey'];
 AppKey.apiKey = "YOUR API KEY"
 // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
 //AppKey.apiKeyPrefix['k'] = "Token"
-
 
 var api = new Kaixin.MiscApi()
 var t = 789; // {{Long}} 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
@@ -9001,7 +7959,10 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Misc-getMaterials-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://api-v3-test.hlwcr.cn/materials?t=&z=&s=&types="</code></pre>
+                           <pre class="prettyprint"><code class="language-bsh">curl -X GET\
+\
+-H "Accept: application/json"\
+"https://api-v3-test.hlwcr.cn/materials?t=&z=&s=&locale=&types=&agent_code="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Misc-getMaterials-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -9023,14 +7984,15 @@ public class MiscApiExample {
         // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
         //AppKey.setApiKeyPrefix("Token");
 
-
         MiscApi apiInstance = new MiscApi();
         Long t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
         UUID z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
         String s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
+        String locale = locale_example; // String | 区域语言
         array[String] types = ; // array[String] | 要获取的素材类型列表，如果为空，则获取全部类型
+        String agentCode = agentCode_example; // String | 代理编号
         try {
-            MaterialsResponse result = apiInstance.getMaterials(t, z, s, types);
+            MaterialsResponse result = apiInstance.getMaterials(t, z, s, locale, types, agentCode);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling MiscApi#getMaterials");
@@ -9050,9 +8012,11 @@ public class MiscApiExample {
         Long t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
         UUID z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
         String s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
+        String locale = locale_example; // String | 区域语言
         array[String] types = ; // array[String] | 要获取的素材类型列表，如果为空，则获取全部类型
+        String agentCode = agentCode_example; // String | 代理编号
         try {
-            MaterialsResponse result = apiInstance.getMaterials(t, z, s, types);
+            MaterialsResponse result = apiInstance.getMaterials(t, z, s, locale, types, agentCode);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling MiscApi#getMaterials");
@@ -9074,7 +8038,9 @@ public class MiscApiExample {
 Long *t = 789; // 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
 UUID *z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // 随机字符串，推荐 UUID，15 分钟内不得重复
 String *s = s_example; // 请求签名，算法详见 docs/SIGNATURE.md
+String *locale = locale_example; // 区域语言
 array[String] *types = ; // 要获取的素材类型列表，如果为空，则获取全部类型 (optional)
+String *agentCode = agentCode_example; // 代理编号 (optional)
 
 MiscApi *apiInstance = [[MiscApi alloc] init];
 
@@ -9082,7 +8048,9 @@ MiscApi *apiInstance = [[MiscApi alloc] init];
 [apiInstance getMaterialsWith:t
     z:z
     s:s
+    locale:locale
     types:types
+    agentCode:agentCode
               completionHandler: ^(MaterialsResponse output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
@@ -9104,13 +8072,14 @@ AppKey.apiKey = "YOUR API KEY"
 // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
 //AppKey.apiKeyPrefix['k'] = "Token"
 
-
 var api = new Kaixin.MiscApi()
 var t = 789; // {{Long}} 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
 var z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // {{UUID}} 随机字符串，推荐 UUID，15 分钟内不得重复
 var s = s_example; // {{String}} 请求签名，算法详见 docs/SIGNATURE.md
+var locale = locale_example; // {{String}} 区域语言
 var opts = { 
-  'types':  // {{array[String]}} 要获取的素材类型列表，如果为空，则获取全部类型
+  'types': , // {{array[String]}} 要获取的素材类型列表，如果为空，则获取全部类型
+  'agentCode': agentCode_example // {{String}} 代理编号
 };
 var callback = function(error, data, response) {
   if (error) {
@@ -9119,7 +8088,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-api.getMaterials(t, z, s, opts, callback);
+api.getMaterials(t, z, s, locale, opts, callback);
 </code></pre>
                             </div>
 
@@ -9149,12 +8118,14 @@ namespace Example
             var t = 789;  // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
             var z = new UUID(); // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
             var s = s_example;  // String | 请求签名，算法详见 docs/SIGNATURE.md
+            var locale = locale_example;  // String | 区域语言
             var types = new array[String](); // array[String] | 要获取的素材类型列表，如果为空，则获取全部类型 (optional) 
+            var agentCode = agentCode_example;  // String | 代理编号 (optional) 
 
             try
             {
                 // 按类型获取素材
-                MaterialsResponse result = apiInstance.getMaterials(t, z, s, types);
+                MaterialsResponse result = apiInstance.getMaterials(t, z, s, locale, types, agentCode);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -9180,10 +8151,12 @@ $api_instance = new Swagger\Client\ApiMiscApi();
 $t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
 $z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
 $s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
+$locale = locale_example; // String | 区域语言
 $types = ; // array[String] | 要获取的素材类型列表，如果为空，则获取全部类型
+$agentCode = agentCode_example; // String | 代理编号
 
 try {
-    $result = $api_instance->getMaterials($t, $z, $s, $types);
+    $result = $api_instance->getMaterials($t, $z, $s, $locale, $types, $agentCode);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling MiscApi->getMaterials: ', $e->getMessage(), PHP_EOL;
@@ -9205,10 +8178,12 @@ my $api_instance = WWW::SwaggerClient::MiscApi->new();
 my $t = 789; # Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
 my $z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; # UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
 my $s = s_example; # String | 请求签名，算法详见 docs/SIGNATURE.md
+my $locale = locale_example; # String | 区域语言
 my $types = []; # array[String] | 要获取的素材类型列表，如果为空，则获取全部类型
+my $agentCode = agentCode_example; # String | 代理编号
 
 eval { 
-    my $result = $api_instance->getMaterials(t => $t, z => $z, s => $s, types => $types);
+    my $result = $api_instance->getMaterials(t => $t, z => $z, s => $s, locale => $locale, types => $types, agentCode => $agentCode);
     print Dumper($result);
 };
 if ($@) {
@@ -9233,11 +8208,13 @@ api_instance = swagger_client.MiscApi()
 t = 789 # Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
 z = 38400000-8cf0-11bd-b23e-10b96e4ef00d # UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
 s = s_example # String | 请求签名，算法详见 docs/SIGNATURE.md
+locale = locale_example # String | 区域语言
 types =  # array[String] | 要获取的素材类型列表，如果为空，则获取全部类型 (optional)
+agentCode = agentCode_example # String | 代理编号 (optional)
 
 try: 
     # 按类型获取素材
-    api_response = api_instance.get_materials(t, z, s, types=types)
+    api_response = api_instance.get_materials(t, z, s, locale, types=types, agentCode=agentCode)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling MiscApi->getMaterials: %s\n" % e)</code></pre>
@@ -9328,6 +8305,28 @@ except ApiException as e:
                                     </div>
                                 </td>
                                 </tr>
+                                <tr><td style="width:150px;">locale*</td>
+                                <td>
+                                
+                                
+                                    <div id="d2e199_getMaterials_locale">
+                                        <div class="json-schema-view">
+                                            <div class="primitive">
+                                                <span class="type">
+                                                    String
+                                                </span>
+                                
+                                                    <div class="inner description">
+                                                        区域语言
+                                                    </div>
+                                            </div>
+                                                <div class="inner required">
+                                                    Required
+                                                </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                </tr>
                                 <tr><td style="width:150px;">types</td>
                                 <td>
                                 
@@ -9341,6 +8340,25 @@ except ApiException as e:
                                 
                                                     <div class="inner description">
                                                         要获取的素材类型列表，如果为空，则获取全部类型
+                                                    </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                </tr>
+                                <tr><td style="width:150px;">agent_code</td>
+                                <td>
+                                
+                                
+                                    <div id="d2e199_getMaterials_agentCode">
+                                        <div class="json-schema-view">
+                                            <div class="primitive">
+                                                <span class="type">
+                                                    String
+                                                </span>
+                                
+                                                    <div class="inner description">
+                                                        代理编号
                                                     </div>
                                             </div>
                                         </div>
@@ -9558,7 +8576,10 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Misc-getWebUrl-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://api-v3-test.hlwcr.cn/web-url?t=&z=&s=&page="</code></pre>
+                           <pre class="prettyprint"><code class="language-bsh">curl -X GET\
+\
+-H "Accept: application/json"\
+"https://api-v3-test.hlwcr.cn/web-url?t=&z=&s=&page="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Misc-getWebUrl-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -9579,7 +8600,6 @@ public class MiscApiExample {
         AppKey.setApiKey("YOUR API KEY");
         // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
         //AppKey.setApiKeyPrefix("Token");
-
 
         MiscApi apiInstance = new MiscApi();
         Long t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
@@ -9660,7 +8680,6 @@ var AppKey = defaultClient.authentications['AppKey'];
 AppKey.apiKey = "YOUR API KEY"
 // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
 //AppKey.apiKeyPrefix['k'] = "Token"
-
 
 var api = new Kaixin.MiscApi()
 var t = 789; // {{Long}} 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
@@ -10114,7 +9133,11 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Session-refreshToken-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X PATCH "https://api-v3-test.hlwcr.cn/session?t=&z=&s="</code></pre>
+                           <pre class="prettyprint"><code class="language-bsh">curl -X PATCH\
+\
+-H "Accept: application/json"\
+-H "Content-Type: application/x-www-form-urlencoded"\
+"https://api-v3-test.hlwcr.cn/session?t=&z=&s="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Session-refreshToken-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -10617,7 +9640,11 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Session-signIn-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "https://api-v3-test.hlwcr.cn/session?t=&z=&s="</code></pre>
+                           <pre class="prettyprint"><code class="language-bsh">curl -X POST\
+\
+-H "Accept: application/json"\
+-H "Content-Type: application/x-www-form-urlencoded"\
+"https://api-v3-test.hlwcr.cn/session?t=&z=&s="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Session-signIn-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -11145,7 +10172,11 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Session-signOut-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X DELETE "https://api-v3-test.hlwcr.cn/session?t=&z=&s=&a="</code></pre>
+                           <pre class="prettyprint"><code class="language-bsh">curl -X DELETE\
+\
+ -H "Authorization: Bearer [[accessToken]]"\
+-H "Accept: application/json"\
+"https://api-v3-test.hlwcr.cn/session?t=&z=&s=&a="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Session-signOut-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -11611,6 +10642,1137 @@ except ApiException as e:
                                     </script>
                                   </div>
                                   <input id='responses-signOut-401-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                        </article>
+                      </div>
+                      <hr>
+                  </section>
+                <section id="api-WebSocket">
+                  <h1>WebSocket</h1>
+                    <div id="api-WebSocket-deregisterAuthNotification">
+                      <article id="api-WebSocket-deregisterAuthNotification-0" data-group="User" data-name="deregisterAuthNotification" data-version="0">
+                        <div class="pull-left">
+                          <h1>deregisterAuthNotification</h1>
+                          <p>注销下行通知</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked">注销后，服务端变化不再通知客户端。</p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="delete"><code><span class="pln">/notification</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-WebSocket-deregisterAuthNotification-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-WebSocket-deregisterAuthNotification-0-java">Java</a></li>
+                          <li class=""><a href="#examples-WebSocket-deregisterAuthNotification-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-WebSocket-deregisterAuthNotification-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-WebSocket-deregisterAuthNotification-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-WebSocket-deregisterAuthNotification-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-WebSocket-deregisterAuthNotification-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-WebSocket-deregisterAuthNotification-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-WebSocket-deregisterAuthNotification-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-WebSocket-deregisterAuthNotification-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-WebSocket-deregisterAuthNotification-0-python">Python</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-WebSocket-deregisterAuthNotification-0-curl">
+                           <pre class="prettyprint"><code class="language-bsh">curl -X DELETE\
+\
+ -H "Authorization: Bearer [[accessToken]]"\
+-H "Accept: application/json"\
+"https://api-v3-test.hlwcr.cn/notification?a=&t=&z=&s="</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-WebSocket-deregisterAuthNotification-0-java">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
+import io.swagger.client.auth.*;
+import io.swagger.client.model.*;
+import io.swagger.client.api.WebSocketApi;
+
+import java.io.File;
+import java.util.*;
+
+public class WebSocketApiExample {
+
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+
+        // Configure API key authorization: AppKey
+        ApiKeyAuth AppKey = (ApiKeyAuth) defaultClient.getAuthentication("AppKey");
+        AppKey.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //AppKey.setApiKeyPrefix("Token");
+
+
+        WebSocketApi apiInstance = new WebSocketApi();
+        String a = a_example; // String | 访问令牌
+        Long t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+        UUID z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
+        String s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
+        try {
+            CommonResponse result = apiInstance.deregisterAuthNotification(a, t, z, s);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling WebSocketApi#deregisterAuthNotification");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-WebSocket-deregisterAuthNotification-0-android">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.WebSocketApi;
+
+public class WebSocketApiExample {
+
+    public static void main(String[] args) {
+        WebSocketApi apiInstance = new WebSocketApi();
+        String a = a_example; // String | 访问令牌
+        Long t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+        UUID z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
+        String s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
+        try {
+            CommonResponse result = apiInstance.deregisterAuthNotification(a, t, z, s);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling WebSocketApi#deregisterAuthNotification");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-WebSocket-deregisterAuthNotification-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-WebSocket-deregisterAuthNotification-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">Configuration *apiConfig = [Configuration sharedConfig];
+// Configure API key authorization: (authentication scheme: AppKey)
+[apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"k"];
+// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"k"];
+String *a = a_example; // 访问令牌
+Long *t = 789; // 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+UUID *z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // 随机字符串，推荐 UUID，15 分钟内不得重复
+String *s = s_example; // 请求签名，算法详见 docs/SIGNATURE.md
+
+WebSocketApi *apiInstance = [[WebSocketApi alloc] init];
+
+// 注销下行通知
+[apiInstance deregisterAuthNotificationWith:a
+    t:t
+    z:z
+    s:s
+              completionHandler: ^(CommonResponse output, NSError* error) {
+                            if (output) {
+                                NSLog(@"%@", output);
+                            }
+                            if (error) {
+                                NSLog(@"Error: %@", error);
+                            }
+                        }];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-WebSocket-deregisterAuthNotification-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var Kaixin = require('kaixin');
+var defaultClient = Kaixin.ApiClient.instance;
+
+// Configure API key authorization: AppKey
+var AppKey = defaultClient.authentications['AppKey'];
+AppKey.apiKey = "YOUR API KEY"
+// Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+//AppKey.apiKeyPrefix['k'] = "Token"
+
+
+var api = new Kaixin.WebSocketApi()
+var a = a_example; // {{String}} 访问令牌
+var t = 789; // {{Long}} 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+var z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // {{UUID}} 随机字符串，推荐 UUID，15 分钟内不得重复
+var s = s_example; // {{String}} 请求签名，算法详见 docs/SIGNATURE.md
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+api.deregisterAuthNotification(a, t, z, s, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-WebSocket-deregisterAuthNotification-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-WebSocket-deregisterAuthNotification-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class deregisterAuthNotificationExample
+    {
+        public void main()
+        {
+
+            // Configure API key authorization: AppKey
+            Configuration.Default.ApiKey.Add("k", "YOUR_API_KEY");
+            // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+            // Configuration.Default.ApiKeyPrefix.Add("k", "Bearer");
+
+            var apiInstance = new WebSocketApi();
+            var a = a_example;  // String | 访问令牌
+            var t = 789;  // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+            var z = new UUID(); // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
+            var s = s_example;  // String | 请求签名，算法详见 docs/SIGNATURE.md
+
+            try
+            {
+                // 注销下行通知
+                CommonResponse result = apiInstance.deregisterAuthNotification(a, t, z, s);
+                Debug.WriteLine(result);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling WebSocketApi.deregisterAuthNotification: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-WebSocket-deregisterAuthNotification-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure API key authorization: AppKey
+Swagger\Client\Configuration::getDefaultConfiguration()->setApiKey('k', 'YOUR_API_KEY');
+// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+// Swagger\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('k', 'Bearer');
+
+$api_instance = new Swagger\Client\ApiWebSocketApi();
+$a = a_example; // String | 访问令牌
+$t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+$z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
+$s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
+
+try {
+    $result = $api_instance->deregisterAuthNotification($a, $t, $z, $s);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling WebSocketApi->deregisterAuthNotification: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-WebSocket-deregisterAuthNotification-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::WebSocketApi;
+
+# Configure API key authorization: AppKey
+$WWW::SwaggerClient::Configuration::api_key->{'k'} = 'YOUR_API_KEY';
+# uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+#$WWW::SwaggerClient::Configuration::api_key_prefix->{'k'} = "Bearer";
+
+my $api_instance = WWW::SwaggerClient::WebSocketApi->new();
+my $a = a_example; # String | 访问令牌
+my $t = 789; # Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+my $z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; # UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
+my $s = s_example; # String | 请求签名，算法详见 docs/SIGNATURE.md
+
+eval { 
+    my $result = $api_instance->deregisterAuthNotification(a => $a, t => $t, z => $z, s => $s);
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling WebSocketApi->deregisterAuthNotification: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-WebSocket-deregisterAuthNotification-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# Configure API key authorization: AppKey
+swagger_client.configuration.api_key['k'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# swagger_client.configuration.api_key_prefix['k'] = 'Bearer'
+
+# create an instance of the API class
+api_instance = swagger_client.WebSocketApi()
+a = a_example # String | 访问令牌
+t = 789 # Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+z = 38400000-8cf0-11bd-b23e-10b96e4ef00d # UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
+s = s_example # String | 请求签名，算法详见 docs/SIGNATURE.md
+
+try: 
+    # 注销下行通知
+    api_response = api_instance.deregister_auth_notification(a, t, z, s)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling WebSocketApi->deregisterAuthNotification: %s\n" % e)</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Parameters</h2>
+
+
+
+
+
+                            <div class="methodsubtabletitle">Query parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                <tr><td style="width:150px;">a*</td>
+                                <td>
+                                
+                                
+                                    <div id="d2e199_deregisterAuthNotification_a">
+                                        <div class="json-schema-view">
+                                            <div class="primitive">
+                                                <span class="type">
+                                                    String
+                                                </span>
+                                
+                                                    <div class="inner description">
+                                                        访问令牌
+                                                    </div>
+                                            </div>
+                                                <div class="inner required">
+                                                    Required
+                                                </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                </tr>
+                                <tr><td style="width:150px;">t*</td>
+                                <td>
+                                
+                                
+                                    <div id="d2e199_deregisterAuthNotification_t">
+                                        <div class="json-schema-view">
+                                            <div class="primitive">
+                                                <span class="type">
+                                                    Long
+                                                </span>
+                                                    <span class="format">
+                                                        (int64)
+                                                    </span>
+                                
+                                                    <div class="inner description">
+                                                        发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+                                                    </div>
+                                            </div>
+                                                <div class="inner required">
+                                                    Required
+                                                </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                </tr>
+                                <tr><td style="width:150px;">z*</td>
+                                <td>
+                                
+                                
+                                    <div id="d2e199_deregisterAuthNotification_z">
+                                        <div class="json-schema-view">
+                                            <div class="primitive">
+                                                <span class="type">
+                                                    UUID
+                                                </span>
+                                                    <span class="format">
+                                                        (uuid)
+                                                    </span>
+                                
+                                                    <div class="inner description">
+                                                        随机字符串，推荐 UUID，15 分钟内不得重复
+                                                    </div>
+                                            </div>
+                                                <div class="inner required">
+                                                    Required
+                                                </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                </tr>
+                                <tr><td style="width:150px;">s*</td>
+                                <td>
+                                
+                                
+                                    <div id="d2e199_deregisterAuthNotification_s">
+                                        <div class="json-schema-view">
+                                            <div class="primitive">
+                                                <span class="type">
+                                                    String
+                                                </span>
+                                
+                                                    <div class="inner description">
+                                                        请求签名，算法详见 docs/SIGNATURE.md
+                                                    </div>
+                                            </div>
+                                                <div class="inner required">
+                                                    Required
+                                                </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                </tr>
+                            </table>
+
+                          <h2>Responses</h2>
+                            <h3> Status: 200 - 成功 </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-deregisterAuthNotification-200-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-deregisterAuthNotification-200-schema">
+                                  <div id='responses-deregisterAuthNotification-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "成功",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/CommonResponse"
+      },
+      "examples" : {
+        "成功" : {
+          "value" : {
+            "code" : 0,
+            "msg" : ""
+          }
+        }
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-deregisterAuthNotification-200-schema-data').val(stringify(schema));
+                                        var result = $('#responses-deregisterAuthNotification-200-schema-200');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-deregisterAuthNotification-200-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 400 - Bad Request </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-deregisterAuthNotification-400-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-deregisterAuthNotification-400-schema">
+                                  <div id='responses-deregisterAuthNotification-400-schema-400' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Bad Request",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/CommonResponse"
+      },
+      "examples" : {
+        "无此订单" : {
+          "value" : {
+            "code" : 1,
+            "msg" : "No such order."
+          }
+        }
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-deregisterAuthNotification-400-schema-data').val(stringify(schema));
+                                        var result = $('#responses-deregisterAuthNotification-400-schema-400');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-deregisterAuthNotification-400-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 401 - 未授权 </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-deregisterAuthNotification-401-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-deregisterAuthNotification-401-schema">
+                                  <div id='responses-deregisterAuthNotification-401-schema-401' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "未授权",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/CommonResponse"
+      },
+      "examples" : {
+        "无效访问令牌" : {
+          "value" : {
+            "code" : 1,
+            "msg" : "Invalid access token."
+          }
+        },
+        "签名错误" : {
+          "value" : {
+            "code" : 14,
+            "msg" : "Invalid signature."
+          }
+        }
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-deregisterAuthNotification-401-schema-data').val(stringify(schema));
+                                        var result = $('#responses-deregisterAuthNotification-401-schema-401');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-deregisterAuthNotification-401-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                        </article>
+                      </div>
+                      <hr>
+                    <div id="api-WebSocket-registerAuthNotification">
+                      <article id="api-WebSocket-registerAuthNotification-0" data-group="User" data-name="registerAuthNotification" data-version="0">
+                        <div class="pull-left">
+                          <h1>registerAuthNotification</h1>
+                          <p>注册下行通知</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked">注册后，如果服务端有变化即通知客户端。</p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/notification</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-WebSocket-registerAuthNotification-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-WebSocket-registerAuthNotification-0-java">Java</a></li>
+                          <li class=""><a href="#examples-WebSocket-registerAuthNotification-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-WebSocket-registerAuthNotification-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-WebSocket-registerAuthNotification-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-WebSocket-registerAuthNotification-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-WebSocket-registerAuthNotification-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-WebSocket-registerAuthNotification-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-WebSocket-registerAuthNotification-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-WebSocket-registerAuthNotification-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-WebSocket-registerAuthNotification-0-python">Python</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-WebSocket-registerAuthNotification-0-curl">
+                           <pre class="prettyprint"><code class="language-bsh">curl -X POST\
+\
+ -H "Authorization: Bearer [[accessToken]]"\
+-H "Accept: application/json"\
+"https://api-v3-test.hlwcr.cn/notification?a=&t=&z=&s="</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-WebSocket-registerAuthNotification-0-java">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
+import io.swagger.client.auth.*;
+import io.swagger.client.model.*;
+import io.swagger.client.api.WebSocketApi;
+
+import java.io.File;
+import java.util.*;
+
+public class WebSocketApiExample {
+
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+
+        // Configure API key authorization: AppKey
+        ApiKeyAuth AppKey = (ApiKeyAuth) defaultClient.getAuthentication("AppKey");
+        AppKey.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //AppKey.setApiKeyPrefix("Token");
+
+
+        WebSocketApi apiInstance = new WebSocketApi();
+        String a = a_example; // String | 访问令牌
+        Long t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+        UUID z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
+        String s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
+        try {
+            CommonResponse result = apiInstance.registerAuthNotification(a, t, z, s);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling WebSocketApi#registerAuthNotification");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-WebSocket-registerAuthNotification-0-android">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.WebSocketApi;
+
+public class WebSocketApiExample {
+
+    public static void main(String[] args) {
+        WebSocketApi apiInstance = new WebSocketApi();
+        String a = a_example; // String | 访问令牌
+        Long t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+        UUID z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
+        String s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
+        try {
+            CommonResponse result = apiInstance.registerAuthNotification(a, t, z, s);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling WebSocketApi#registerAuthNotification");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-WebSocket-registerAuthNotification-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-WebSocket-registerAuthNotification-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">Configuration *apiConfig = [Configuration sharedConfig];
+// Configure API key authorization: (authentication scheme: AppKey)
+[apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"k"];
+// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"k"];
+String *a = a_example; // 访问令牌
+Long *t = 789; // 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+UUID *z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // 随机字符串，推荐 UUID，15 分钟内不得重复
+String *s = s_example; // 请求签名，算法详见 docs/SIGNATURE.md
+
+WebSocketApi *apiInstance = [[WebSocketApi alloc] init];
+
+// 注册下行通知
+[apiInstance registerAuthNotificationWith:a
+    t:t
+    z:z
+    s:s
+              completionHandler: ^(CommonResponse output, NSError* error) {
+                            if (output) {
+                                NSLog(@"%@", output);
+                            }
+                            if (error) {
+                                NSLog(@"Error: %@", error);
+                            }
+                        }];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-WebSocket-registerAuthNotification-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var Kaixin = require('kaixin');
+var defaultClient = Kaixin.ApiClient.instance;
+
+// Configure API key authorization: AppKey
+var AppKey = defaultClient.authentications['AppKey'];
+AppKey.apiKey = "YOUR API KEY"
+// Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+//AppKey.apiKeyPrefix['k'] = "Token"
+
+
+var api = new Kaixin.WebSocketApi()
+var a = a_example; // {{String}} 访问令牌
+var t = 789; // {{Long}} 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+var z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // {{UUID}} 随机字符串，推荐 UUID，15 分钟内不得重复
+var s = s_example; // {{String}} 请求签名，算法详见 docs/SIGNATURE.md
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+api.registerAuthNotification(a, t, z, s, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-WebSocket-registerAuthNotification-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-WebSocket-registerAuthNotification-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class registerAuthNotificationExample
+    {
+        public void main()
+        {
+
+            // Configure API key authorization: AppKey
+            Configuration.Default.ApiKey.Add("k", "YOUR_API_KEY");
+            // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+            // Configuration.Default.ApiKeyPrefix.Add("k", "Bearer");
+
+            var apiInstance = new WebSocketApi();
+            var a = a_example;  // String | 访问令牌
+            var t = 789;  // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+            var z = new UUID(); // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
+            var s = s_example;  // String | 请求签名，算法详见 docs/SIGNATURE.md
+
+            try
+            {
+                // 注册下行通知
+                CommonResponse result = apiInstance.registerAuthNotification(a, t, z, s);
+                Debug.WriteLine(result);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling WebSocketApi.registerAuthNotification: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-WebSocket-registerAuthNotification-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure API key authorization: AppKey
+Swagger\Client\Configuration::getDefaultConfiguration()->setApiKey('k', 'YOUR_API_KEY');
+// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+// Swagger\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('k', 'Bearer');
+
+$api_instance = new Swagger\Client\ApiWebSocketApi();
+$a = a_example; // String | 访问令牌
+$t = 789; // Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+$z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
+$s = s_example; // String | 请求签名，算法详见 docs/SIGNATURE.md
+
+try {
+    $result = $api_instance->registerAuthNotification($a, $t, $z, $s);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling WebSocketApi->registerAuthNotification: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-WebSocket-registerAuthNotification-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::WebSocketApi;
+
+# Configure API key authorization: AppKey
+$WWW::SwaggerClient::Configuration::api_key->{'k'} = 'YOUR_API_KEY';
+# uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+#$WWW::SwaggerClient::Configuration::api_key_prefix->{'k'} = "Bearer";
+
+my $api_instance = WWW::SwaggerClient::WebSocketApi->new();
+my $a = a_example; # String | 访问令牌
+my $t = 789; # Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+my $z = 38400000-8cf0-11bd-b23e-10b96e4ef00d; # UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
+my $s = s_example; # String | 请求签名，算法详见 docs/SIGNATURE.md
+
+eval { 
+    my $result = $api_instance->registerAuthNotification(a => $a, t => $t, z => $z, s => $s);
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling WebSocketApi->registerAuthNotification: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-WebSocket-registerAuthNotification-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# Configure API key authorization: AppKey
+swagger_client.configuration.api_key['k'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# swagger_client.configuration.api_key_prefix['k'] = 'Bearer'
+
+# create an instance of the API class
+api_instance = swagger_client.WebSocketApi()
+a = a_example # String | 访问令牌
+t = 789 # Long | 发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+z = 38400000-8cf0-11bd-b23e-10b96e4ef00d # UUID | 随机字符串，推荐 UUID，15 分钟内不得重复
+s = s_example # String | 请求签名，算法详见 docs/SIGNATURE.md
+
+try: 
+    # 注册下行通知
+    api_response = api_instance.register_auth_notification(a, t, z, s)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling WebSocketApi->registerAuthNotification: %s\n" % e)</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Parameters</h2>
+
+
+
+
+
+                            <div class="methodsubtabletitle">Query parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                <tr><td style="width:150px;">a*</td>
+                                <td>
+                                
+                                
+                                    <div id="d2e199_registerAuthNotification_a">
+                                        <div class="json-schema-view">
+                                            <div class="primitive">
+                                                <span class="type">
+                                                    String
+                                                </span>
+                                
+                                                    <div class="inner description">
+                                                        访问令牌
+                                                    </div>
+                                            </div>
+                                                <div class="inner required">
+                                                    Required
+                                                </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                </tr>
+                                <tr><td style="width:150px;">t*</td>
+                                <td>
+                                
+                                
+                                    <div id="d2e199_registerAuthNotification_t">
+                                        <div class="json-schema-view">
+                                            <div class="primitive">
+                                                <span class="type">
+                                                    Long
+                                                </span>
+                                                    <span class="format">
+                                                        (int64)
+                                                    </span>
+                                
+                                                    <div class="inner description">
+                                                        发送请求时的时间戳，UNIX 时间，毫秒，与 UTC 时间前后相差不得超过 15 分钟
+                                                    </div>
+                                            </div>
+                                                <div class="inner required">
+                                                    Required
+                                                </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                </tr>
+                                <tr><td style="width:150px;">z*</td>
+                                <td>
+                                
+                                
+                                    <div id="d2e199_registerAuthNotification_z">
+                                        <div class="json-schema-view">
+                                            <div class="primitive">
+                                                <span class="type">
+                                                    UUID
+                                                </span>
+                                                    <span class="format">
+                                                        (uuid)
+                                                    </span>
+                                
+                                                    <div class="inner description">
+                                                        随机字符串，推荐 UUID，15 分钟内不得重复
+                                                    </div>
+                                            </div>
+                                                <div class="inner required">
+                                                    Required
+                                                </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                </tr>
+                                <tr><td style="width:150px;">s*</td>
+                                <td>
+                                
+                                
+                                    <div id="d2e199_registerAuthNotification_s">
+                                        <div class="json-schema-view">
+                                            <div class="primitive">
+                                                <span class="type">
+                                                    String
+                                                </span>
+                                
+                                                    <div class="inner description">
+                                                        请求签名，算法详见 docs/SIGNATURE.md
+                                                    </div>
+                                            </div>
+                                                <div class="inner required">
+                                                    Required
+                                                </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                </tr>
+                            </table>
+
+                          <h2>Responses</h2>
+                            <h3> Status: 200 - 成功 </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-registerAuthNotification-200-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-registerAuthNotification-200-schema">
+                                  <div id='responses-registerAuthNotification-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "成功",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/CommonResponse"
+      },
+      "examples" : {
+        "成功" : {
+          "value" : {
+            "code" : 0,
+            "msg" : ""
+          }
+        }
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-registerAuthNotification-200-schema-data').val(stringify(schema));
+                                        var result = $('#responses-registerAuthNotification-200-schema-200');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-registerAuthNotification-200-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 400 - Bad Request </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-registerAuthNotification-400-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-registerAuthNotification-400-schema">
+                                  <div id='responses-registerAuthNotification-400-schema-400' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Bad Request",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/CommonResponse"
+      },
+      "examples" : {
+        "无此订单" : {
+          "value" : {
+            "code" : 1,
+            "msg" : "No such order."
+          }
+        }
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-registerAuthNotification-400-schema-data').val(stringify(schema));
+                                        var result = $('#responses-registerAuthNotification-400-schema-400');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-registerAuthNotification-400-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 401 - 未授权 </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-registerAuthNotification-401-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-registerAuthNotification-401-schema">
+                                  <div id='responses-registerAuthNotification-401-schema-401' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "未授权",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/CommonResponse"
+      },
+      "examples" : {
+        "无效访问令牌" : {
+          "value" : {
+            "code" : 1,
+            "msg" : "Invalid access token."
+          }
+        },
+        "签名错误" : {
+          "value" : {
+            "code" : 14,
+            "msg" : "Invalid signature."
+          }
+        }
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-registerAuthNotification-401-schema-data').val(stringify(schema));
+                                        var result = $('#responses-registerAuthNotification-401-schema-401');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-registerAuthNotification-401-schema-data' type='hidden' value=''></input>
                                 </div>
                             </div>
 
